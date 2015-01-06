@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       get 'list'
       post 'create', as: 'receivers'
       get 'receivers', as: 'find_receivers'
+      patch '/' => 'postcards#update_receiver'
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

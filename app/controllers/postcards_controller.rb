@@ -11,7 +11,21 @@ class PostcardsController < ApplicationController
   end
 
   def create
-    @receiver = Receiver.create(postcard_params)
+    @receiver = Receiver.where(
+          first_name: params[:receiver][:first_name], 
+          last_name: params[:receiver][:last_name], 
+          address_line_1: params[:receiver][:address_line_1]
+          ).first_or_create(postcard_params)
+    redirect_to action: 'show', id: @receiver.id
+  end
+
+  def update_receiver
+    @receiver = Receiver.where(
+          first_name: params[:receiver][:first_name], 
+          last_name: params[:receiver][:last_name], 
+          address_line_1: params[:receiver][:address_line_1]
+          ).first
+    @receiver.update_attributes(postcard_params)
     redirect_to action: 'show', id: @receiver.id
   end
 
