@@ -1,0 +1,28 @@
+// Place all the styles related to the postcards controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+.centered
+{
+    text-align:center;
+}
+
+.block {
+  text-align: center;
+}
+ 
+/* The ghost, nudged to maintain perfect centering */
+.block:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em; /* Adjusts for spacing */
+}
+
+/* The element to be centered, can
+   also be of any width and height */ 
+.centered {
+  display: inline-block;
+  vertical-align: middle;
+  width: 300px;
+}

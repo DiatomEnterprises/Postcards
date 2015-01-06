@@ -1,0 +1,14 @@
+.container
+  .row
+    .col-md-4
+    .col-md-4
+    .col-md-4
+      .block
+        .centered
+          %span To:
+          #fullname= @receiver.fullname
+          #address= @receiver.address_line_1
+          #address2= @receiver.address_line_2
+          #address3= @receiver.address_line_3
+          #city= "#{@receiver.city}, #{@receiver.country}"
+          #zip= "#{@receiver.zip}"

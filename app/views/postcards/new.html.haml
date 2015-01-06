@@ -1,0 +1,70 @@
+.col-md-8
+  .panel.panel-info
+    .panel.panel-heading
+      %h3.panel-title Receiver data
+    .panel-body
+      .container
+        = form_for @receiver, url: postcards_path(@receiver), :html => {:class => 'form-horizontal' } do |f|
+          .form-group
+            = f.label :first_name
+            = f.text_field :first_name, {class: "form-control"}
+          .form-group
+            = f.label :last_name
+            = f.text_field :last_name, {class: "form-control"}
+          .form-group
+            = f.label :city
+            = f.text_field :city, {class: "form-control"}
+          .form-group
+            = f.label :country
+            = f.text_field :country, {class: "form-control"}
+          .form-group
+            = f.label :zip
+            = f.text_field :zip, {class: "form-control"}
+          .form-group
+            = f.label :address_line_1
+            = f.text_field :address_line_1, {class: "form-control"}
+          .form-group
+            = f.label :address_line_2
+            = f.text_field :address_line_2, {class: "form-control"}
+          .form-group
+            = f.label :address_line_3
+            = f.text_field :address_line_3, {class: "form-control"}
+          .form-actions
+            Click "Find receivers" before creating postcard
+            = link_to "Find_receivers", "#", {id:"find_receivers"}
+            %br
+            = f.submit 'Create postcard', {:class=> "btn btn-primary", style: "visibility: hidden;", id: "button_submit"}
+.col-md-4
+  .panel.panel-info
+    .panel.panel-heading
+      %h3.panel-title Possible Receivers
+    .panel-body#receiver-names{ :style => "text-align: center;"}
+
+:javascript
+  $( "#find_receivers" ).click(function() {
+    $.ajax({
+      url: "#{find_receivers_postcards_url}",
+      data: {
+              first_name: $("#receiver_first_name").val(),
+              last_name: $("#receiver_last_name").val()
+             }
+    }).done(function( data ) {
+      var out_html = "";
+      $.each(data, function( index, value ){
+        out_html+= "<div>";
+        out_html+=value["first_name"];
+        out_html+=" ";
+        out_html+=value["last_name"];
+        out_html+="</div>";
+        out_html+= "<div>";
+        out_html+=value["country"];
+        out_html+=", ";
+        out_html+=value["city"];
+        out_html+="</div>";
+        out_html+="</br>";
+        out_html+="<a href='/postcards/new?id="+value["id"]+"'>Check it</a>";
+      })
+      $("#receiver-names").html(out_html);
+    });
+    $("#button_submit").css('visibility', 'visible');
+  });
