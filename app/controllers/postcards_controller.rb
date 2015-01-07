@@ -33,16 +33,13 @@ class PostcardsController < ApplicationController
     page_width = mm_in_inch*8.5
     render  pdf: "postcard_#{params[:id]}",
             template: 'postcards/show.html.haml',
-            layout: 'pdf.html',
-            # dpi: dpi.to_s,    
-            page_width: page_width,       
+            layout: 'pdf',
+            page_width: page_width,
             page_height: page_height
-    # render layout: "pdf"
   end
 
   def receivers
     if !params[:first_name].empty? || !params[:last_name].empty?
-      
       if !params[:first_name].empty?
         @receivers = Receiver.where("(first_name LIKE ?)", "%#{params[:first_name]}%")
       else
