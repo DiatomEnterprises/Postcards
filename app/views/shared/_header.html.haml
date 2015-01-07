@@ -1,5 +1,4 @@
 %nav.navbar.navbar-default{role: "navigation"}
-  / Brand and toggle get grouped for better mobile display
   .navbar-header
     %button.navbar-toggle{"data-target" => ".navbar-ex1-collapse", "data-toggle" => "collapse", type: "button"}
       %span.sr-only Toggle navigation
@@ -7,46 +6,7 @@
       %span.icon-bar
       %span.icon-bar
     = link_to "Postcards",root_path, {class: "navbar-brand", remote: true}
-  / Collect the nav links, forms, and other content for toggling
   .collapse.navbar-collapse.navbar-ex1-collapse
     %ul.nav.navbar-nav
       %li.active
         =link_to "Create new", new_postcard_path, {remote: true}
-    /   %li
-    /     %a{href: "#"} Link
-    /   %li.dropdown
-    /     %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
-    /       Dropdown
-    /       %b.caret
-    /     %ul.dropdown-menu
-    /       %li
-    /         %a{href: "#"} Action
-    /       %li
-    /         %a{href: "#"} Another action
-    /       %li
-    /         %a{href: "#"} Something else here
-    /       %li
-    /         %a{href: "#"} Separated link
-    /       %li
-    /         %a{href: "#"} One more separated link
-    / %form.navbar-form.navbar-left{role: "search"}
-    /   .form-group
-    /     %input.form-control{placeholder: "Search", type: "text"}/
-    /   %button.btn.btn-default{type: "submit"} Submit
-    / %ul.nav.navbar-nav.navbar-right
-    /   %li
-    /     %a{href: "#"} Link
-    /   %li.dropdown
-    /     %a.dropdown-toggle{"data-toggle" => "dropdown", href: "#"}
-    /       Dropdown
-    /       %b.caret
-    /     %ul.dropdown-menu
-    /       %li
-    /         %a{href: "#"} Action
-    /       %li
-    /         %a{href: "#"} Another action
-    /       %li
-    /         %a{href: "#"} Something else here
-    /       %li
-    /         %a{href: "#"} Separated link
-  / /.navbar-collapse

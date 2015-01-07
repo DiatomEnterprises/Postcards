@@ -11,7 +11,7 @@
             %span.input-group-btn
               %button.btn.btn-default{id: "find_receivers"} Search
         %table.table.table-striped.table-hover#receiver-names{ :style => "text-align: center;"}
-          = @receivers.each do |receiver|
+          - @receivers.each do |receiver|
             %tr
               %td
                 ="#{receiver.first_name} #{receiver.last_name}"
