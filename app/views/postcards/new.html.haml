@@ -6,6 +6,7 @@
       .container
         = form_for @receiver, url: postcards_path(@receiver), :html => {:class => 'form-horizontal' } do |f|
           .form-group
+            = f.hidden_field :id
             = f.label :first_name
             = f.text_field :first_name, {class: "form-control"}
           .form-group

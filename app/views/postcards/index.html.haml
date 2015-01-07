@@ -1,7 +1,63 @@
 .container-fluid
   .row
-    .col-md-4
+    .col-md-8
+      .panel.panel-info
+        .panel.panel-heading
+          %h3.panel-title List of receivers
+        .panel.panel-body
+          .input-group
+            %input.form-control{type:"text", id:"receiver_first_name", placeholder:"Input first name"}
+            %input.form-control{type:"text", id:"receiver_last_name", placeholder: "Input last name"}
+            %span.input-group-btn
+              %button.btn.btn-default{id: "find_receivers"} Search
+        %table.table.table-striped.table-hover#receiver-names{ :style => "text-align: center;"}
+          = @receivers.each do |receiver|
+            %tr
+              %td
+                ="#{receiver.first_name} #{receiver.last_name}"
+                %br
+                ="#{receiver.country}, #{receiver.city}"
+                ="#{receiver.address_line_1}"
+                ="#{receiver.address_line_2}"
+                ="#{receiver.address_line_3}"
+              %td
+                =link_to "Show pdf", postcard_path(receiver)
     .col-md-4
       .centered
-        =link_to "Create postcard", new_postcard_path, {class: "btn btn-primary btn-lg btn-block", remote:true}
-    .col-md-4
+        =link_to "Add receiver", new_postcard_path, {class: "btn btn-primary btn-lg btn-block", remote:true}
+
+:javascript
+  $( "#find_receivers" ).click(function() {
+    $.ajax({
+      url: "#{find_receivers_postcards_url}",
+      data: {
+              first_name: $("#receiver_first_name").val(),
+              last_name: $("#receiver_last_name").val()
+             }
+    }).done(function( data ) {
+      var out_html = "";
+      $.each(data, function( index, value ){
+        out_html+= "<tr><td>";
+        out_html+=value["first_name"];
+        out_html+=" ";
+        out_html+=value["last_name"];
+        out_html+="</br>"
+        out_html+=value["country"];
+        out_html+=", ";
+        out_html+=value["city"];
+        out_html+="  ";
+        out_html+=value["address_line_1"];
+        out_html+="  ";
+        out_html+=value["address_line_2"];
+        out_html+="  ";
+        out_html+=value["address_line_3"];
+        out_html+="</td>";
+        out_html+="<td>";
+        out_html+="<a href='/postcards/"+value["id"]+"'>Show pdf</a>";
+        out_html+="</td>"
+        out_html+="</tr>"
+      })
+      $("#receiver-names").html(out_html);
+    });
+    $("#button_submit").css('visibility', 'visible');
+  });

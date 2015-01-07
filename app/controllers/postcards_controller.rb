@@ -1,5 +1,6 @@
 class PostcardsController < ApplicationController
   def index
+    @receivers = Receiver.limit(5)
   end
 
   def new
@@ -20,24 +21,20 @@ class PostcardsController < ApplicationController
   end
 
   def update_receiver
-    @receiver = Receiver.where(
-          first_name: params[:receiver][:first_name], 
-          last_name: params[:receiver][:last_name], 
-          address_line_1: params[:receiver][:address_line_1]
-          ).first
+    @receiver = Receiver.find(params[:receiver][:id])
     @receiver.update_attributes(postcard_params)
     redirect_to action: 'show', id: @receiver.id
   end
 
   def show
     @receiver = Receiver.find(params[:id])
-    dpi = 75
-    page_height = dpi*5.5
-    page_width = dpi*8.5
+    mm_in_inch = 25.4
+    page_height = mm_in_inch*5.5
+    page_width = mm_in_inch*8.5
     render  pdf: "postcard_#{params[:id]}",
             template: 'postcards/show.html.haml',
-            layout: 'pdf',
-            dpi: dpi.to_s,    
+            layout: 'pdf.html',
+            # dpi: dpi.to_s,    
             page_width: page_width,       
             page_height: page_height
     # render layout: "pdf"
@@ -57,7 +54,6 @@ class PostcardsController < ApplicationController
       end
     end
 
-    puts @receivers.inspect
     render json: @receivers.to_json
   end
 

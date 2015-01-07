@@ -1,8 +1,8 @@
 !!!
-%html
+%html.full.pdf
   %head
     %title Postcards
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = wicked_pdf_stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true
     = csrf_meta_tags
-  %body
+  %body.full.pdf
     = yield
