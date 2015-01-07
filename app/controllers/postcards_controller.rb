@@ -13,8 +13,8 @@ class PostcardsController < ApplicationController
 
   def create
     @receiver = Receiver.where(
-          first_name: params[:receiver][:first_name], 
-          last_name: params[:receiver][:last_name], 
+          first_name: params[:receiver][:first_name],
+          last_name: params[:receiver][:last_name],
           address_line_1: params[:receiver][:address_line_1]
           ).first_or_create(postcard_params)
     redirect_to action: 'show', id: @receiver.id
@@ -51,11 +51,16 @@ class PostcardsController < ApplicationController
       end
     end
 
-    render json: @receivers.to_json
+    if @receivers.empty?
+      render json: []
+    else
+      render json: @receivers.to_json
+    end
   end
 
   private
-    def postcard_params
-      params.require(:receiver).permit(:first_name, :last_name, :zip, :city, :country, :address_line_1, :address_line_2, :address_line_3)
-    end
+
+  def postcard_params
+    params.require(:receiver).permit(:first_name, :last_name, :zip, :city, :country, :address_line_1, :address_line_2, :address_line_3)
+  end
 end

@@ -3,31 +3,39 @@
     .col-md-8
       .panel.panel-info
         .panel.panel-heading
+          %h3.panel-title Find receivers
+        .panel.panel-body
+          %form{id: "find_receivers"}
+            .form-group
+              %label{:for => "receiver_first_name"} First name
+              %input.form-control{type:"text", id:"receiver_first_name", placeholder:"First name"}
+            .form-group
+              %label{:for => "receiver_last_name"} Last name
+              %input.form-control{type:"text", id:"receiver_last_name", placeholder: "Last name"}
+            .form-group
+              %button.btn.btn-default{:type => "submit"} Find receiver
+      .panel.panel-info
+        .panel.panel-heading
           %h3.panel-title List of receivers
         .panel.panel-body
-          .input-group
-            %input.form-control{type:"text", id:"receiver_first_name", placeholder:"Input first name"}
-            %input.form-control{type:"text", id:"receiver_last_name", placeholder: "Input last name"}
-            %span.input-group-btn
-              %button.btn.btn-default{id: "find_receivers"} Search
-        %table.table.table-striped.table-hover#receiver-names{ :style => "text-align: center;"}
-          - @receivers.each do |receiver|
-            %tr
-              %td
-                ="#{receiver.first_name} #{receiver.last_name}"
-                %br
-                ="#{receiver.country}, #{receiver.city}"
-                ="#{receiver.address_line_1}"
-                ="#{receiver.address_line_2}"
-                ="#{receiver.address_line_3}"
-              %td
-                =link_to "Show pdf", postcard_path(receiver)
+          %table.table.table-striped.table-hover#receiver-names{ :style => "text-align: center;"}
+            - @receivers.each do |receiver|
+              %tr
+                %td
+                  ="#{receiver.first_name} #{receiver.last_name}"
+                  %br
+                  ="#{receiver.country}, #{receiver.city}"
+                  ="#{receiver.address_line_1}"
+                  ="#{receiver.address_line_2}"
+                  ="#{receiver.address_line_3}"
+                %td
+                  =link_to "Show pdf", postcard_path(receiver)
     .col-md-4
       .centered
         =link_to "Add receiver", new_postcard_path, {class: "btn btn-primary btn-lg btn-block", remote:true}
 
 :javascript
-  $( "#find_receivers" ).click(function() {
+  $( "#find_receivers" ).submit(function(event) {
     $.ajax({
       url: "#{find_receivers_postcards_url}",
       data: {
@@ -35,6 +43,7 @@
               last_name: $("#receiver_last_name").val()
              }
     }).done(function( data ) {
+      console.log(data);
       var out_html = "";
       $.each(data, function( index, value ){
         out_html+= "<tr><td>";
@@ -60,4 +69,5 @@
       $("#receiver-names").html(out_html);
     });
     $("#button_submit").css('visibility', 'visible');
+    event.preventDefault();
   });

@@ -3,38 +3,37 @@
     .panel.panel-heading
       %h3.panel-title Receiver data
     .panel-body
-      .container
-        = form_for @receiver, url: postcards_path(@receiver), :html => {:class => 'form-horizontal' } do |f|
-          .form-group
-            = f.hidden_field :id
-            = f.label :first_name
-            = f.text_field :first_name, {class: "form-control"}
-          .form-group
-            = f.label :last_name
-            = f.text_field :last_name, {class: "form-control"}
-          .form-group
-            = f.label :city
-            = f.text_field :city, {class: "form-control"}
-          .form-group
-            = f.label :country
-            = f.text_field :country, {class: "form-control"}
-          .form-group
-            = f.label :zip
-            = f.text_field :zip, {class: "form-control"}
-          .form-group
-            = f.label :address_line_1
-            = f.text_field :address_line_1, {class: "form-control"}
-          .form-group
-            = f.label :address_line_2
-            = f.text_field :address_line_2, {class: "form-control"}
-          .form-group
-            = f.label :address_line_3
-            = f.text_field :address_line_3, {class: "form-control"}
-          .form-actions
-            Click "Find receivers" before creating postcard
-            = link_to "Find_receivers", "#", {id:"find_receivers"}
-            %br
-            = f.submit 'Create postcard', {:class=> "btn btn-primary", style: "visibility: hidden;", id: "button_submit"}
+      = form_for @receiver, url: postcards_path(@receiver) do |f|
+        .form-group
+          = f.hidden_field :id
+          = f.label :first_name
+          = f.text_field :first_name, {class: "form-control"}
+        .form-group
+          = f.label :last_name
+          = f.text_field :last_name, {class: "form-control"}
+        .form-group
+          = f.label :city
+          = f.text_field :city, {class: "form-control"}
+        .form-group
+          = f.label :country
+          = f.text_field :country, {class: "form-control"}
+        .form-group
+          = f.label :zip
+          = f.text_field :zip, {class: "form-control"}
+        .form-group
+          = f.label :address_line_1
+          = f.text_field :address_line_1, {class: "form-control"}
+        .form-group
+          = f.label :address_line_2
+          = f.text_field :address_line_2, {class: "form-control"}
+        .form-group
+          = f.label :address_line_3
+          = f.text_field :address_line_3, {class: "form-control"}
+        .form-actions
+          Before you submit, please make sure that there are you are not adding duplicates
+          = link_to "Find possible duplicates", "#", {id:"find_receivers"}
+          %br
+          = f.submit 'Add receiver', {:class=> "btn btn-primary", style: "visibility: #{'hidden' if params[:id].blank?};", id: "button_submit"}
 .col-md-4
   .panel.panel-info
     .panel.panel-heading
@@ -42,13 +41,13 @@
     .panel-body#receiver-names{ :style => "text-align: center;"}
 
 :javascript
-  $( "#find_receivers" ).click(function() {
+  $( "#find_receivers" ).click(function(event) {
     $.ajax({
       url: "#{find_receivers_postcards_url}",
       data: {
-              first_name: $("#receiver_first_name").val(),
-              last_name: $("#receiver_last_name").val()
-             }
+        first_name: $("#receiver_first_name").val(),
+          last_name: $("#receiver_last_name").val()
+            }
     }).done(function( data ) {
       var out_html = "";
       $.each(data, function( index, value ){
@@ -63,9 +62,10 @@
         out_html+=value["city"];
         out_html+="</div>";
         out_html+="</br>";
-        out_html+="<a href='/postcards/new?id="+value["id"]+"'>Check it</a>";
+        out_html+="<a href='/postcards/new?id="+value["id"]+"'>Edit existing receiver</a>";
       })
       $("#receiver-names").html(out_html);
     });
     $("#button_submit").css('visibility', 'visible');
+    event.preventDefault();
   });
