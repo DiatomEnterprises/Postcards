@@ -30,10 +30,14 @@
           = f.label :address_line_3
           = f.text_field :address_line_3, {class: "form-control"}
         .form-actions
-          Before you submit, please make sure that there are you are not adding duplicates
-          = link_to "Find possible duplicates", "#", {id:"find_receivers"}
-          %br
-          = f.submit 'Add receiver', {:class=> "btn btn-primary", style: "visibility: #{'hidden' if params[:id].blank?};", id: "button_submit"}
+          - if params[:id].blank?
+            Before you submit, please make sure that there are you are not adding duplicates
+            = link_to "Find possible duplicates", "#", {id:"find_receivers"}
+            %br
+            = f.submit 'Add receiver', {:class=> "btn btn-primary", style: "visibility: hidden;", id: "button_submit"}
+          - else
+            = f.submit 'Update receiver', {:class=> "btn btn-primary", id: "button_submit"}
+
 .col-md-4
   .panel.panel-info
     .panel.panel-heading
