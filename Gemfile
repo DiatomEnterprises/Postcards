@@ -35,8 +35,9 @@ gem 'spring',        group: :development
 gem 'rspec-rails'
 
 gem 'wkhtmltopdf-binary'
-gem 'wicked_pdf'
-
+gem 'wicked_pdf', '~> 0.11.0'
+gem 'angularjs-rails', '~> 1.3.8'
+gem 'devise', '~> 3.4.1'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

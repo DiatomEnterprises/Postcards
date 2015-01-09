@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
-  root 'postcards#index'
+  devise_for :accounts
+  root 'main_page#index'
 
   resources :postcards, except: [:edit, :destroy, :update] do
     collection do

@@ -1,0 +1,25 @@
+.container-fluid{"ng-app" => "Postcards"}	
+	.row{"ng-controller" => "PostcardsCtrl"}
+		.col-md-8
+			.panel.panel-info
+				.panel.panel-heading
+					%h3.panel-title Add new 
+				.panel.panel-body
+					%form{"ng-submit" => "addReceiver()"}
+						%input{"ng-model" => "newReceiver.first_name", :type => "text"}/
+						%input{"ng-model" => "newReceiver.last_name", :type => "text"}/
+						%input{:type => "submit", :value => "Add"}/
+
+			.panel.panel-info
+				.panel.panel-heading
+					%h3.panel-title List of receivers
+				.panel.panel-body
+					%table.table.table-striped.table-hover#receiver-names{"ng-repeat" => "receiver in postcards", :style => "text-align: center;" }
+						%tr
+							%td
+								{{receiver.first_name}} {{receiver.last_name}}
+								%br
+								{{receiver.country}} {{receiver.city}}
+								{{receiver.address_line_1}}
+								{{receiver.address_line_2}}
+								{{receiver.address_line_3}}
