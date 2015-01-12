@@ -1,0 +1,17 @@
+.panel.panel-info{"ng-show" => "receiverList.length > 0"}
+	.panel.panel-heading
+		%h3.panel-title 
+		Receivers list
+		%button.btn.btn-primary.btn-xs.pull-right{"ng-click" => "sendNotification(receiverList)", :type => "button"} Send notification
+	.panel.panel-body
+		%table.table.table-hover
+			%thead
+				%tr
+					%th Name
+					%th
+			%tbody{"ng-repeat" => "receiver in receiverList"}
+				%tr
+					%td
+						{{receiver.first_name}} {{receiver.last_name}}
+					%td
+						%button.btn.btn-danger.btn-sm{"ng-click" => "removeFromList(receiver)", :type => "button"} Remove

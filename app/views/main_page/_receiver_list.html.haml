@@ -1,0 +1,38 @@
+.panel.panel-heading
+	%h3.panel-title 
+		List of receivers
+		%button.btn.btn-success.btn-xs{"ng-click" => "toggle()"} Add new receiver +
+		.col-xs-3.pull-right
+			%input.input-sm.form-control{"ng-model" => "searchText", :placeholder => "Search....", :type => "search"}/
+.panel.panel-body
+	%table.table.table-hover
+		%thead
+			%tr
+				%th Name
+				%th City
+				%th Country
+				%th Zip
+				%th address
+				%th
+		%tbody{"ng-repeat" => "receiver in postcards | filter:searchText"}
+			%tr
+				%td
+					{{receiver.first_name}} 
+					%br
+					{{receiver.last_name}}
+				%td
+					{{receiver.city}}
+				%td
+					{{receiver.country}}
+				%td
+					{{receiver.zip}}
+				%td
+					{{receiver.address_line_1}}
+					%br
+					{{receiver.address_line_2}}
+					%br
+					{{receiver.address_line_3}}
+				%td
+					%button.btn.btn-danger.btn-sm{"ng-click" => "deleteReceiver(receiver)", :type => "button"} Delete
+					%button.btn.btn-warning.btn-sm{"ng-click" => "editReceiver(receiver)", :type => "button"} Edit
+					%button.btn.btn-primary.btn-sm{"ng-click" => "addToList(receiver)", "ng-show" => "containsObject(receiver, receiverList)", :type => "button"} Add to list
