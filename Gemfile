@@ -38,6 +38,7 @@ gem 'wkhtmltopdf-binary'
 gem 'wicked_pdf', '~> 0.11.0'
 gem 'angularjs-rails', '~> 1.3.8'
 gem 'devise', '~> 3.4.1'
+gem 'pry'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
