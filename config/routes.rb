@@ -3,14 +3,8 @@ Rails.application.routes.draw do
   devise_for :accounts
   root 'main_page#index'
 
-  resources :postcards, except: [:edit, :destroy, :update] do
-    collection do
-      get 'list'
-      post 'create', as: 'receivers'
-      get 'receivers', as: 'find_receivers'
-      patch '/' => 'postcards#update_receiver'
-    end
-  end
+  resources :postcards
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
