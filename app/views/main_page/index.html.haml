@@ -1,10 +1,13 @@
 .container-fluid{"ng-app" => "Postcards"}	
-	.row{"ng-controller" => "PostcardsCtrl"}
-		.col-md-8
-			.panel.panel-info{"ng-hide" => "receiverForm"}
-				.panel.panel-body
-					= render partial: "receiver_form"
-			.panel.panel-info
-				= render partial: "receiver_list"
-		.col-md-4
-			= render partial: "notify_list"
+  .row{"ng-controller" => "PostcardsCtrl"}
+    .col-md-8
+      = render partial: "receiver_list"
+    .col-md-4
+      .panel.panel-primary{"ng-hide" => "receiverCreateForm"}
+        .panel-heading
+          %h1.panel-title 
+            Add new contact
+            %button.btn.btn-danger.btn-xs{style: "margin-left:10px;", "ng-click" => "toggleCreate()", :type => "submit"} X
+        .panel-body  
+          = render partial: "create"
+      = render partial: "notify_list"

@@ -12,28 +12,35 @@ app.factory("Postcards", [
 ]);
 
 app.controller("PostcardsCtrl", function($scope, Postcards) {
-  $scope.receiverForm = true;
-  $scope.toggle = function() {
-    $scope.receiverForm = !$scope.receiverForm;
+  $scope.receiverCreateForm = true;
+  $scope.receiverEditForm = true;
+
+  $scope.toggleCreate = function() {
+    $scope.receiverCreateForm = !$scope.receiverCreateForm;
+  };
+
+  $scope.toggleEdit = function(receiver) {
+    $scope.receiverEditForm = true;
+    $scope.receiverSelected = receiver;
+    $scope.receiverEditForm = !$scope.receiverEditForm;
+    $scope.receiverFormData = receiver;
   };
 
 	$scope.postcards = Postcards.query();
   $scope.receiverList = [];
 
-	$scope.addReceiver = function() {
+	$scope.createReceiver = function() {
 	  var receiver = Postcards.save($scope.receiverFormData);
     $scope.postcards.push(receiver);
-	  $scope.receiverForm = true;
+	  $scope.receiverCreateForm = true;
     return $scope.receiverFormData = {};
 	};
 
-  $scope.editReceiver = function(receiver){
-    $scope.receiverForm = !$scope.receiverForm;
-    $scope.receiverFormData = receiver
-  };
-
 	$scope.updateReceiver = function(receiver){
-    receiver.$update({ id: receiver.id }, receiver)
+    var receiver = $scope.receiverFormData;
+    receiver.$update(receiver);
+    $scope.receiverEditForm = true;
+    $scope.postcards = Postcards.query();
 	};
 
 	$scope.deleteReceiver = function(receiver){
@@ -48,8 +55,16 @@ app.controller("PostcardsCtrl", function($scope, Postcards) {
     $scope.receiverList.push(receiver);
   };
 
+  $scope.addAllToList = function(){
+    $scope.receiverList.push(postcards);
+  };
+
   $scope.removeFromList = function(receiver){
     $scope.receiverList.splice( $scope.receiverList.indexOf(receiver), 1 );
+  };
+
+  $scope.removeAllFromList = function(){
+    $scope.receiverList.splice($scope.receiverList);
   };
 
   $scope.sendNotification = function(list){

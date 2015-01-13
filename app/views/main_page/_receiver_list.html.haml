@@ -1,38 +1,47 @@
-.panel.panel-heading
-	%h3.panel-title 
-		List of receivers
-		%button.btn.btn-success.btn-xs{"ng-click" => "toggle()"} Add new receiver +
-		.col-xs-3.pull-right
-			%input.input-sm.form-control{"ng-model" => "searchText", :placeholder => "Search....", :type => "search"}/
-.panel.panel-body
-	%table.table.table-hover
-		%thead
-			%tr
-				%th Name
-				%th City
-				%th Country
-				%th Zip
-				%th address
-				%th
-		%tbody{"ng-repeat" => "receiver in postcards | filter:searchText"}
-			%tr
-				%td
-					{{receiver.first_name}} 
-					%br
-					{{receiver.last_name}}
-				%td
-					{{receiver.city}}
-				%td
-					{{receiver.country}}
-				%td
-					{{receiver.zip}}
-				%td
-					{{receiver.address_line_1}}
-					%br
-					{{receiver.address_line_2}}
-					%br
-					{{receiver.address_line_3}}
-				%td
-					%button.btn.btn-danger.btn-sm{"ng-click" => "deleteReceiver(receiver)", :type => "button"} Delete
-					%button.btn.btn-warning.btn-sm{"ng-click" => "editReceiver(receiver)", :type => "button"} Edit
-					%button.btn.btn-primary.btn-sm{"ng-click" => "addToList(receiver)", "ng-show" => "containsObject(receiver, receiverList)", :type => "button"} Add to list
+.panel.panel-primary
+	.panel-heading{style: "margin-bottom:20px;"}
+		%h1.panel-title 
+			List of receivers
+			%button.btn.btn-success.btn-sm{style: "margin-left: 10px;", "ng-click" => "toggleCreate()"} Add new receiver +
+			.col-xs-3.pull-right
+				%input.input-sm.form-control{"ng-model" => "searchText", :placeholder => "Search....", :type => "search"}/
+	.panel-body{style: "padding-right:20px; padding-left:20px; padding-bottom:0; padding-top:0;", "ng-repeat" => "receiver in postcards | filter:searchText"}
+		.panel.panel-default{"ng-show" => "containsObject(receiver, receiverList)"}
+			.panel-heading
+				%h3.panel-title 
+					{{receiver.first_name}} {{receiver.last_name}}
+					%div.pull-right	
+						%button.btn.btn-danger.btn-xs{"ng-click" => "deleteReceiver(receiver)", :type => "button"} Delete
+						%button.btn.btn-success.btn-xs{"ng-click" => "toggleEdit(receiver)", :type => "button"} Edit
+						%button.btn.btn-primary.btn-xs{"ng-click" => "addToList(receiver)", :type => "button"} Add to list
+			.panel-body
+				.col-xs-6.col-md-6
+					%ul.list-group
+						%li.list-group-item 
+							City: 
+							%b
+								{{receiver.city}}
+						%li.list-group-item 
+							Country: 
+							%b
+								{{receiver.country}}
+						%li.list-group-item 
+							Zip:
+							%b
+								{{receiver.zip}}
+						%li.list-group-item 
+							Address line 1:
+							%b
+								{{receiver.address_line_1}}
+						%li.list-group-item 
+							Address line 2:
+							%b
+								{{receiver.address_line_2}}
+						%li.list-group-item 
+							Address line 3:
+							%b
+								{{receiver.address_line_3}}
+
+				.col-xs-6.col-md-6{"ng-hide" => "receiverEditForm"}	
+					%div{"ng-show" => "receiverSelected == receiver"}	
+						= render partial: "edit"
