@@ -70,9 +70,9 @@ app.controller("PostcardsCtrl", function($scope, Postcards) {
 
   $scope.sendNotification = function(list){
     var i;
-    var receiver_ids = [];
+    var receiver_ids = {};
     for (i = 0; i < list.length; i++) {
-      receiver_ids.push(list[i]['id']);
+      receiver_ids('receiver_'+i) = list[i].id;
     };
     Postcards.show({ id: 1, receivers: receiver_ids});
   };
