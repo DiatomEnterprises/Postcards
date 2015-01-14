@@ -6,7 +6,8 @@ app.factory("Postcards", [
       query: {method:'GET', params:{id:''}, isArray:true},
       post: {method:'POST'},
       update: {method:'PUT', params: {id: '@id'}},
-      remove: {method:'DELETE', params: {id: '@id'}}
+      remove: {method:'DELETE', params: {id: '@id'}},
+      show: {method:'get', params: {id: '@id', receivers: '@receivers'}, isArray:true}
     });
   }
 ]);
@@ -68,7 +69,12 @@ app.controller("PostcardsCtrl", function($scope, Postcards) {
   };
 
   $scope.sendNotification = function(list){
-    console.log("TODO");
+    var i;
+    var receiver_ids = [];
+    for (i = 0; i < list.length; i++) {
+      receiver_ids.push(list[i]['id']);
+    };
+    Postcards.show({ id: 1, receivers: receiver_ids});
   };
 
   $scope.containsObject = function(obj, list) {

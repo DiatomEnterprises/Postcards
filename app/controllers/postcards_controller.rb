@@ -14,6 +14,18 @@ class PostcardsController < ApplicationController
     render json:  receiver.update(postcard_params)
   end
 
+  def show
+    @receivers = Receiver.find(params[:receivers])
+    # mm_in_inch = 25.4
+-  #   page_height = mm_in_inch*5.5
+-  #   page_width = mm_in_inch*8.5
+-  #   render  pdf: "postcard_#{params[:id]}",
+-  #           template: 'postcards/show.html.haml',
+-  #           layout: 'pdf',
+-  #           page_width: page_width,
+-  #           page_height: page_height
+  end
+
   def change_owner
 
   end
