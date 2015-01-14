@@ -7,12 +7,12 @@ app.factory("Postcards", [
       post: {method:'POST'},
       update: {method:'PUT', params: {id: '@id'}},
       remove: {method:'DELETE', params: {id: '@id'}},
-      show: {method:'get', params: {id: '@id', receivers: '@receivers'}, isArray:true}
+      show: {method:'get', params: {id: '@id', receivers: '@receivers'}}
     });
   }
 ]);
 
-app.controller("PostcardsCtrl", function($scope, Postcards) {
+app.controller("PostcardsCtrl", function($scope, Postcards, $window) {
   $scope.receiverCreateForm = true;
   $scope.receiverEditForm = true;
 
@@ -72,9 +72,12 @@ app.controller("PostcardsCtrl", function($scope, Postcards) {
     var i;
     var receiver_ids = {};
     for (i = 0; i < list.length; i++) {
-      receiver_ids('receiver_'+i) = list[i].id;
+      receiver_ids['receiver_'+i] = list[i].id;
     };
-    Postcards.show({ id: 1, receivers: receiver_ids});
+    pdf = Postcards.show({ id: 1, receivers: receiver_ids});
+    pdf.$promise.then(function(data){
+      $window.open( $window.location.protocol+"//"+$window.location.host+data.link );
+    });
   };
 
   $scope.containsObject = function(obj, list) {
