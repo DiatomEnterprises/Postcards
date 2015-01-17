@@ -37,7 +37,12 @@ class PostcardsController < ApplicationController
       template: 'postcards/show.html.haml',
       layout: 'pdf',
       page_width: page_width,
-      page_height: page_height
+      page_height: page_height, 
+      show_as_html: params[:debug],
+      margin: {  top:     0,                     # default 10 (mm)
+                 bottom:  0,
+                 left:    0,
+                 right:   "10mm"}
 
   end
 

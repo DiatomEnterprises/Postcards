@@ -5,5 +5,5 @@ elsif platform.include?("64-linux") # 64-bit linux machine
   binary_path = Rails.root.join('bin', 'wkhtmltopdf-amd64').to_s
 end
 WickedPdf.config = {
-  :exe_path => "binary_path" #"/home/alexandr/.rvm/gems/ruby-2.1.2/bin/wkhtmltopdf"
+  :exe_path => "/home/alexandr/.rvm/gems/ruby-2.1.2/bin/wkhtmltopdf"
 }
