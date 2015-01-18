@@ -1,4 +1,4 @@
-.container-fluid{"ng-app" => "Postcards"}	
+.container-fluid{"ng-app" => "Postcards"} 
   .row{"ng-controller" => "PostcardsCtrl"}
     .col-md-8
       = render partial: "receiver_list"
@@ -11,3 +11,10 @@
         .panel-body  
           = render partial: "create"
       = render partial: "notify_list"
+      .panel.panel-primary{"ng-hide" => "ownerEditForm"}
+        .panel-heading
+          %h1.panel-title 
+            Edit contact owner
+            %button.btn.btn-danger.btn-xs{style: "margin-left:10px;", "ng-click" => "toggleOwnerChange()", :type => "submit"} X
+        .panel-body  
+          = render partial: "change_owner"

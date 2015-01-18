@@ -2,7 +2,11 @@ class PostcardsController < ApplicationController
   respond_to :json, except: [:show, :create_pdf]
 
   def index
-    render json: current_account.receivers
+    if current_account.is_admin?
+      render json: Receiver.includes(:account)
+    else  
+      render json: current_account.receivers
+    end
   end
   
   def create

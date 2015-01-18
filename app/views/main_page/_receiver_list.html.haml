@@ -3,6 +3,8 @@
 		%h1.panel-title 
 			List of receivers
 			%button.btn.btn-success.btn-sm{style: "margin-left: 10px;", "ng-click" => "toggleCreate()"} Add new receiver +
+			- if current_account.is_admin?	
+				%button.btn.btn-success.btn-sm{style: "margin-left: 10px;", "ng-click" => "toggleOwnerChange()"} Edit contact owner
 			.col-xs-3.pull-right
 				%input.input-sm.form-control{"ng-model" => "searchText", :placeholder => "Search....", :type => "search"}/
 	.panel-body{style: "padding-right:20px; padding-left:20px; padding-bottom:0; padding-top:0;", "ng-repeat" => "receiver in postcards | filter:searchText"}
@@ -41,7 +43,11 @@
 							Address line 3:
 							%b
 								{{receiver.address_line_3}}
-
+						- if current_account.is_admin?	
+							%li.list-group-item 
+								Owner:
+								%b{"data-ng-init" => "getAccount(receiver.account_id)"}
+									{{account.email}}
 				.col-xs-6.col-md-6{"ng-hide" => "receiverEditForm"}	
 					%div{"ng-show" => "receiverSelected == receiver"}	
 						= render partial: "edit"
