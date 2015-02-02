@@ -33,8 +33,7 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 
 gem 'rspec-rails'
-
-gem 'wkhtmltopdf-binary'
+gem 'wkhtmltopdf-binary', '~> 0.9.9'
 gem 'wicked_pdf', '~> 0.11.0'
 gem 'angularjs-rails', '~> 1.3.8'
 gem 'devise', '~> 3.4.1'

@@ -7,7 +7,7 @@
         .panel-heading
           %h1.panel-title 
             Add new contact
-            %button.btn.btn-danger.btn-xs{style: "margin-left:10px;", "ng-click" => "toggleCreate()", :type => "submit"} X
+            %button.btn.btn-danger.btn-xs.pull-right{style: "margin-left:10px;", "ng-click" => "toggleCreate()", :type => "submit"} X
         .panel-body  
           = render partial: "create"
       = render partial: "notify_list"
@@ -15,6 +15,6 @@
         .panel-heading
           %h1.panel-title 
             Edit contact owner
-            %button.btn.btn-danger.btn-xs{style: "margin-left:10px;", "ng-click" => "toggleOwnerChange()", :type => "submit"} X
+            %button.btn.btn-danger.btn-xs.pull-right{style: "margin-left:10px;", "ng-click" => "toggleOwnerChange()", :type => "submit"} X
         .panel-body  
           = render partial: "change_owner"

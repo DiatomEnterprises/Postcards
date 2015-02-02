@@ -1,9 +1,9 @@
-.panel.panel-info{"ng-show" => "receiverList.length > 0"}
+.panel.panel-primary{"ng-show" => "receiverList.length > 0"}
 	.panel.panel-heading
 		%h3.panel-title 
 		Receivers list
-		%button.btn.btn-danger.btn-sm{"ng-click" => "removeAllFromList(receiverList)", :type => "button"} Remove All
-		%button.btn.btn-primary.btn-xs.pull-right{"ng-click" => "sendNotification(receiverList)", :type => "button"} Send notification
+		%button.btn.btn-danger.btn-xs.pull-right{"ng-click" => "removeAllFromList(receiverList)", type: "button", style: "margin-left: 10px;"} Remove All
+		%button.btn.btn-success.btn-xs.pull-right{"ng-click" => "sendNotification(receiverList)", type: "button"} Send notification
 	.panel.panel-body
 		%table.table.table-hover
 			%thead
