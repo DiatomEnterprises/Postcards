@@ -6,7 +6,8 @@ app.factory("Postcards", [
       query: {method:'GET', params:{id:''}, isArray:true},
       post: {method:'POST'},
       update: {method:'PUT', params: {id: '@id'}},
-      remove: {method:'DELETE', params: {id: '@id'}}
+      remove: {method:'DELETE', params: {id: '@id'}},
+      show: {method:'get', params: {id: '@id', receivers: '@receivers'}}
     });
   }
 ]);
@@ -27,7 +28,7 @@ app.factory("Accounts", [
   }
 ]);
 
-app.controller("PostcardsCtrl", function($scope, $http, Postcards, Accounts, Account) {
+app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Accounts, Account) {
   $scope.receiverCreateForm = true;
   $scope.receiverEditForm = true;
   $scope.ownerEditForm = true;
