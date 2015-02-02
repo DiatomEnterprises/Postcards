@@ -35,9 +35,10 @@
     .form-group
       %label.col-sm-5.control-label Address line 5
       .col-sm-7{"data-ng-init" => "getAllAccount()"}
-        %select{"ng-model" => "receiverFormData.account_id"}
+        %select.form-control{"ng-model" => "receiverFormData.account_id"}
           %option{"ng-repeat" => "account in accounts", :value => "{{account.id}}"}
             {{account.email}} 
   .form-group
     .col-sm-offset-5.col-sm-7
-      %button.btn.btn-default{:type => "submit"} Update
+      %button.btn.btn-xs.btn-primary{:type => "submit"} Update
+      %button.btn.btn-xs.btn-danger{"ng-hide" => "receiverEditForm"} cancel

@@ -1,7 +1,7 @@
 .panel.panel-primary
 	.panel-heading{style: "margin-bottom:20px;"}
 		%h1.panel-title 
-			List of receivers
+			List of contacts
 			%button.btn.btn-success.btn-sm{style: "margin-left: 10px;", "ng-click" => "toggleCreate()"} Add new receiver +
 			- if current_account.is_admin?	
 				%button.btn.btn-success.btn-sm{style: "margin-left: 10px;", "ng-click" => "toggleOwnerChange()"} Edit contact owner
