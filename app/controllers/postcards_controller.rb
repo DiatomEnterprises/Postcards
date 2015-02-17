@@ -10,6 +10,7 @@ class PostcardsController < ApplicationController
   end
   
   def create
+    binding.pry
     render json: current_account.receivers.create(postcard_params)
   end
 
@@ -20,11 +21,6 @@ class PostcardsController < ApplicationController
 
   def show
     json_receivers = JSON.parse(params[:receivers])
-    # @receivers = Receiver.find(json_receivers.values)
-    # respond_to do |d|
-    #   d.html { render text: "1", layout: nil }
-    # end
-    # #redirect_to action: 'create_pdf', receiver_ids: json_receivers.values
     render json: {link: create_pdf_postcards_path(receiver_ids: json_receivers.values)}
   end
 
@@ -57,7 +53,7 @@ class PostcardsController < ApplicationController
   private
 
   def postcard_params
-    params.require(:postcard).permit(:first_name, :last_name, :zip, :city, :country, :address_line_1, :address_line_2, :address_line_3, :account_id)
+    params.require(:postcard).permit(:first_name, :last_name, :zip, :city, :country, :address_line_1, :address_line_2, :address_line_3, :account_id, :birthday)
   end
 
 end

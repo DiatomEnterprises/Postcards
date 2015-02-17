@@ -7,7 +7,21 @@
 				%button.btn.btn-success.btn-sm{style: "margin-left: 10px;", "ng-click" => "toggleOwnerChange()"} Edit contact owner
 			.col-xs-3.pull-right
 				%input.input-sm.form-control{"ng-model" => "searchText", :placeholder => "Search....", :type => "search"}/
+	.panel-body{style: "margin-left: 5px;"}
+		%h4
+			Order by:
+		%a.col-ms-2
+			First name
+		%a.col-ms-2
+			Last name
+		%a.col-ms-2
+			Country
+		%a.col-ms-2
+			City
+		%a.col-ms-2
+			Zip	
 	.panel-body{style: "padding-right:20px; padding-left:20px; padding-bottom:0; padding-top:0;", "ng-repeat" => "receiver in postcards | filter:searchText"}
+		%hr
 		.panel.panel-default{"ng-show" => "containsObject(receiver, receiverList)"}
 			.panel-heading
 				%h3.panel-title 
@@ -19,6 +33,10 @@
 			.panel-body
 				.col-xs-6.col-md-6
 					%ul.list-group
+						%li.list-group-item 
+							Birthday: 
+							%b
+								{{receiver.birthday}}
 						%li.list-group-item 
 							City: 
 							%b
