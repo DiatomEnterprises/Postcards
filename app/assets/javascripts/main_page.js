@@ -127,4 +127,9 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
     return true;
   };
 
+  $scope.filterReceivers = function(date) {
+    
+    return $scope.receiverFormData = {};
+  };
+
 });

@@ -10,7 +10,6 @@ class PostcardsController < ApplicationController
   end
   
   def create
-    binding.pry
     render json: current_account.receivers.create(postcard_params)
   end
 
