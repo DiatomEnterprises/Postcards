@@ -13,7 +13,9 @@
           Signed in as
           = current_account.email 
           - if current_account.is_admin?
-            and you have admin right
+            %span.label.label-danger Admin
+          - else
+            %span.label.label-primary Simple user
         %ul.nav.navbar-nav.navbar-right
           %li
             = link_to('Logout', destroy_account_session_path, method: :delete)
