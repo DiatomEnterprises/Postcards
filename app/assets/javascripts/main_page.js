@@ -1,4 +1,4 @@
-var app = angular.module("Postcards", ["ngResource"]);
+var app = angular.module("Postcards", ["ngResource", 'angularUtils.directives.dirPagination']);
 
 app.factory("Postcards", [
   "$resource", function($resource) {
@@ -33,6 +33,9 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.receiverEditForm = true;
   $scope.ownerEditForm = true;
 
+  $scope.orderByField = 'firstName';
+  $scope.reverseSort = false;
+
   $scope.toggleCreate = function() {
     $scope.receiverCreateForm = !$scope.receiverCreateForm;
   };
@@ -63,7 +66,6 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
     var receiver = $scope.receiverFormData;
     receiver.$update(receiver);
     $scope.receiverEditForm = true;
-    $scope.postcards = Postcards.query();
   };
 
   $scope.deleteReceiver = function(receiver){
@@ -131,5 +133,8 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
     
     return $scope.receiverFormData = {};
   };
+
+  $scope.currentPage = 1;
+  $scope.pageSize = 10;
 
 });
