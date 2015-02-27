@@ -157,4 +157,17 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.getValidDate = function () {
     return new Date($scope.receiverEditFormData.birthday);
   };
+  $scope.months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+
+  $scope.getBds = function() {
+    var month = $scope.filterBd;
+    // console.log(month);
+    $scope.postcards = Postcards.query(month);
+  };
+
+  $scope.clearBds = function() {
+    $scope.filterBd.month = '';
+    $scope.postcards = Postcards.query();
+  };
+
 });

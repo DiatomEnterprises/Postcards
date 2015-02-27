@@ -22,7 +22,7 @@ admin_account = Account.create(email: "lauris@diatom.lv", password: "qwerty123",
     address_line_2: Faker::Address.secondary_address, 
     account_id: first_account.id, 
     state_or_province: Faker::Address.state, 
-    birthday: DateTime.now - (20 + Random.rand(11)).years
+    birthday: DateTime.new((DateTime.now - Random.rand(40).years).year, Random.rand(1..12), Random.rand(1..28))
   ) 
 end
 
@@ -37,7 +37,7 @@ end
     address_line_2: Faker::Address.secondary_address, 
     account_id: second_account.id, 
     state_or_province: Faker::Address.state, 
-    birthday: DateTime.now - (20 + Random.rand(11)).years
+    birthday: DateTime.new((DateTime.now - Random.rand(40).years).year, Random.rand(1..12), Random.rand(1..28))
   ) 
 end
 
@@ -52,7 +52,7 @@ end
     address_line_2: Faker::Address.secondary_address, 
     account_id: third_account.id, 
     state_or_province: Faker::Address.state, 
-    birthday: DateTime.now - (20 + Random.rand(11)).years
+    birthday: DateTime.new((DateTime.now - Random.rand(40).years).year, Random.rand(1..12), Random.rand(1..28))
   ) 
 end
 
@@ -67,6 +67,6 @@ end
     address_line_2: Faker::Address.secondary_address, 
     account_id: admin_account.id, 
     state_or_province: Faker::Address.state, 
-    birthday: DateTime.now - (20 + Random.rand(11)).years
+    birthday: DateTime.new((DateTime.now - Random.rand(40).years).year, Random.rand(1..12), Random.rand(1..28))
   ) 
 end
