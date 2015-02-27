@@ -41,10 +41,19 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   };
 
   $scope.toggleEdit = function(receiver) {
-    $scope.receiverEditForm = true;
     $scope.receiverSelected = receiver;
     $scope.receiverEditForm = !$scope.receiverEditForm;
     $scope.receiverFormData = receiver;
+  };
+
+  $scope.editReceiver = function(idx, receiver){
+    $scope.toggleEdit(receiver);
+    $scope.postcards.splice(idx, 1);
+  };
+
+  $scope.cancelEditReceiver = function(receiver){
+    $scope.toggleEdit();
+    $scope.postcards.push(receiver);
   };
 
   $scope.toggleOwnerChange = function() {
@@ -65,6 +74,7 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.updateReceiver = function(){
     var receiver = $scope.receiverFormData;
     receiver.$update(receiver);
+    $scope.postcards.push(receiver);
     $scope.toggleEdit();
     return $scope.receiverFormData = {};
   };

@@ -83,7 +83,7 @@
       %dir-pagination-controls{"boundary-links" => "true", "on-page-change" => "pageChangeHandler(newPageNumber)", "template-url" => "dirPagination.tpl.html"}
       %tbody
         %tr{"current-page" => "currentPage", "dir-paginate" => "receiver in postcards | filter:searchText | itemsPerPage: pageSize | orderBy:orderByField:reverseSort"}
-          %td 
+          %td
             {{receiver.first_name}}
           %td 
             {{receiver.last_name}}
@@ -104,14 +104,11 @@
             {{receiver.address_line_2}}
             %br
             {{receiver.address_line_3}}
-          %td
-            %button.btn.btn-success.btn-xs{"ng-click" => "toggleEdit(receiver)", type: "button", style: "margin-bottom: 5px;"} Edit
-            %br
-            %button.btn.btn-danger.btn-xs{"ng-click" => "deleteReceiver(receiver)", type: "button", style: "margin-bottom: 5px;"} Delete
-            %br
-            %button.btn.btn-primary.btn-xs{"ng-click" => "addToList(receiver)", type: "button", style: "margin-bottom: 5px;"} Add to list
-          %td{"ng-hide" => "receiverEditForm"}  
-            %div{"ng-show" => "receiverSelected == receiver"} 
-              = render partial: "edit"
+            %td
+              %button.btn.btn-success.btn-xs{"ng-click" => "editReceiver($index, receiver)", type: "button", style: "margin-bottom: 5px;"} Edit
+              %br
+              %button.btn.btn-danger.btn-xs{"ng-click" => "deleteReceiver(receiver)", type: "button", style: "margin-bottom: 5px;"} Delete
+              %br
+              %button.btn.btn-primary.btn-xs{"ng-click" => "addToList(receiver)", type: "button", style: "margin-bottom: 5px;"} Add to list
 
     %dir-pagination-controls{"boundary-links" => "true", "on-page-change" => "pageChangeHandler(newPageNumber)", "template-url" => "dirPagination.tpl.html"}
