@@ -6,9 +6,12 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-account = Account.create(email: "lauris@diatom.lv", password: "qwerty123")
+first_account = Account.create(email: "test@diatom.lv", password: "qwerty123", is_admin: false)
+second_account = Account.create(email: "super_mario@diatom.lv", password: "qwerty123", is_admin: false)
+third_account = Account.create(email: "batman@diatom.lv", password: "qwerty123", is_admin: false)
+admin_account = Account.create(email: "lauris@diatom.lv", password: "qwerty123", is_admin: true)
 
-30.times do
+10.times do
   Receiver.create(
     first_name: Faker::Name.first_name, 
     last_name: Faker::Name.last_name, 
@@ -17,7 +20,52 @@ account = Account.create(email: "lauris@diatom.lv", password: "qwerty123")
     zip: Faker::Address.zip, 
     address_line_1: Faker::Address.street_address, 
     address_line_2: Faker::Address.secondary_address, 
-    account_id: account.id, 
+    account_id: first_account.id, 
+    state_or_province: Faker::Address.state, 
+    birthday: DateTime.now - (20 + Random.rand(11)).years
+  ) 
+end
+
+10.times do
+  Receiver.create(
+    first_name: Faker::Name.first_name, 
+    last_name: Faker::Name.last_name, 
+    city: Faker::Address.city, 
+    country: Faker::Address.country, 
+    zip: Faker::Address.zip, 
+    address_line_1: Faker::Address.street_address, 
+    address_line_2: Faker::Address.secondary_address, 
+    account_id: second_account.id, 
+    state_or_province: Faker::Address.state, 
+    birthday: DateTime.now - (20 + Random.rand(11)).years
+  ) 
+end
+
+10.times do
+  Receiver.create(
+    first_name: Faker::Name.first_name, 
+    last_name: Faker::Name.last_name, 
+    city: Faker::Address.city, 
+    country: Faker::Address.country, 
+    zip: Faker::Address.zip, 
+    address_line_1: Faker::Address.street_address, 
+    address_line_2: Faker::Address.secondary_address, 
+    account_id: third_account.id, 
+    state_or_province: Faker::Address.state, 
+    birthday: DateTime.now - (20 + Random.rand(11)).years
+  ) 
+end
+
+10.times do
+  Receiver.create(
+    first_name: Faker::Name.first_name, 
+    last_name: Faker::Name.last_name, 
+    city: Faker::Address.city, 
+    country: Faker::Address.country, 
+    zip: Faker::Address.zip, 
+    address_line_1: Faker::Address.street_address, 
+    address_line_2: Faker::Address.secondary_address, 
+    account_id: admin_account.id, 
     state_or_province: Faker::Address.state, 
     birthday: DateTime.now - (20 + Random.rand(11)).years
   ) 
