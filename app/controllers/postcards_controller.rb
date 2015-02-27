@@ -30,7 +30,7 @@ class PostcardsController < ApplicationController
 
   def show
     json_receivers = JSON.parse(params[:receivers])
-    receiver_ids = json_receivers['receivers'].keys.map(&:to_i)
+    receiver_ids = json_receivers['receivers'].keys
     birthdays = json_receivers['receivers'].values
 
     render json: {link: create_pdf_postcards_path(receiver_ids: receiver_ids, birthdays: birthdays)}
