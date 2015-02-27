@@ -13,10 +13,10 @@
   .panel-body{style: "margin-left: 5px;"}
     %form.form-inline{"ng-submit" => "filterReceivers()"}
       .form-group
-        %label Start date
+        %label Start date:
         %input{"ng-model" => "filterDate.start_date", type: "date", id: "birthpicker", style: "color: black;", class: 'form-control', required: ""}
       .form-group{style: "margin-left: 15px;"}
-        %label End date
+        %label End date:
         %input{"ng-model" => "filterDate.end_date", type: "date", id: "birthpicker", style: "color: black;", class: 'form-control', required: ""}
       .form-group{style: "margin-left: 15px;"}
         %button.btn.btn-xs.btn-primary{type: "submit"} Filter
@@ -24,7 +24,13 @@
       .form-group.pull-right
         %label Search in text
         %input#search.form-control{"ng-model" => "searchText", placeholder:"Search..."}/
-
+    %hr
+    %form.form-inline{"ng-submit" => "getBds()"}
+      .form-group
+        %label Birthdays for:
+        %select.form-control{"ng-model" => "filterBd.month", "ng-options" => "currMonth for currMonth in months"}
+        %button.btn.btn-xs.btn-primary{type: "submit"} Find
+        %button.btn.btn-success.btn-xs{"ng-click" => "clearBds()", type: "button"} Clear
     %hr
     %table.table.table-hover
       %thead
@@ -92,7 +98,7 @@
             %td
               {{receiver.email}}
           %td
-            {{receiver.birthday}}
+            {{receiver.birthday | date:"MM/dd/yyyy"}}
           %td
             {{receiver.city}}
           %td

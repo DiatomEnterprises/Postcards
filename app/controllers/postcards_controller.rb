@@ -4,13 +4,17 @@ class PostcardsController < ApplicationController
   def index
     if current_account.is_admin?
       receivers = Receiver.all.includes(:account)
-      if params["start_date"] && params["end_date"]
+      if params["month"].present?
+        render json: receivers.where('extract(month from birthday) = ?', params["month"])
+      elsif params["start_date"] && params["end_date"]
         render json: receivers.where(birthday: params["start_date"]..params["end_date"]).to_json(methods: :email)
       else
         render json: receivers.to_json(methods: :email)
       end      
     else
-      if params["start_date"] && params["end_date"]
+      if params["month"].present?
+        render json: current_account.receivers.where('extract(month from birthday) = ?', params["month"])
+      elsif params["start_date"] && params["end_date"]
         render json: current_account.receivers.where(birthday: params["start_date"]..params["end_date"])
       else
         render json: current_account.receivers
