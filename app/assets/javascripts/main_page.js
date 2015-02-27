@@ -35,32 +35,15 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
 
   $scope.orderByField = 'firstName';
   $scope.reverseSort = false;
-  $scope.editToggled = false;
 
   $scope.toggleCreate = function() {
     $scope.receiverCreateForm = !$scope.receiverCreateForm;
     $scope.receiverCreateFormData = {};
   };
 
-  $scope.toggleEdit = function(receiver) {
-    $scope.receiverEditForm = !$scope.receiverEditForm;
+  $scope.toggleEdit = function(state, receiver) {
+    $scope.receiverEditForm = state;
     $scope.receiverEditFormData = receiver;
-  };
-
-  $scope.editReceiver = function(idx, receiver){
-    console.log(idx, receiver, $scope.editToggled)
-    if ($scope.editToggled == false)
-    {
-      $scope.toggleEdit(receiver);
-      $scope.postcards.splice(idx, 1);
-      $scope.editToggled = !$scope.editToggled;
-    }
-    else
-    {
-      $scope.toggleEdit();
-      $scope.postcards.push(receiver);
-      $scope.editToggled = !$scope.editToggled;
-    }
   };
 
   $scope.toggleOwnerChange = function() {
@@ -81,7 +64,7 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.updateReceiver = function(){
     var receiver = $scope.receiverEditFormData;
     receiver.$update(receiver);
-    $scope.editReceiver(-1, receiver);
+    $scope.toggleEdit(true, receiver);
     return $scope.receiverEditFormData = {};
   };
 
@@ -142,16 +125,6 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
     receiver.bd_card = !receiver.bd_card  
   };
 
-  $scope.containsObject = function(obj, list) {
-    var i;
-    for (i = 0; i < list.length; i++) {
-      if (angular.equals(list[i], obj)) {
-        return false;
-      }
-    }
-    return true;
-  };
-
   $scope.filterReceivers = function() {
     var dates = $scope.filterDate;
     $scope.postcards = Postcards.query(dates);
@@ -167,11 +140,6 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.pageSize = 10;
 
   $scope.checkAll = function () {
-    if ($scope.selectedAll) {
-      $scope.selectedAll = true;
-    } else {
-      $scope.selectedAll = false;
-    }
     angular.forEach($scope.receiverList, function (receiver) {
       receiver.bd_card = $scope.selectedAll;
     });

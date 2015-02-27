@@ -14,7 +14,7 @@
         .panel-heading
           %h1.panel-title 
             Edit contact
-            %button.btn.btn-danger.btn-xs.pull-right{style: "margin-left:10px;", "ng-click" => "editReceiver($index, receiverFormData)", type: "submit"} X
+            %button.btn.btn-danger.btn-xs.pull-right{style: "margin-left:10px;", "ng-click" => "toggleEdit(true, receiverFormData)", type: "submit"} X
         .panel-body  
           = render partial: "edit"
 
