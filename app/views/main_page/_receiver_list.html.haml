@@ -71,13 +71,13 @@
               Zip
               %span{"ng-show" => "orderByField == 'zip'"}
                 %span{"ng-show" => "!reverseSort"} ^
-                %span{"ng-show" => "reverseSort"} 
+                %span{"ng-show" => "reverseSort"} v 
           %th
             %a{href: "#", "ng-click" => "orderByField='address_line_1'; reverseSort = !reverseSort"}
               Address
               %span{"ng-show" => "orderByField == 'address_line_1'"}
                 %span{"ng-show" => "!reverseSort"} ^
-                %span{"ng-show" => "reverseSort"} 
+                %span{"ng-show" => "reverseSort"} v
           %th
             %button.btn.btn-success.btn-xs{"ng-click" => "addAllToList()", type: "button"}  Add all to list
 
