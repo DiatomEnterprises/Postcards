@@ -44,6 +44,7 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.toggleEdit = function(state, receiver) {
     $scope.receiverEditForm = state;
     $scope.receiverEditFormData = receiver;
+    $scope.receiverEditFormData.birthday = $scope.getValidDate()
   };
 
   $scope.toggleOwnerChange = function() {
@@ -94,8 +95,8 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   };
 
   $scope.addAllToList = function(){
-    $scope.receiverList.push.apply($scope.receiverList, $scope.postcards);
-    $scope.postcards.splice($scope.postcards);
+    $scope.receiverList.push.apply($scope.receiverList, $scope.filteredList);
+    $scope.filteredList.filter($scope.filterList);
   };
 
   $scope.removeFromList = function(receiver){
@@ -143,5 +144,17 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
     angular.forEach($scope.receiverList, function (receiver) {
       receiver.bd_card = $scope.selectedAll;
     });
+  };
+
+  $scope.filterList = function (element) {
+    var index = $scope.postcards.indexOf(element);
+    if (index != -1)
+    {
+      $scope.postcards.splice(index, 1)
+    }
+  };
+
+  $scope.getValidDate = function () {
+    return new Date($scope.receiverEditFormData.birthday);
   };
 });

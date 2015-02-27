@@ -34,7 +34,7 @@
   .form-group
     %label.col-sm-5.control-label birthday
     .col-sm-7
-      %input.form-control{"ng-model" => "receiverEditFormData.birthday", type: "date", id: "birthpicker", style: "color: black;", required: ""}
+      %input.form-control{'ng-model' => 'receiverEditFormData.birthday', type: 'date', id: 'birthpicker', style: 'color: black;', required: ''}
 
   - if current_account.is_admin?
     .form-group
