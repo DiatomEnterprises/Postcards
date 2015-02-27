@@ -125,16 +125,6 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
     receiver.bd_card = !receiver.bd_card  
   };
 
-  $scope.containsObject = function(obj, list) {
-    var i;
-    for (i = 0; i < list.length; i++) {
-      if (angular.equals(list[i], obj)) {
-        return false;
-      }
-    }
-    return true;
-  };
-
   $scope.filterReceivers = function() {
     var dates = $scope.filterDate;
     $scope.postcards = Postcards.query(dates);
@@ -150,11 +140,6 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.pageSize = 10;
 
   $scope.checkAll = function () {
-    if ($scope.selectedAll) {
-      $scope.selectedAll = true;
-    } else {
-      $scope.selectedAll = false;
-    }
     angular.forEach($scope.receiverList, function (receiver) {
       receiver.bd_card = $scope.selectedAll;
     });
