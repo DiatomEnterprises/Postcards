@@ -80,6 +80,7 @@
                 %span{"ng-show" => "reverseSort"} 
           %th
             %button.btn.btn-success.btn-xs{"ng-click" => "addAllToList()", type: "button"}  Add all to list
+
       %dir-pagination-controls{"boundary-links" => "true", "on-page-change" => "pageChangeHandler(newPageNumber)", "template-url" => "dirPagination.tpl.html"}
       %tbody
         %tr{"current-page" => "currentPage", "dir-paginate" => "receiver in postcards | filter:searchText | itemsPerPage: pageSize | orderBy:orderByField:reverseSort"}
