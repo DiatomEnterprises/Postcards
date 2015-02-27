@@ -3,9 +3,18 @@ class PostcardsController < ApplicationController
 
   def index
     if current_account.is_admin?
-      render json: Receiver.includes(:account)
-    else  
-      render json: current_account.receivers
+      reveivers = Receiver.includes(:account)
+      if params["start_date"] && params["end_date"]
+        render json: reveivers.where(birthday: params["start_date"]..params["end_date"])
+      else
+        render json: reveivers
+      end      
+    else
+      if params["start_date"] && params["end_date"]
+        render json: current_account.receivers.where(birthday: params["start_date"]..params["end_date"])
+      else
+        render json: current_account.receivers
+      end
     end
   end
   
@@ -15,7 +24,8 @@ class PostcardsController < ApplicationController
 
   def update
     receiver = Receiver.find(params[:id])
-    render json:  receiver.update(postcard_params)
+    receiver.update(postcard_params)
+    render json: receiver
   end
 
   def show

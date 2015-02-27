@@ -139,9 +139,15 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
     return true;
   };
 
-  $scope.filterReceivers = function(date) {
-    
-    return $scope.receiverFormData = {};
+  $scope.filterReceivers = function() {
+    var dates = $scope.filterDate;
+    $scope.postcards = Postcards.query(dates);
+  };
+
+  $scope.clearFilter = function() {
+    $scope.filterDate.start_date = '';
+    $scope.filterDate.end_date = '';
+    $scope.postcards = Postcards.query();
   };
 
   $scope.currentPage = 1;
