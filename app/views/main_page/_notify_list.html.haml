@@ -11,7 +11,9 @@
           %th Name
           %th
           %th
-            %input{type: 'checkbox'} Select all
+            %label
+              %input{"ng-click" => "checkAll()", "ng-model" => "selectedAll", :type => "checkbox"}
+              Select all
       %tbody{'ng-repeat' => 'receiver in receiverList'}
         %tr
           %td
@@ -19,4 +21,6 @@
           %td
             %button.btn.btn-danger.btn-sm{'ng-click' => 'removeFromList(receiver)', type: "button"} Remove
           %td
-            %input{'ng-click' => 'addBirthdayField(receiver)', type: 'checkbox'} Birthday card
+            %label{style: "font-weight: normal;"}
+              %input{'ng-model' => 'receiver.bd_card', type: 'checkbox'} 
+              Birthday card

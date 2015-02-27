@@ -114,7 +114,7 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
     var i;
     var receiver_ids = {'receivers' : {}};
     for (i = 0; i < list.length; i++) {
-      receiver_ids['receivers'][list[i].id] = list[i].is_birthday || false;
+      receiver_ids['receivers'][list[i].id] = list[i].bd_card || false;
     };
     pdf = Postcards.show({ id: 1, receivers: receiver_ids});
     pdf.$promise.then(function(data){
@@ -123,15 +123,15 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   };
 
   $scope.addBirthdayField = function (receiver){
-    receiver.is_birthday = !receiver.is_birthday  
+    receiver.bd_card = !receiver.bd_card  
   };
 
   $scope.containsObject = function(obj, list) {
     var i;
     for (i = 0; i < list.length; i++) {
-        if (angular.equals(list[i], obj)) {
-            return false;
-        }
+      if (angular.equals(list[i], obj)) {
+        return false;
+      }
     }
     return true;
   };
@@ -150,4 +150,14 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.currentPage = 1;
   $scope.pageSize = 10;
 
+  $scope.checkAll = function () {
+    if ($scope.selectedAll) {
+      $scope.selectedAll = true;
+    } else {
+      $scope.selectedAll = false;
+    }
+    angular.forEach($scope.receiverList, function (receiver) {
+      receiver.bd_card = $scope.selectedAll;
+    });
+  };
 });
