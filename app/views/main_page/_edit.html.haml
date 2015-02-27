@@ -1,4 +1,4 @@
-%form.form-horizontal{"ng-submit" => "updateReceiver()"}
+%form.form-horizontal{"ng-submit" => "updateReceiver($index)"}
   .form-group
     %label.col-sm-5.control-label Fist name
     .col-sm-7
@@ -36,9 +36,9 @@
       %label.col-sm-5.control-label Address line 5
       .col-sm-7{"data-ng-init" => "getAllAccount()"}
         %select.form-control{"ng-model" => "receiverFormData.account_id"}
-          %option{"ng-repeat" => "account in accounts", :value => "{{account.id}}"}
+          %option{"ng-repeat" => "account in accounts", value: "{{account.id}}"}
             {{account.email}} 
   .form-group
     .col-sm-offset-5.col-sm-7
-      %button.btn.btn-xs.btn-primary{:type => "submit"} Update
-      %button.btn.btn-xs.btn-danger{"ng-hide" => "receiverEditForm"} cancel
+      %button.btn.btn-xs.btn-primary{type: 'submit'} Update
+      %a.btn.btn-xs.btn-danger{type: 'button', 'ng-click' => 'toggleEdit()'} cancel
