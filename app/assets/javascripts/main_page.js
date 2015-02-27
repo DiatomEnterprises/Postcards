@@ -58,14 +58,15 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.createReceiver = function() {
     var receiver = Postcards.save($scope.receiverFormData);
     $scope.postcards.push(receiver);
-    $scope.receiverCreateForm = true;
+    $scope.toggleCreate();
     return $scope.receiverFormData = {};
   };
 
-  $scope.updateReceiver = function(idx){
+  $scope.updateReceiver = function(){
     var receiver = $scope.receiverFormData;
     receiver.$update(receiver);
     $scope.toggleEdit();
+    return $scope.receiverFormData = {};
   };
 
   $scope.deleteReceiver = function(receiver){
@@ -86,10 +87,6 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.getOwnerConacts = function(id){
     // console.log(id);
     $http.get("/owners", id);
-  };
-
-  $scope.getAccount = function(id){
-    $scope.account = Account.get({id: id});
   };
 
   $scope.addToList = function(receiver){

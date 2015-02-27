@@ -88,8 +88,8 @@
           %td 
             {{receiver.last_name}}
           - if current_account.is_admin?
-            %td{"data-ng-init" => "getAccount(receiver.account_id)"}
-              {{account.email}}
+            %td
+              {{receiver.email}}
           %td
             {{receiver.birthday}}
           %td
