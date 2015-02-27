@@ -3,7 +3,7 @@ class PostcardsController < ApplicationController
 
   def index
     if current_account.is_admin?
-      receivers = Receiver.includes(:account)
+      receivers = Receiver.all.includes(:account)
       if params["start_date"] && params["end_date"]
         render json: receivers.where(birthday: params["start_date"]..params["end_date"]).to_json(methods: :email)
       else

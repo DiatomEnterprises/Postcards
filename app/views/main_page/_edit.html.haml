@@ -31,6 +31,11 @@
     %label.col-sm-5.control-label Address line 5
     .col-sm-7
       %input.form-control{'ng-model' => 'receiverEditFormData.address_line_5', placeholder: 'Address line 5', type: 'text'}/
+  .form-group
+    %label.col-sm-5.control-label birthday
+    .col-sm-7
+      %input.form-control{"ng-model" => "receiverEditFormData.birthday", type: "date", id: "birthpicker", style: "color: black;", required: ""}
+
   - if current_account.is_admin?
     .form-group
       %label.col-sm-5.control-label Address line 5
