@@ -37,8 +37,8 @@
       .col-sm-7{'data-ng-init' => 'getAllAccount()'}
         %select.form-control{'ng-model' => 'receiverEditFormData.account_id'}
           %option{'ng-repeat' => 'account in accounts', value: '{{account.id}}'}
-            {{account.email}} 
+            {{account.email}}
   .form-group
     .col-sm-offset-5.col-sm-7
       %button.btn.btn-xs.btn-primary{type: 'submit'} Update
-      %a.btn.btn-xs.btn-danger{type: 'button', 'ng-click' => 'editReceiver($index, receiverEditFormData)'} cancel
+      %a.btn.btn-xs.btn-danger{type: 'button', 'ng-click' => 'toggleEdit(true, receiverEditFormData)'} Cancel

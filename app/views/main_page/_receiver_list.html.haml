@@ -106,7 +106,7 @@
             %br
             {{receiver.address_line_3}}
             %td
-              %button.btn.btn-success.btn-xs{"ng-click" => "editReceiver($index, receiver)", type: "button", style: "margin-bottom: 5px;"} Edit
+              %button.btn.btn-success.btn-xs{"ng-click" => "toggleEdit(false, receiver)", type: "button", style: "margin-bottom: 5px;"} Edit
               %br
               %button.btn.btn-danger.btn-xs{"ng-click" => "deleteReceiver(receiver)", type: "button", style: "margin-bottom: 5px;"} Delete
               %br
