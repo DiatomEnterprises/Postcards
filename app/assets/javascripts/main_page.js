@@ -51,36 +51,21 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
     $scope.ownerEditForm = !$scope.ownerEditForm;
   };
 
-  getPostcards();
-
+  $scope.postcards = Postcards.query();
   $scope.accounts = Accounts.query();
   $scope.receiverList = [];
-
-  $scope.$watchCollection(
-    "postcardList",
-    function( newValue, oldValue ) {
-      // console.log(newValue);
-      // console.log(oldValue);
-    }
-  );
-
-  function getPostcards() {
-    $scope.postcards = Postcards.query();
-  }
-
 
   $scope.createReceiver = function() {
     var receiver = Postcards.save($scope.receiverFormData);
     $scope.postcards.push(receiver);
-    $scope.receiverCreateForm = true;
+    $scope.toggleCreate();
     return $scope.receiverFormData = {};
   };
 
-  $scope.updateReceiver = function(receiver){
+  $scope.updateReceiver = function(){
     var receiver = $scope.receiverFormData;
     receiver.$update(receiver);
-    $scope.postcards.$update(receiver);
-    $scope.receiverEditForm = true;
+    $scope.toggleEdit();
     return $scope.receiverFormData = {};
   };
 
@@ -102,10 +87,6 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.getOwnerConacts = function(id){
     // console.log(id);
     $http.get("/owners", id);
-  };
-
-  $scope.getAccount = function(id){
-    $scope.account = Account.get({id: id});
   };
 
   $scope.addToList = function(receiver){
