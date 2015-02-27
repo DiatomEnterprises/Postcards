@@ -1,44 +1,44 @@
-%form.form-horizontal{"ng-submit" => "updateReceiver()"}
+%form.form-horizontal{'ng-submit' => 'updateReceiver()'}
   .form-group
     %label.col-sm-5.control-label Fist name
     .col-sm-7
-      %input.form-control{"ng-model" => "receiverFormData.first_name", placeholder: "First name", type: "text", required: ""}/
+      %input.form-control{'ng-model' => 'receiverEditFormData.first_name', placeholder: 'First name', type: 'text', required: ''}/
   .form-group
     %label.col-sm-5.control-label Last name
     .col-sm-7
-      %input.form-control{"ng-model" => "receiverFormData.last_name", placeholder: "Last name", type: "text", required: ""}/
+      %input.form-control{'ng-model' => 'receiverEditFormData.last_name', placeholder: 'Last name', type: 'text', required: ''}/
   .form-group
     %label.col-sm-5.control-label City
     .col-sm-7
-      %input.form-control{"ng-model" => "receiverFormData.city", placeholder: "City", type: "text"}/
+      %input.form-control{'ng-model' => 'receiverEditFormData.city', placeholder: 'City', type: 'text'}/
   .form-group
     %label.col-sm-5.control-label Country
     .col-sm-7
-      %input.form-control{"ng-model" => "receiverFormData.country", placeholder: "Country", type: "text"}/
+      %input.form-control{'ng-model' => 'receiverEditFormData.country', placeholder: 'Country', type: 'text'}/
   .form-group
     %label.col-sm-5.control-label Zip
     .col-sm-7
-      %input.form-control{"ng-model" => "receiverFormData.zip", placeholder: "Zip", type: "text"}/
+      %input.form-control{'ng-model' => 'receiverEditFormData.zip', placeholder: 'Zip', type: 'text'}/
   .form-group
     %label.col-sm-5.control-label Address line 1
     .col-sm-7
-      %input.form-control{"ng-model" => "receiverFormData.address_line_1", placeholder: "Address line 1", type: "text", required: ""}/
+      %input.form-control{'ng-model' => 'receiverEditFormData.address_line_1', placeholder: 'Address line 1', type: 'text', required: ''}/
   .form-group
     %label.col-sm-5.control-label Address line 5
     .col-sm-7
-      %input.form-control{"ng-model" => "receiverFormData.address_line_5", placeholder: "Address line 5", type: "text"}/
+      %input.form-control{'ng-model' => 'receiverEditFormData.address_line_5', placeholder: 'Address line 5', type: 'text'}/
   .form-group
     %label.col-sm-5.control-label Address line 5
     .col-sm-7
-      %input.form-control{"ng-model" => "receiverFormData.address_line_5", placeholder: "Address line 5", type: "text"}/
+      %input.form-control{'ng-model' => 'receiverEditFormData.address_line_5', placeholder: 'Address line 5', type: 'text'}/
   - if current_account.is_admin?
     .form-group
       %label.col-sm-5.control-label Address line 5
-      .col-sm-7{"data-ng-init" => "getAllAccount()"}
-        %select.form-control{"ng-model" => "receiverFormData.account_id"}
-          %option{"ng-repeat" => "account in accounts", value: "{{account.id}}"}
+      .col-sm-7{'data-ng-init' => 'getAllAccount()'}
+        %select.form-control{'ng-model' => 'receiverEditFormData.account_id'}
+          %option{'ng-repeat' => 'account in accounts', value: '{{account.id}}'}
             {{account.email}} 
   .form-group
     .col-sm-offset-5.col-sm-7
       %button.btn.btn-xs.btn-primary{type: 'submit'} Update
-      %a.btn.btn-xs.btn-danger{type: 'button', 'ng-click' => 'toggleEdit()'} cancel
+      %a.btn.btn-xs.btn-danger{type: 'button', 'ng-click' => 'editReceiver($index, receiverEditFormData)'} cancel

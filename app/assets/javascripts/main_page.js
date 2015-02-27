@@ -35,16 +35,32 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
 
   $scope.orderByField = 'firstName';
   $scope.reverseSort = false;
+  $scope.editToggled = false;
 
   $scope.toggleCreate = function() {
     $scope.receiverCreateForm = !$scope.receiverCreateForm;
+    $scope.receiverCreateFormData = {};
   };
 
   $scope.toggleEdit = function(receiver) {
-    $scope.receiverEditForm = true;
-    $scope.receiverSelected = receiver;
     $scope.receiverEditForm = !$scope.receiverEditForm;
-    $scope.receiverFormData = receiver;
+    $scope.receiverEditFormData = receiver;
+  };
+
+  $scope.editReceiver = function(idx, receiver){
+    console.log(idx, receiver, $scope.editToggled)
+    if ($scope.editToggled == false)
+    {
+      $scope.toggleEdit(receiver);
+      $scope.postcards.splice(idx, 1);
+      $scope.editToggled = !$scope.editToggled;
+    }
+    else
+    {
+      $scope.toggleEdit();
+      $scope.postcards.push(receiver);
+      $scope.editToggled = !$scope.editToggled;
+    }
   };
 
   $scope.toggleOwnerChange = function() {
@@ -56,17 +72,17 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.receiverList = [];
 
   $scope.createReceiver = function() {
-    var receiver = Postcards.save($scope.receiverFormData);
+    var receiver = Postcards.save($scope.receiverCreateFormData);
     $scope.postcards.push(receiver);
     $scope.toggleCreate();
-    return $scope.receiverFormData = {};
+    return $scope.receiverCreateFormData = {};
   };
 
   $scope.updateReceiver = function(){
-    var receiver = $scope.receiverFormData;
+    var receiver = $scope.receiverEditFormData;
     receiver.$update(receiver);
-    $scope.toggleEdit();
-    return $scope.receiverFormData = {};
+    $scope.editReceiver(-1, receiver);
+    return $scope.receiverEditFormData = {};
   };
 
   $scope.deleteReceiver = function(receiver){
