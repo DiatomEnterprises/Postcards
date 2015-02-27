@@ -5,30 +5,27 @@
       %button.btn.btn-success.btn-sm{style: "margin-left: 10px;", "ng-click" => "toggleCreate()"} Add new receiver +
       - if current_account.is_admin?  
         %button.btn.btn-success.btn-sm{style: "margin-left: 10px;", "ng-click" => "toggleOwnerChange()"} Edit contact owner
-  .panel-body{style: "margin-left: 5px;"}
-    %form.form-horizontal
-      .form-group
-        %label.col-sm-4.control-label Birthday
-        .col-sm-7
-          %input{type: "date", id: "birthpicker", style: "color: black;"}
-      .form-group
-        .col-sm-offset-4.col-sm-10
-          %button.btn.btn-success.btn-xs{"ng-click" => "filterReceivers(date)", type: "button"}  Filter
-    %hr
-    .row
-      .col-lg-10
-        .row
-          .col-xs-3{style: "margin-top: 10px;"}
-            %h3 Receivers Page:
-          .col-xs-3
-            %label{for: "search"} Search:
-            %input#search.form-control{"ng-model" => "searchText", placeholder:"Filter text"}/
-          .col-xs-3
-            %label{for: "search"} items per page:
+      .col-xs-3.pull-right
+        %form.form-inline
+          .form-group.pull-right
+            %label Receivers per page
             %input.form-control{max: "100", min: "1", "ng-model" => "pageSize", type: "number"}/
-          .col-xs-3
-            %button.btn.btn-success.btn-xs{"ng-click" => "addAllToList()", type: "button"}  Add all to list
-    %br
+  .panel-body{style: "margin-left: 5px;"}
+    %form.form-inline{"ng-submit" => "filterReceivers()"}
+      .form-group
+        %label Start date
+        %input{"ng-model" => "filterDate.start_date", type: "date", id: "birthpicker", style: "color: black;", class: 'form-control', required: ""}
+      .form-group{style: "margin-left: 15px;"}
+        %label End date
+        %input{"ng-model" => "filterDate.end_date", type: "date", id: "birthpicker", style: "color: black;", class: 'form-control', required: ""}
+      .form-group{style: "margin-left: 15px;"}
+        %button.btn.btn-xs.btn-primary{type: "submit"} Filter
+        %button.btn.btn-success.btn-xs{"ng-click" => "clearFilter()", type: "button"}  Clear filter
+      .form-group.pull-right
+        %label Full text search
+        %input#search.form-control{"ng-model" => "searchText", placeholder:"Filter"}/
+
+    %hr
     %table.table.table-hover
       %thead
         %tr
@@ -82,6 +79,7 @@
                 %span{"ng-show" => "!reverseSort"} ^
                 %span{"ng-show" => "reverseSort"} 
           %th
+            %button.btn.btn-success.btn-xs{"ng-click" => "addAllToList()", type: "button"}  Add all to list
       %dir-pagination-controls{"boundary-links" => "true", "on-page-change" => "pageChangeHandler(newPageNumber)", "template-url" => "dirPagination.tpl.html"}
       %tbody
         %tr{"current-page" => "currentPage", "dir-paginate" => "receiver in postcards | filter:searchText | itemsPerPage: pageSize | orderBy:orderByField:reverseSort"}
@@ -115,4 +113,5 @@
           %td{"ng-hide" => "receiverEditForm"}  
             %div{"ng-show" => "receiverSelected == receiver"} 
               = render partial: "edit"
+
     %dir-pagination-controls{"boundary-links" => "true", "on-page-change" => "pageChangeHandler(newPageNumber)", "template-url" => "dirPagination.tpl.html"}
