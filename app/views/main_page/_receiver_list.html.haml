@@ -1,116 +1,118 @@
 .panel.panel-primary
-	.panel-heading{style: "margin-bottom:20px;"}
-		%h1.panel-title 
-			Contacts
-			%button.btn.btn-success.btn-sm{style: "margin-left: 10px;", "ng-click" => "toggleCreate()"} Add new receiver +
-			- if current_account.is_admin?	
-				%button.btn.btn-success.btn-sm{style: "margin-left: 10px;", "ng-click" => "toggleOwnerChange()"} Edit contact owner
-	.panel-body{style: "margin-left: 5px;"}
-		%form.form-horizontal
-			.form-group
-				%label.col-sm-4.control-label Birthday
-				.col-sm-7
-					%input{type: "date", id: "birthpicker", style: "color: black;"}
-			.form-group
-				.col-sm-offset-4.col-sm-10
-					%button.btn.btn-success.btn-xs{"ng-click" => "filterReceivers(date)", type: "button"}  Filter
-		%hr
-		.row
-			.col-lg-10
-				.row
-					.col-xs-3{style: "margin-top: 10px;"}
-						%h3 Receivers Page:
-					.col-xs-4
-						%label{:for => "search"} Search:
-						%input#search.form-control{"ng-model" => "searchText", placeholder:"Filter text"}/
-					.col-xs-4
-						%label{:for => "search"} items per page:
-						%input.form-control{max: "100", min: "1", "ng-model" => "pageSize", type: "number"}/
-		%br
-		%table.table.table-hover
-			%thead
-				%tr
-					%th
-						%a{href: "#", "ng-click" => "orderByField='first_name'; reverseSort = !reverseSort"}
-							First Name
-							%span{"ng-show" => "orderByField == 'first_name'"}
-								%span{"ng-show" => "!reverseSort"} ^
-								%span{"ng-show" => "reverseSort"} v
-					%th
-						%a{href: "#", "ng-click" => "orderByField='last_name'; reverseSort = !reverseSort"}
-							Last Name
-							%span{"ng-show" => "orderByField == 'last_name'"}
-								%span{"ng-show" => "!reverseSort"} ^
-								%span{"ng-show" => "reverseSort"} v
-					- if current_account.is_admin?		
-						%th
-							%a{href: "#", "ng-click" => "orderByField='email'; reverseSort = !reverseSort"}
-								E-mail
-								%span{"ng-show" => "orderByField == 'email'"}
-									%span{"ng-show" => "!reverseSort"} ^
-									%span{"ng-show" => "reverseSort"} v
-					%th
-						%a{href: "#", "ng-click" => "orderByField='birthday'; reverseSort = !reverseSort"}
-							Birthday
-							%span{"ng-show" => "orderByField == 'birthday'"}
-								%span{"ng-show" => "!reverseSort"} ^
-								%span{"ng-show" => "reverseSort"} v
-					%th
-						%a{href: "#", "ng-click" => "orderByField='city'; reverseSort = !reverseSort"}
-							City
-							%span{"ng-show" => "orderByField == 'city'"}
-								%span{"ng-show" => "!reverseSort"} ^
-								%span{"ng-show" => "reverseSort"} v
-					%th
-						%a{href: "#", "ng-click" => "orderByField='country'; reverseSort = !reverseSort"}
-							Country
-							%span{"ng-show" => "orderByField == 'country'"}
-								%span{"ng-show" => "!reverseSort"} ^
-								%span{"ng-show" => "reverseSort"} v
-					%th
-						%a{href: "#", "ng-click" => "orderByField='zip'; reverseSort = !reverseSort"}
-							Zip
-							%span{"ng-show" => "orderByField == 'zip'"}
-								%span{"ng-show" => "!reverseSort"} ^
-								%span{"ng-show" => "reverseSort"} 
-					%th
-						%a{href: "#", "ng-click" => "orderByField='address_line_1'; reverseSort = !reverseSort"}
-							Address
-							%span{"ng-show" => "orderByField == 'address_line_1'"}
-								%span{"ng-show" => "!reverseSort"} ^
-								%span{"ng-show" => "reverseSort"} 
-					%th
-			%dir-pagination-controls{"boundary-links" => "true", "on-page-change" => "pageChangeHandler(newPageNumber)", "template-url" => "dirPagination.tpl.html"}
-			%tbody
-				%tr{"current-page" => "currentPage", "dir-paginate" => "receiver in postcards | filter:searchText | itemsPerPage: pageSize | orderBy:orderByField:reverseSort"}
-					%td 
-						{{receiver.first_name}}
-					%td 
-						{{receiver.last_name}}
-					- if current_account.is_admin?		
-						%td{"data-ng-init" => "getAccount(receiver.account_id)"}
-							{{account.email}}
-					%td
-						{{receiver.birthday}}
-					%td
-						{{receiver.city}}
-					%td
-						{{receiver.country}}
-					%td
-						{{receiver.zip}}
-					%td
-						{{receiver.address_line_1}}
-						%br
-						{{receiver.address_line_2}}
-						%br
-						{{receiver.address_line_3}}
-					%td
-						%button.btn.btn-success.btn-xs{"ng-click" => "toggleEdit(receiver)", type: "button", style: "margin-bottom: 5px;"} Edit
-						%br
-						%button.btn.btn-danger.btn-xs{"ng-click" => "deleteReceiver(receiver)", type: "button", style: "margin-bottom: 5px;"} Delete
-						%br
-						%button.btn.btn-primary.btn-xs{"ng-click" => "addToList(receiver)", type: "button", style: "margin-bottom: 5px;"} Add to list
-					%td{"ng-hide" => "receiverEditForm"}	
-						%div{"ng-show" => "receiverSelected == receiver"}	
-							= render partial: "edit"
-		%dir-pagination-controls{"boundary-links" => "true", "on-page-change" => "pageChangeHandler(newPageNumber)", "template-url" => "dirPagination.tpl.html"}
+  .panel-heading{style: "margin-bottom:20px;"}
+    %h1.panel-title 
+      Contacts
+      %button.btn.btn-success.btn-sm{style: "margin-left: 10px;", "ng-click" => "toggleCreate()"} Add new receiver +
+      - if current_account.is_admin?  
+        %button.btn.btn-success.btn-sm{style: "margin-left: 10px;", "ng-click" => "toggleOwnerChange()"} Edit contact owner
+  .panel-body{style: "margin-left: 5px;"}
+    %form.form-horizontal
+      .form-group
+        %label.col-sm-4.control-label Birthday
+        .col-sm-7
+          %input{type: "date", id: "birthpicker", style: "color: black;"}
+      .form-group
+        .col-sm-offset-4.col-sm-10
+          %button.btn.btn-success.btn-xs{"ng-click" => "filterReceivers(date)", type: "button"}  Filter
+    %hr
+    .row
+      .col-lg-10
+        .row
+          .col-xs-3{style: "margin-top: 10px;"}
+            %h3 Receivers Page:
+          .col-xs-3
+            %label{for: "search"} Search:
+            %input#search.form-control{"ng-model" => "searchText", placeholder:"Filter text"}/
+          .col-xs-3
+            %label{for: "search"} items per page:
+            %input.form-control{max: "100", min: "1", "ng-model" => "pageSize", type: "number"}/
+          .col-xs-3
+            %button.btn.btn-success.btn-xs{"ng-click" => "addAllToList()", type: "button"}  Add all to list
+    %br
+    %table.table.table-hover
+      %thead
+        %tr
+          %th
+            %a{href: "#", "ng-click" => "orderByField='first_name'; reverseSort = !reverseSort"}
+              First Name
+              %span{"ng-show" => "orderByField == 'first_name'"}
+                %span{"ng-show" => "!reverseSort"} ^
+                %span{"ng-show" => "reverseSort"} v
+          %th
+            %a{href: "#", "ng-click" => "orderByField='last_name'; reverseSort = !reverseSort"}
+              Last Name
+              %span{"ng-show" => "orderByField == 'last_name'"}
+                %span{"ng-show" => "!reverseSort"} ^
+                %span{"ng-show" => "reverseSort"} v
+          - if current_account.is_admin?    
+            %th
+              %a{href: "#", "ng-click" => "orderByField='email'; reverseSort = !reverseSort"}
+                E-mail
+                %span{"ng-show" => "orderByField == 'email'"}
+                  %span{"ng-show" => "!reverseSort"} ^
+                  %span{"ng-show" => "reverseSort"} v
+          %th
+            %a{href: "#", "ng-click" => "orderByField='birthday'; reverseSort = !reverseSort"}
+              Birthday
+              %span{"ng-show" => "orderByField == 'birthday'"}
+                %span{"ng-show" => "!reverseSort"} ^
+                %span{"ng-show" => "reverseSort"} v
+          %th
+            %a{href: "#", "ng-click" => "orderByField='city'; reverseSort = !reverseSort"}
+              City
+              %span{"ng-show" => "orderByField == 'city'"}
+                %span{"ng-show" => "!reverseSort"} ^
+                %span{"ng-show" => "reverseSort"} v
+          %th
+            %a{href: "#", "ng-click" => "orderByField='country'; reverseSort = !reverseSort"}
+              Country
+              %span{"ng-show" => "orderByField == 'country'"}
+                %span{"ng-show" => "!reverseSort"} ^
+                %span{"ng-show" => "reverseSort"} v
+          %th
+            %a{href: "#", "ng-click" => "orderByField='zip'; reverseSort = !reverseSort"}
+              Zip
+              %span{"ng-show" => "orderByField == 'zip'"}
+                %span{"ng-show" => "!reverseSort"} ^
+                %span{"ng-show" => "reverseSort"} 
+          %th
+            %a{href: "#", "ng-click" => "orderByField='address_line_1'; reverseSort = !reverseSort"}
+              Address
+              %span{"ng-show" => "orderByField == 'address_line_1'"}
+                %span{"ng-show" => "!reverseSort"} ^
+                %span{"ng-show" => "reverseSort"} 
+          %th
+      %dir-pagination-controls{"boundary-links" => "true", "on-page-change" => "pageChangeHandler(newPageNumber)", "template-url" => "dirPagination.tpl.html"}
+      %tbody
+        %tr{"current-page" => "currentPage", "dir-paginate" => "receiver in postcards | filter:searchText | itemsPerPage: pageSize | orderBy:orderByField:reverseSort"}
+          %td 
+            {{receiver.first_name}}
+          %td 
+            {{receiver.last_name}}
+          - if current_account.is_admin?
+            %td{"data-ng-init" => "getAccount(receiver.account_id)"}
+              {{account.email}}
+          %td
+            {{receiver.birthday}}
+          %td
+            {{receiver.city}}
+          %td
+            {{receiver.country}}
+          %td
+            {{receiver.zip}}
+          %td
+            {{receiver.address_line_1}}
+            %br
+            {{receiver.address_line_2}}
+            %br
+            {{receiver.address_line_3}}
+          %td
+            %button.btn.btn-success.btn-xs{"ng-click" => "toggleEdit(receiver)", type: "button", style: "margin-bottom: 5px;"} Edit
+            %br
+            %button.btn.btn-danger.btn-xs{"ng-click" => "deleteReceiver(receiver)", type: "button", style: "margin-bottom: 5px;"} Delete
+            %br
+            %button.btn.btn-primary.btn-xs{"ng-click" => "addToList(receiver)", type: "button", style: "margin-bottom: 5px;"} Add to list
+          %td{"ng-hide" => "receiverEditForm"}  
+            %div{"ng-show" => "receiverSelected == receiver"} 
+              = render partial: "edit"
+    %dir-pagination-controls{"boundary-links" => "true", "on-page-change" => "pageChangeHandler(newPageNumber)", "template-url" => "dirPagination.tpl.html"}

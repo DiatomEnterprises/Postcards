@@ -1,6 +1,7 @@
-- @receivers.each do |receiver|
+- @receivers.each_with_index do |receiver, index|
   %div{style: "text-align:right; width:100%; height:5.0in; line-height:5.0in; #{receiver == @receivers.last ? '' : 'page-break-after:always;'}"}
     %span{style: "display:inline-block; vertical-align:middle; line-height:20px;"}
+      #birthday= receiver.birthday if @birthday[index] == 'true'
       #fullname= receiver.fullname
       #address= receiver.address_line_1
       #address2= receiver.address_line_2

@@ -51,9 +51,23 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
     $scope.ownerEditForm = !$scope.ownerEditForm;
   };
 
-  $scope.postcards = Postcards.query();
+  getPostcards();
+
   $scope.accounts = Accounts.query();
   $scope.receiverList = [];
+
+  $scope.$watchCollection(
+    "postcardList",
+    function( newValue, oldValue ) {
+      // console.log(newValue);
+      // console.log(oldValue);
+    }
+  );
+
+  function getPostcards() {
+    $scope.postcards = Postcards.query();
+  }
+
 
   $scope.createReceiver = function() {
     var receiver = Postcards.save($scope.receiverFormData);
@@ -65,7 +79,9 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.updateReceiver = function(receiver){
     var receiver = $scope.receiverFormData;
     receiver.$update(receiver);
+    $scope.postcards.$update(receiver);
     $scope.receiverEditForm = true;
+    return $scope.receiverFormData = {};
   };
 
   $scope.deleteReceiver = function(receiver){
@@ -94,29 +110,39 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
 
   $scope.addToList = function(receiver){
     $scope.receiverList.push(receiver);
+    $scope.postcards.splice( $scope.postcards.indexOf(receiver), 1 );
   };
 
   $scope.addAllToList = function(){
-    $scope.receiverList.push(postcards);
+    $scope.receiverList.push.apply($scope.receiverList, $scope.postcards);
+    $scope.postcards.splice($scope.postcards);
   };
 
   $scope.removeFromList = function(receiver){
     $scope.receiverList.splice( $scope.receiverList.indexOf(receiver), 1 );
+    $scope.postcards.push(receiver);
   };
 
   $scope.removeAllFromList = function(){
+    $scope.postcards.push.apply($scope.postcards, $scope.receiverList);
     $scope.receiverList.splice($scope.receiverList);
   };
+
   $scope.sendNotification = function(list){
+    console.log(list)
     var i;
-    var receiver_ids = {};
+    var receiver_ids = {'receivers' : {}};
     for (i = 0; i < list.length; i++) {
-      receiver_ids['receiver_'+i] = list[i].id;
+      receiver_ids['receivers'][list[i].id] = list[i].is_birthday || false;
     };
     pdf = Postcards.show({ id: 1, receivers: receiver_ids});
     pdf.$promise.then(function(data){
       $window.open( $window.location.protocol+"//"+$window.location.host+data.link );
     });
+  };
+
+  $scope.addBirthdayField = function (receiver){
+    receiver.is_birthday = !receiver.is_birthday  
   };
 
   $scope.containsObject = function(obj, list) {
