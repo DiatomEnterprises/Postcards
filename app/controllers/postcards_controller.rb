@@ -7,7 +7,7 @@ class PostcardsController < ApplicationController
       if params["month"].present?
         render json: receivers.where('extract(month from birthday) = ?', params["month"])
       elsif params["start_date"] && params["end_date"]
-        render json: receivers.where(birthday: params["start_date"]..params["end_date"]).to_json(methods: :email)
+        render json: receivers.where(created_at: params["start_date"]..params["end_date"]).to_json(methods: :email)
       else
         render json: receivers.to_json(methods: :email)
       end      

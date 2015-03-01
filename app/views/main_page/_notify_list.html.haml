@@ -3,7 +3,7 @@
     %h3.panel-title 
     Receivers list
     %button.btn.btn-danger.btn-xs.pull-right{'ng-click' => 'removeAllFromList(receiverList)', type: 'button', style: 'margin-left: 10px;'} Remove All
-    %button.btn.btn-success.btn-xs.pull-right{'ng-click' => 'sendNotification(receiverList)', type: 'button'} Send notification
+    %button.btn.btn-success.btn-xs.pull-right{'ng-click' => 'sendNotification(receiverList); removeAllFromList(receiverList)', type: 'button'} Send notification
   .panel.panel-body
     %table.table.table-hover
       %thead
