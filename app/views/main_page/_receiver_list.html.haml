@@ -11,7 +11,7 @@
             %label Receivers per page
             %input.form-control{max: "100", min: "1", "ng-model" => "pageSize", type: "number"}/
   .panel-body{style: "margin-left: 5px;"}
-    %button.btn.btn-danger.btn-ms{"ng-click" => "toggleFilterForm()"} Filter
+    %button.btn.btn-primary.btn-ms{"ng-click" => "toggleFilterForm()"} Filter
     %hr
     .filter{"ng-hide" => "filterForm"}
       %form.form-inline{"ng-hide" => "filterForm"}
