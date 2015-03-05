@@ -32,6 +32,7 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.receiverCreateForm = true;
   $scope.receiverEditForm = true;
   $scope.ownerEditForm = true;
+  $scope.filterForm = true;
 
   $scope.orderByField = 'firstName';
   $scope.reverseSort = false;
@@ -49,6 +50,10 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
 
   $scope.toggleOwnerChange = function() {
     $scope.ownerEditForm = !$scope.ownerEditForm;
+  };
+
+  $scope.toggleFilterForm = function(){
+    $scope.filterForm = !$scope.filterForm;
   };
 
   $scope.postcards = Postcards.query();
