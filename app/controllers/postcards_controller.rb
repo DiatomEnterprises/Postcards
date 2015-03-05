@@ -3,7 +3,7 @@ class PostcardsController < ApplicationController
 
   def index
     receivers = ReceiverPresenter.new(params, current_account)
-    nder json: receivers
+    render json: receivers.list
   end
   
   def create

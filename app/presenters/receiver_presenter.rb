@@ -1,6 +1,6 @@
 class ReceiverPresenter
 
-  attr_reader :params, :account
+  attr_reader :account, :month, :start_date, :end_date
 
   def initialize(params, account)
     @account = account
@@ -11,20 +11,19 @@ class ReceiverPresenter
 
   def list
     if account.is_admin
-      for_admin
+      filter(Receiver.all)
     else
-      for_simple_user
+      filter(account.receivers)
     end
   end
 
   private
 
-  def for_admin
-    Receiver.where('extract(month from birthday) = ?', params["month"]).where(created_at: start_date..end_date)
-  end
-
-  def for_simple_user
-    account.receivers.where('extract(month from birthday) = ?', params["month"]).where(created_at: start_date..end_date)
+  def filter(receivers)
+    receivers_list = receivers
+    receivers_list = receivers.where('extract(month from birthday) = ?', month) if month.present?
+    receivers_list = receivers.where(created_at: start_date..end_date) if start_date.present? && end_date.present?
+    receivers_list
   end
 
 end
