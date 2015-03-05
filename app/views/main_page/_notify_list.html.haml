@@ -3,24 +3,26 @@
     %h3.panel-title 
     Receivers list
     %button.btn.btn-danger.btn-xs.pull-right{'ng-click' => 'removeAllFromList(receiverList)', type: 'button', style: 'margin-left: 10px;'} Remove All
-    %button.btn.btn-success.btn-xs.pull-right{'ng-click' => 'sendNotification(receiverList); removeAllFromList(receiverList)', type: 'button'} Send notification
+    %button.btn.btn-success.btn-xs.pull-right{'ng-click' => 'sendNotification(receiverList); removeAllFromList(receiverList)', type: 'button'} Send
   .panel.panel-body
+    %p.bg-warning{style: "padding: 20px;"}
+      By default it sends "Postcards" if you need "Birthday Cards" please select it below
     %table.table.table-hover
       %thead
         %tr
-          %th Name
+          %th 
+            Name
           %th
+            Type
           %th
             %label
               %input{"ng-click" => "checkAll()", "ng-model" => "selectedAll", :type => "checkbox"}
-              Select all
+              Send as Birthday Card
       %tbody{'ng-repeat' => 'receiver in receiverList'}
         %tr
           %td
             {{receiver.first_name}} {{receiver.last_name}}
           %td
-            %button.btn.btn-danger.btn-sm{'ng-click' => 'removeFromList(receiver)', type: "button"} Remove
+            Postcard
           %td
-            %label{style: "font-weight: normal;"}
-              %input{'ng-model' => 'receiver.bd_card', type: 'checkbox'} 
-              Birthday card
+            %button.btn.btn-danger.btn-sm{'ng-click' => 'removeFromList(receiver)', type: "button"} Remove
