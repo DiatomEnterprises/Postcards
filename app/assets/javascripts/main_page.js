@@ -7,7 +7,7 @@ app.factory("Postcards", [
       post: {method:'POST'},
       update: {method:'PUT', params: {id: '@id'}},
       remove: {method:'DELETE', params: {id: '@id'}},
-      show: {method:'get', params: {id: '@id', receivers: '@receivers'}}
+      show: {method:'get', params: {id: '@id', receivers: '@receivers', birthday: '@birthday'}}
     });
   }
 ]);
@@ -59,7 +59,6 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.postcards = Postcards.query();
   $scope.accounts = Accounts.query();
   $scope.receiverList = [];
-  $scope.filteredList = [];
 
   $scope.createReceiver = function() {
     var receiver = Postcards.save($scope.receiverCreateFormData);
@@ -101,8 +100,9 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   };
 
   $scope.addAllToList = function(){
+    console.log($scope.filteredList.length, $scope.filteredList);
     $scope.receiverList.push.apply($scope.receiverList, $scope.filteredList);
-    $scope.filteredList.filter($scope.filterList);
+    $scope.filterList();
   };
 
   $scope.removeFromList = function(receiver){
@@ -115,21 +115,28 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
     $scope.receiverList.splice($scope.receiverList);
   };
 
-  $scope.sendNotification = function(list){
-    console.log(list)
-    var i;
-    var receiver_ids = {'receivers' : {}};
-    for (i = 0; i < list.length; i++) {
-      receiver_ids['receivers'][list[i].id] = list[i].bd_card || false;
+  $scope.checkClosingReceiverList = function(){
+    if($scope.receiverList.length > 0)
+    {
+      return true;
+    }
+    else
+    {
+      $scope.birthdayPostcard = false;
+      return false;
     };
-    pdf = Postcards.show({ id: 1, receivers: receiver_ids});
+  };
+
+  $scope.sendNotification = function(list){
+    var receiver_ids = {};
+    for (i = 0; i < list.length; i++) {
+      receiver_ids['receiver_' + i] = list[i].id;
+    };
+
+    pdf = Postcards.show({ id: 1, receivers: receiver_ids, birthday: $scope.birthdayPostcard});
     pdf.$promise.then(function(data){
       $window.open( $window.location.protocol+"//"+$window.location.host+data.link );
     });
-  };
-
-  $scope.addBirthdayField = function (receiver){
-    receiver.bd_card = !receiver.bd_card  
   };
 
   $scope.filterReceivers = function() {
@@ -146,24 +153,30 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.currentPage = 1;
   $scope.pageSize = 10;
 
-  $scope.checkAll = function () {
-    angular.forEach($scope.receiverList, function (receiver) {
-      receiver.bd_card = $scope.selectedAll;
-    });
-  };
-
-  $scope.filterList = function (element) {
-    var index = $scope.postcards.indexOf(element);
-    if (index != -1)
-    {
+  $scope.filterList = function () {
+    for(i = 0; i < $scope.filteredList.length; i++) {
+      var index = $scope.postcards.indexOf($scope.filteredList[i]);
       $scope.postcards.splice(index, 1);
-    }
+    };
   };
 
   $scope.getValidDate = function () {
     return new Date($scope.receiverEditFormData.birthday);
   };
-  $scope.months = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
+  $scope.months = [
+    {key: "1", value: "01 - Jan"},
+    {key: "2", value: "02 - Feb"},
+    {key: "3", value: "03 - Mar"},
+    {key: "4", value: "04 - Apr"},
+    {key: "5", value: "05 - May"},
+    {key: "6", value: "06 - Jun"},
+    {key: "7", value: "07 - Jul"},
+    {key: "8", value: "08 - Aug"},
+    {key: "9", value: "09 - Sep"},
+    {key: "10", value: "10 - Oct"},
+    {key: "11", value: "11 - Nov"},
+    {key: "12", value: "12 - Dec"}
+  ];
 
   $scope.getBds = function() {
     var month = $scope.filterBd;

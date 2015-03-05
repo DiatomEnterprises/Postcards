@@ -34,10 +34,9 @@ class PostcardsController < ApplicationController
 
   def show
     json_receivers = JSON.parse(params[:receivers])
-    receiver_ids = json_receivers['receivers'].keys
-    birthdays = json_receivers['receivers'].values
+    receiver_ids = json_receivers.values
 
-    render json: {link: create_pdf_postcards_path(receiver_ids: receiver_ids, birthdays: birthdays)}
+    render json: {link: create_pdf_postcards_path(receiver_ids: receiver_ids, birthday: params['birthday'])}
   end
 
   def change_owner
@@ -46,7 +45,7 @@ class PostcardsController < ApplicationController
 
   def create_pdf
     @receivers = Receiver.find(params[:receiver_ids])
-    @birthdays = params[:birthdays]
+    @birthday = params[:birthday]
 
     mm_in_inch = 25.4
     page_height = mm_in_inch*5.5

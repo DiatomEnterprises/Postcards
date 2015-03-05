@@ -1,37 +1,31 @@
-.filter{"ng-hide" => "filterForm"}
-  / .row
-
-  %form.form-horizontal{"ng-submit" => "getBds()"}      
+.filter{'ng-hide' => 'filterForm'}
+  %form.form-horizontal{'ng-submit' => 'getBds()'}
     .form-group
-      %label.col-sm-2.control-label 
+      %label.col-sm-2.control-label
         Search in text: 
       .col-sm-2  
-        %input#search.form-control{"ng-model" => "searchText", placeholder:"Search..."}/
-  %hr
-  %form.form-horizontal{"ng-submit" => "getBds()"}
-    .form-group
-      %label.col-sm-2.control-label 
-        Birthdays for:
+        %input#search.form-control{'ng-model' => 'searchText', placeholder:'Search...'}/
+      %label.col-sm-2.control-label
+        Months:
       .col-sm-2 
-        %select.form-control{"ng-model" => "filterBd.month", "ng-options" => "currMonth for currMonth in months"}
-    .form-group
-      .col-sm-offset-2.col-sm-2
-        %button.btn.btn-xs.btn-primary{type: "submit", "ng-click" => "clearFilter()"} Find
-        %button.btn.btn-success.btn-xs{"ng-click" => "clearBds()", type: "button"} Clear
+        %select.form-control{'ng-model' => 'filterBd.month', 'ng-options' => 'currMonth.key as currMonth.value for currMonth in months'}
+      .col-sm-2
+        %button.btn.btn-xs.btn-primary{type: 'submit', 'ng-click' => 'clearFilter()'} Filter
+        %button.btn.btn-success.btn-xs{'ng-click' => 'clearBds()', type: 'button'} Clear
   %hr
-  %form.form-horizontal{"ng-submit" => "filterReceivers()"}
+  %form.form-horizontal{'ng-submit' => 'filterReceivers()'}
     .form-group
-      %label.col-sm-2.control-label 
+      %label.col-sm-2.control-label
         Start date:
       .col-sm-2  
-        %input.form-control{"ng-model" => "filterDate.start_date", type: "date", id: "birthpicker", style: "color: black;", class: 'form-control', required: ""}
-    .form-group
-      %label.col-sm-2.control-label  
+        %input.form-control{'ng-model' => 'filterDate.start_date', type: 'date', id: 'birthpicker', style: 'color: black;', class: 'form-control', required: ''}
+
+      %label.col-sm-2.control-label
         End date:
       .col-sm-2  
-        %input.form-contro{"ng-model" => "filterDate.end_date", type: "date", id: "birthpicker", style: "color: black;", class: 'form-control', required: ""}
-    .form-group
-      .col-sm-offset-2.col-sm-2
-        %button.btn.btn-xs.btn-primary{type: "submit", "ng-click" => "clearBds()"} Filter
-        %button.btn.btn-success.btn-xs{"ng-click" => "clearFilter()", type: "button"}  Clear filter
+        %input.form-contro{'ng-model' => 'filterDate.end_date', type: 'date', id: 'birthpicker', style: 'color: black;', class: 'form-control', required: ''}
+      .col-sm-2
+        %button.btn.btn-xs.btn-primary{type: 'submit', 'ng-click' => 'clearBds()'} Filter
+        %button.btn.btn-success.btn-xs{'ng-click' => 'clearFilter()', type: 'button'} Clear
+
   %hr
