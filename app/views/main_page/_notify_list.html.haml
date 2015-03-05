@@ -10,8 +10,10 @@
     %table.table.table-hover
       %thead
         %tr
-          %th Name
+          %th 
+            Name
           %th
+            Type
           %th
             %label
               %input{"ng-click" => "checkAll()", "ng-model" => "selectedAll", :type => "checkbox"}
@@ -21,5 +23,6 @@
           %td
             {{receiver.first_name}} {{receiver.last_name}}
           %td
+            Postcard
           %td
             %button.btn.btn-danger.btn-sm{'ng-click' => 'removeFromList(receiver)', type: "button"} Remove

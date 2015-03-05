@@ -154,7 +154,6 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
 
   $scope.getBds = function() {
     var month = $scope.filterBd;
-    // console.log(month);
     $scope.postcards = Postcards.query(month);
   };
 

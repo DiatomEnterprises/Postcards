@@ -65,7 +65,11 @@ class PostcardsController < ApplicationController
   end
 
   def destroy
-    render json:  Receiver.destroy(params[:id])
+    receiver = Receiver.destroy(params[:id])
+    if receiver
+      receiver.update_attribute(:is_deleted, true)
+      render json: receiver
+    end
   end
 
   private
