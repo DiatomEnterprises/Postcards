@@ -1,4 +1,4 @@
-class ReceiverPresenter
+class ReceiversPresenter
 
   attr_reader :account, :month, :start_date, :end_date
 

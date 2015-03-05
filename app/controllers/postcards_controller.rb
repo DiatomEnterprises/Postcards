@@ -2,7 +2,7 @@ class PostcardsController < ApplicationController
   respond_to :json, except: [:show, :create_pdf]
 
   def index
-    receivers = ReceiverPresenter.new(params, current_account)
+    receivers = ReceiversPresenter.new(params, current_account)
     render json: receivers.list
   end
   
