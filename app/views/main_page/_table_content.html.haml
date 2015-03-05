@@ -1,4 +1,4 @@
-%tr{"current-page" => "currentPage", "dir-paginate" => "receiver in postcards | filter:searchText | itemsPerPage: pageSize | orderBy:orderByField:reverseSort"}
+%tr{"current-page" => "currentPage", "dir-paginate" => "receiver in (filteredList=(postcards | filter:searchText)) | itemsPerPage: pageSize | orderBy:orderByField:reverseSort"}
   %td
     {{receiver.first_name}}
   %td 

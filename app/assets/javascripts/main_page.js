@@ -59,6 +59,7 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.postcards = Postcards.query();
   $scope.accounts = Accounts.query();
   $scope.receiverList = [];
+  $scope.filteredList = [];
 
   $scope.createReceiver = function() {
     var receiver = Postcards.save($scope.receiverCreateFormData);
@@ -155,7 +156,7 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
     var index = $scope.postcards.indexOf(element);
     if (index != -1)
     {
-      $scope.postcards.splice(index, 1)
+      $scope.postcards.splice(index, 1);
     }
   };
 
