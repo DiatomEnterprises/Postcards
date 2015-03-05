@@ -1,4 +1,4 @@
-var app = angular.module("Postcards", ["ngResource", 'angularUtils.directives.dirPagination']);
+var app = angular.module("Postcards", ["ngResource", 'ngRoute', 'angularUtils.directives.dirPagination']);
 
 app.factory("Postcards", [
   "$resource", function($resource) {
@@ -12,14 +12,6 @@ app.factory("Postcards", [
   }
 ]);
 
-app.factory("Account", [
-  "$resource", function($resource) {
-    return $resource('/accounts/:id', {}, {
-      show: { method: 'GET', params: {id: '@id'}}
-    });
-  }
-]);
-
 app.factory("Accounts", [
   "$resource", function($resource) {
     return $resource('/accounts', {}, {
@@ -28,7 +20,11 @@ app.factory("Accounts", [
   }
 ]);
 
-app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Accounts, Account) {
+app.controller("AccountsCtrl", function($scope, $http, $window, Accounts) {
+  $scope.accounts = Accounts.query();
+});
+
+app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Accounts) {
   $scope.receiverCreateForm = true;
   $scope.receiverEditForm = true;
   $scope.ownerEditForm = true;

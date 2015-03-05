@@ -2,24 +2,8 @@ class PostcardsController < ApplicationController
   respond_to :json, except: [:show, :create_pdf]
 
   def index
-    if current_account.is_admin?
-      receivers = Receiver.all.includes(:account)
-      if params["month"].present?
-        render json: receivers.where('extract(month from birthday) = ?', params["month"])
-      elsif params["start_date"] && params["end_date"]
-        render json: receivers.where(created_at: params["start_date"]..params["end_date"]).to_json(methods: :email)
-      else
-        render json: receivers.to_json(methods: :email)
-      end      
-    else
-      if params["month"].present?
-        render json: current_account.receivers.where('extract(month from birthday) = ?', params["month"])
-      elsif params["start_date"] && params["end_date"]
-        render json: current_account.receivers.where(birthday: params["start_date"]..params["end_date"])
-      else
-        render json: current_account.receivers
-      end
-    end
+    receivers = ReceiversPresenter.new(params, current_account)
+    render json: receivers.list
   end
   
   def create
@@ -28,8 +12,12 @@ class PostcardsController < ApplicationController
 
   def update
     receiver = Receiver.find(params[:id])
-    receiver.update(postcard_params)
-    render json: receiver.to_json(methods: :email)
+    if receiver
+      receiver.update(postcard_params)
+      render json: receiver.to_json(methods: :email)
+    else
+      render json: ""
+    end
   end
 
   def show
@@ -65,10 +53,12 @@ class PostcardsController < ApplicationController
 
   def destroy
     receiver = Receiver.destroy(params[:id])
-    if receiver
+    if receiver && current_account.is_admin
+      receiver.destroy
+    else
       receiver.update_attribute(:is_deleted, true)
-      render json: receiver
     end
+    render json: ""
   end
 
   private

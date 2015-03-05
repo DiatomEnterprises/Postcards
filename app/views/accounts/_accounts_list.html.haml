@@ -1,0 +1,15 @@
+.panel.panel-primary
+  .panel-heading{style: "margin-bottom:20px;"}
+    %h1.panel-title 
+      Accounts
+  .panel-body{style: "margin-left: 5px;"}
+    %table.table.table-hover
+      %thead
+        %tr
+          %th
+            E-mail
+      %tbody
+        %tr{"ng-repeat" => "account in accounts"}
+          %td
+            {{account.email}}
+
