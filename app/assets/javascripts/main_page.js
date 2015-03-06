@@ -96,7 +96,6 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   };
 
   $scope.addAllToList = function(){
-    console.log($scope.filteredList.length, $scope.filteredList);
     $scope.receiverList.push.apply($scope.receiverList, $scope.filteredList);
     $scope.filterList();
   };
@@ -149,9 +148,10 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.currentPage = 1;
   $scope.pageSize = 10;
 
-  $scope.filterList = function () {
-    for(i = 0; i < $scope.filteredList.length; i++) {
-      var index = $scope.postcards.indexOf($scope.filteredList[i]);
+  $scope.filterList = function() {
+    var index;
+    for (i = $scope.filteredList.length; i >= 0 ; i--) {
+      index = $scope.postcards.indexOf($scope.filteredList[i]);
       $scope.postcards.splice(index, 1);
     };
   };
@@ -159,6 +159,7 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
   $scope.getValidDate = function () {
     return new Date($scope.receiverEditFormData.birthday);
   };
+
   $scope.months = [
     {key: "1", value: "01 - Jan"},
     {key: "2", value: "02 - Feb"},
