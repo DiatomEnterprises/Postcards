@@ -11,7 +11,7 @@ class ReceiversPresenter
 
   def list
     if account.is_admin
-      filter(Receiver.all)
+      filter(Receiver.all.includes(:account)).to_json(methods: :email)
     else
       filter(account.receivers)
     end
