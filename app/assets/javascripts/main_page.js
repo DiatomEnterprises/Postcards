@@ -20,11 +20,11 @@ app.factory("Accounts", [
   }
 ]);
 
-app.controller("AccountsCtrl", function($scope, $http, $window, Accounts) {
+app.controller("AccountsCtrl", ["$scope", "$http", "$window", "Accounts", function($scope, $http, $window, Accounts) {
   $scope.accounts = Accounts.query();
-});
+}]);
 
-app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Accounts) {
+app.controller("PostcardsCtrl", ["$scope", "$http", "$window", "Postcards", "Accounts", function($scope, $http, $window, Postcards, Accounts) {
   $scope.receiverCreateForm = true;
   $scope.receiverEditForm = true;
   $scope.ownerEditForm = true;
@@ -185,4 +185,4 @@ app.controller("PostcardsCtrl", function($scope, $http, $window, Postcards, Acco
     $scope.postcards = Postcards.query();
   };
 
-});
+}]);
