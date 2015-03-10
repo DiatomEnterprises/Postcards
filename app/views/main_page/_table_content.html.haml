@@ -14,12 +14,14 @@
     {{receiver.country}}
   %td
     {{receiver.zip}}
-  / %td
-  /   {{receiver.address_line_1}}
-  /   %br
-  /   {{receiver.address_line_2}}
-  /   %br
-  /   {{receiver.address_line_3}}
+  - if current_account.is_admin?
+    %td
+      %div{"ng-if" => "receiver.is_deleted == true"}
+        %span.label.label-danger 
+          {{receiver.is_deleted}}
+      %div{"ng-if" => "receiver.is_deleted == false"}
+        %span.label.label-success 
+          {{receiver.is_deleted}}
   %td
     %button.btn.btn-success.btn-xs{"ng-click" => "toggleEdit(false, receiver)", type: "button", style: "margin-bottom: 5px;"} Edit
     %br
