@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 20150305104326) do
     t.integer  "account_id"
     t.string   "state_or_province"
     t.date     "birthday"
-    t.boolean  "is_deleted"
+    t.boolean  "is_deleted",        default: false
   end
 
 end
