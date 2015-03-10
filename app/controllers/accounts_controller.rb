@@ -48,7 +48,7 @@ class AccountsController < ApplicationController
     if params[:action] == "update"
       check_password
     end
-    params.require(:account).permit(:email, :first_name, :last_name, :password, :password_confirmation)
+    params.require(:account).permit(:email, :first_name, :last_name, :password, :password_confirmation, :is_admin)
   end
 
   def check_password

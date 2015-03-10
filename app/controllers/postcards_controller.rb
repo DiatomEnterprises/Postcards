@@ -50,9 +50,11 @@ class PostcardsController < ApplicationController
   end
 
   def destroy
-    receiver = Receiver.destroy(params[:id])
-    if receiver
-      receiver.update_attribute(:is_deleted, true)
+    @receiver = Receiver.destroy(params[:id])
+    if @receiver.present? && current_account.is_admin
+      @receiver.destroy
+    else
+      @receiver.update_attribute(:is_deleted, true)
     end
   end
 
