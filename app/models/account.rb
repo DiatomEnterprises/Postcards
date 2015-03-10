@@ -5,5 +5,7 @@ class Account < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many :receivers
+
+  validates :first_name, :last_name, presence: true
   
 end
