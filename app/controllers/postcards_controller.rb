@@ -15,8 +15,6 @@ class PostcardsController < ApplicationController
     if receiver
       receiver.update(postcard_params)
       render json: receiver.to_json(methods: :email)
-    else
-      render json: ""
     end
   end
 
@@ -53,12 +51,9 @@ class PostcardsController < ApplicationController
 
   def destroy
     receiver = Receiver.destroy(params[:id])
-    if receiver && current_account.is_admin
-      receiver.destroy
-    else
+    if receiver
       receiver.update_attribute(:is_deleted, true)
     end
-    render json: ""
   end
 
   private

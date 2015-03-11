@@ -14,7 +14,7 @@ app.factory("Postcards", [
 
 app.factory("Accounts", [
   "$resource", function($resource) {
-    return $resource('/accounts', {}, {
+    return $resource('/accounts.json', {}, {
       query: {method:'GET', params:{id:''}, isArray:true}
     });
   }

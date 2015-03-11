@@ -2,14 +2,39 @@
   .panel-heading{style: "margin-bottom:20px;"}
     %h1.panel-title 
       Accounts
+      = link_to "Add new +", new_account_path, class: "btn btn-success btn-sm", style: "margin-left: 10px;"
   .panel-body{style: "margin-left: 5px;"}
     %table.table.table-hover
       %thead
         %tr
           %th
+            Id
+          %th
+            First name
+          %th
+            Last name
+          %th
             E-mail
+          %th
+            Role
       %tbody
-        %tr{"ng-repeat" => "account in accounts"}
-          %td
-            {{account.email}}
+        - @accounts.each do |account|
+          %tr
+            %td
+              = account.id
+            %td
+              = account.first_name
+            %td
+              = account.last_name
+            %td
+              = account.email
+            %td
+              - if account.is_admin?
+                %span.label.label-danger Admin
+              - else
+                %span.label.label-primary Simple user
+            %td
+              = link_to "Edit", edit_account_path(account), class: "btn btn-success btn-xs", style: "margin-bottom: 5px;"  
+              %br            
+              = link_to "Delete", account, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-xs"              
 

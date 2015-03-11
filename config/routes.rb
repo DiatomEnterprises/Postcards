@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  devise_for :accounts
+  devise_for :accounts, :skip => [:registrations]
   root 'main_page#index'
 
   resources :postcards do
