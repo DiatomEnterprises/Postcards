@@ -2,19 +2,29 @@ class PostcardsController < ApplicationController
   respond_to :json, except: [:show, :create_pdf]
 
   def index
-    receivers = ReceiversPresenter.new(params, current_account)
-    render json: receivers.list
+    @receivers = ReceiversPresenter.new(params, current_account).list
   end
   
   def create
-    render json: current_account.receivers.create(postcard_params)
+    @receiver = current_account.receivers.create(postcard_params)
   end
 
   def update
-    receiver = Receiver.find(params[:id])
-    if receiver
-      receiver.update(postcard_params)
-      render json: receiver.to_json(methods: :email)
+    @receiver = Receiver.find(params[:id])
+    if @receiver
+      @receiver.is_deleted = false unless @receiver.account_id == postcard_params['account_id'].to_i
+      @receiver.update(postcard_params)
+    end
+  end
+
+  def destroy
+    @receiver = Receiver.find(params[:id])
+    if @receiver
+      if current_account.is_admin?
+        @receiver.destroy
+      else
+        @receiver.update_attribute(:is_deleted, true)
+      end
     end
   end
 
@@ -23,10 +33,6 @@ class PostcardsController < ApplicationController
     receiver_ids = json_receivers.values
 
     render json: {link: create_pdf_postcards_path(receiver_ids: receiver_ids, birthday: params['birthday'])}
-  end
-
-  def change_owner
-
   end
 
   def create_pdf
@@ -47,13 +53,6 @@ class PostcardsController < ApplicationController
                  left:    0,
                  right:   "10mm"}
 
-  end
-
-  def destroy
-    receiver = Receiver.destroy(params[:id])
-    if receiver
-      receiver.update_attribute(:is_deleted, true)
-    end
   end
 
   private

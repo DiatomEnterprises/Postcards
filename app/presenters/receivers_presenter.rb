@@ -4,14 +4,14 @@ class ReceiversPresenter
 
   def initialize(params, account)
     @account = account
-    @month = params.fetch("month", nil)
-    @start_date = params.fetch("start_date", nil)
-    @end_date = params.fetch("end_date", nil)
+    @month = params.fetch('month', nil)
+    @start_date = params.fetch('start_date', nil)
+    @end_date = params.fetch('end_date', nil)
   end
 
   def list
-    if account.is_admin
-      filter(Receiver.all.includes(:account)).to_json(methods: :email)
+    if account.is_admin?
+      filter(Receiver.all.includes(:account))
     else
       filter(account.receivers.where(is_deleted: false))
     end

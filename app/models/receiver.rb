@@ -4,6 +4,6 @@ class Receiver < ActiveRecord::Base
   delegate :email, to: :account
 
   def fullname
-    "#{first_name} #{last_name}"
+    '#{first_name} #{last_name}'
   end
 end

@@ -13,13 +13,13 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
-gem "therubyracer"
+gem 'therubyracer'
 gem 'autoprefixer-rails'
-gem "bootstrap-sass", "~> 3.3.1"
+gem 'bootstrap-sass', "~> 3.3.1"
 gem 'rails_12factor', group: :production
 
-gem "haml"
-gem "haml-rails"
+gem 'haml'
+gem 'haml-rails'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
@@ -39,8 +39,11 @@ gem 'angularjs-rails', '~> 1.3.8'
 gem 'devise', '~> 3.4.1'
 gem 'pry'
 gem 'rabl'
+gem 'oj'
 
 gem 'faker'
+
+gem 'pundit'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

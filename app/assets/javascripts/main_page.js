@@ -1,30 +1,102 @@
-var app = angular.module("Postcards", ["ngResource", 'ngRoute', 'angularUtils.directives.dirPagination']);
+var app = angular.module('Postcards', ['ngResource', 'ngRoute', 'ngTagsInput', 'angularUtils.directives.dirPagination']);
 
-app.factory("Postcards", [
-  "$resource", function($resource) {
-    return $resource('/postcards/:id', {}, {
+app.config(function($routeProvider, $locationProvider) {
+  // $locationProvider.html5Mode(true);
+  $routeProvider
+    .when('/', {
+      templateUrl : 'postcards/index.html',
+      controller  : 'PostcardsCtrl'
+    })
+
+    .when('/postcards', {
+      templateUrl : 'postcards/index.html',
+      controller  : 'PostcardsCtrl'
+    })
+
+    .when('/accounts', {
+      templateUrl : 'accounts/index.html',
+      controller  : 'AccountsCtrl'
+    });
+});
+
+app.factory('Postcards', [
+  '$resource', function($resource) {
+    return $resource('/postcards/:id.json', {}, {
       query: {method:'GET', params:{id:''}, isArray:true},
       post: {method:'POST'},
       update: {method:'PUT', params: {id: '@id'}},
       remove: {method:'DELETE', params: {id: '@id'}},
-      show: {method:'get', params: {id: '@id', receivers: '@receivers', birthday: '@birthday'}}
+      show: {method:'GET', params: {id: '@id', receivers: '@receivers', birthday: '@birthday'}}
     });
   }
 ]);
 
-app.factory("Accounts", [
-  "$resource", function($resource) {
-    return $resource('/accounts.json', {}, {
-      query: {method:'GET', params:{id:''}, isArray:true}
+app.factory('Accounts', [
+  '$resource', function($resource) {
+    return $resource('/accounts/:id.json', {}, {
+      query: {method:'GET', params:{id:''}, isArray:true},
+      post: {method:'POST'},
+      update: {method:'PUT', params: {id: '@id'}},
+      remove: {method:'DELETE', params: {id: '@id'}},
+      get_roles: {method:'get', params: {id: 'get_roles'}}
     });
   }
 ]);
 
-app.controller("AccountsCtrl", ["$scope", "$http", "$window", "Accounts", function($scope, $http, $window, Accounts) {
+app.controller('AccountsCtrl', ['$scope', '$http', '$window', 'Accounts', function($scope, $http, $window, Accounts) {
+  $scope.accountEditForm = true;
+  $scope.accountCreateForm = true;
+  $scope.roleCreateForm = true;
   $scope.accounts = Accounts.query();
+  $scope.roles = Accounts.get_roles();
+
+  $scope.accountToggleEdit = function(state, account) {
+    $scope.accountEditForm = state;
+    $scope.accountEditFormData = account;
+  };
+
+  $scope.accountToggleCreate = function() {
+    $scope.accountCreateForm = !$scope.accountCreateForm;
+    $scope.accountCreateFormData = {};
+  };
+
+  $scope.accountToggleDelete = function(account){
+    if (confirm('Are you sure you want to delete this account?')){
+      account.$remove({ id: account.id }, function(){
+        $scope.accounts.splice($scope.accounts.indexOf(account), 1);
+      });
+    }
+  };
+
+  $scope.accountUpdate = function(){
+    var account = $scope.accountEditFormData;
+    account.roles = angular.toJson($scope.normalRoles(account.roles));
+    account.$update(account);
+    $scope.accountToggleEdit(true, account);
+    return $scope.accountEditFormData = {};
+  };
+
+  $scope.accountCreate = function() {
+    $scope.accountCreateFormData.roles = $scope.normalRoles($scope.accountCreateFormData.roles);
+    var account = Accounts.save($scope.accountCreateFormData);
+    $scope.accounts.push(account);
+    $scope.accountToggleCreate();
+  };
+
+  $scope.normalRoles = function(roles) {
+    if(Object.prototype.toString.call(roles[0]) == '[object Object]')
+      return roles.map(function(role) { return role.text; });
+    else return roles;
+  };
+
+  $scope.textRoles = function() {
+    array = [], text = {};
+    $scope.roles.roles.map(function(role) { array.push(text['text'] = role) });
+    return array;
+  };
 }]);
 
-app.controller("PostcardsCtrl", ["$scope", "$http", "$window", "Postcards", "Accounts", function($scope, $http, $window, Postcards, Accounts) {
+app.controller('PostcardsCtrl', ['$scope', '$http', '$window', 'Postcards', 'Accounts', function($scope, $http, $window, Postcards, Accounts) {
   $scope.receiverCreateForm = true;
   $scope.receiverEditForm = true;
   $scope.ownerEditForm = true;
@@ -53,7 +125,6 @@ app.controller("PostcardsCtrl", ["$scope", "$http", "$window", "Postcards", "Acc
   };
 
   $scope.postcards = Postcards.query();
-  $scope.accounts = Accounts.query();
   $scope.receiverList = [];
 
   $scope.createReceiver = function() {
@@ -71,7 +142,7 @@ app.controller("PostcardsCtrl", ["$scope", "$http", "$window", "Postcards", "Acc
   };
 
   $scope.deleteReceiver = function(receiver){
-    if (confirm("Are you sure you want to delete this receiver?")){
+    if (confirm('Are you sure you want to delete this receiver?')){
       receiver.$remove({ id: receiver.id }, function(){
         $scope.postcards.splice( $scope.postcards.indexOf(receiver), 1 );
       });
@@ -158,6 +229,10 @@ app.controller("PostcardsCtrl", ["$scope", "$http", "$window", "Postcards", "Acc
 
   $scope.getValidDate = function () {
     return new Date($scope.receiverEditFormData.birthday);
+  };
+
+  $scope.getAccounts = function () {
+    $scope.accounts = Accounts.query();
   };
 
   $scope.months = [

@@ -1,4 +1,19 @@
 .container-fluid
-  .row
+  .row{'ng-controller' => 'AccountsCtrl'}
     .col-xs-8
-      = render partial: "accounts_list"
+      = render partial: 'accounts/accounts_list'
+    .col-xs-4
+      .panel.panel-primary{'ng-hide' => 'accountCreateForm'}
+        .panel-heading
+          %h1.panel-title 
+            Add new contact
+            %button.btn.btn-danger.btn-xs.pull-right{style: 'margin-left:10px;', 'ng-click' => 'accountToggleCreate()', type: 'submit'} X
+        .panel-body  
+          = render partial: 'accounts/create'
+      .panel.panel-primary{'ng-hide' => 'accountEditForm'}
+        .panel-heading
+          %h1.panel-title 
+            Edit account
+            %button.btn.btn-danger.btn-xs.pull-right{style: 'margin-left:10px;', 'ng-click' => 'accountToggleEdit(true, accountFormData)', type: 'submit'} X
+        .panel-body  
+          = render partial: 'accounts/edit'

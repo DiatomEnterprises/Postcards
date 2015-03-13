@@ -1,17 +1,17 @@
-%form.form-horizontal{"ng-submit" => "updateOwner()"}
+%form.form-horizontal{'ng-submit' => 'updateOwner()'}
   .form-group
     %label.col-sm-5.control-label Find contacts for: 
-    .col-sm-7{"data-ng-init" => "getAllAccount()"}
-      %select{"ng-model" => "ownerFormData.current_account_id"}
-        %option{"ng-repeat" => "account in accounts", value: "{{account.id}}"}
-          %a{"ng-click" => "getOwnerConacts(account.id)"}  
+    .col-sm-7
+      %select{'ng-model' => 'ownerFormData.current_account_id'}
+        %option{'ng-repeat' => 'account in accounts', value: '{{account.id}}'}
+          %a{'ng-click' => 'getOwnerConacts(account.id)'}  
             {{account.email}} 
   .form-group
     %label.col-sm-5.control-label Select new owner:
-    .col-sm-7{"data-ng-init" => "getAllAccount()"}
-      %select{"ng-model" => "ownerFormData.new_account_id"}
-        %option{"ng-repeat" => "account in accounts", value: "{{account.id}}"}
+    .col-sm-7
+      %select{'ng-model' => 'ownerFormData.new_account_id'}
+        %option{'ng-repeat' => 'account in accounts', value: '{{account.id}}'}
           {{account.email}} 
   .form-group
     .col-sm-offset-3.col-sm-7
-      %button.btn.btn-primary{type: "submit"} update
+      %button.btn.btn-primary{type: 'submit'} update

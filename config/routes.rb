@@ -9,8 +9,17 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :accounts
+  resources :accounts do
+    collection do
+      get 'get_roles'
+    end
+  end
   resources :owners
+  resources :main_page do
+    collection do
+      get 'accounts'
+    end
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

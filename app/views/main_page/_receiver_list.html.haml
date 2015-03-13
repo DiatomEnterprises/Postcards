@@ -1,25 +1,25 @@
 .panel.panel-primary
-  .panel-heading{style: "margin-bottom:20px;"}
+  .panel-heading{style: 'margin-bottom:20px;'}
     %h1.panel-title 
       Contacts
-      %button.btn.btn-success.btn-sm{style: "margin-left: 10px;", "ng-click" => "toggleCreate()"} Add new receiver +
+      %button.btn.btn-success.btn-sm{style: 'margin-left: 10px;', 'ng-click' => 'toggleCreate()'} Add new receiver +
       - if current_account.is_admin?  
-        %button.btn.btn-success.btn-sm{style: "margin-left: 10px;", "ng-click" => "toggleOwnerChange()"} Edit contact owner
+        %button.btn.btn-success.btn-sm{style: 'margin-left: 10px;', 'ng-click' => 'toggleOwnerChange()'} Edit contact owner
       .col-xs-5.pull-right
         %form.form-inline
           .form-group.pull-right
             %label Receivers per page
-            %input.form-control{max: "100", min: "1", "ng-model" => "pageSize", type: "number"}/
-  .panel-body{style: "margin-left: 5px;"}
-    %button.btn.btn-primary.btn-ms{"ng-click" => "toggleFilterForm()"} Filter
+            %input.form-control{max: '100', min: '1', 'ng-model' => 'pageSize', type: 'number'}/
+  .panel-body{style: 'margin-left: 5px;'}
+    %button.btn.btn-primary.btn-ms{'ng-click' => 'toggleFilterForm()'} Filter
     %hr
-    = render partial: "filter"
+    = render partial: 'filter'
     %table.table.table-hover
       %thead
-        = render partial: "table_header"
+        = render partial: 'table_header'
 
-      %dir-pagination-controls{"boundary-links" => "true", "on-page-change" => "pageChangeHandler(newPageNumber)", "template-url" => "dirPagination.tpl.html"} # pagination
+      %dir-pagination-controls{'boundary-links' => 'true', 'on-page-change' => 'pageChangeHandler(newPageNumber)', 'template-url' => 'dirPagination.tpl.html'} # pagination
       %tbody
-        = render partial: "table_content"
+        = render partial: 'table_content'
 
-    %dir-pagination-controls{"boundary-links" => "true", "on-page-change" => "pageChangeHandler(newPageNumber)", "template-url" => "dirPagination.tpl.html"} # pagination
+    %dir-pagination-controls{'boundary-links' => 'true', 'on-page-change' => 'pageChangeHandler(newPageNumber)', 'template-url' => 'dirPagination.tpl.html'} # pagination

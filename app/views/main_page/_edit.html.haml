@@ -24,22 +24,22 @@
     .col-sm-7
       %input.form-control{'ng-model' => 'receiverEditFormData.address_line_1', placeholder: 'Address line 1', type: 'text', required: ''}/
   .form-group
-    %label.col-sm-5.control-label Address line 5
+    %label.col-sm-5.control-label Address line 2
     .col-sm-7
-      %input.form-control{'ng-model' => 'receiverEditFormData.address_line_5', placeholder: 'Address line 5', type: 'text'}/
+      %input.form-control{'ng-model' => 'receiverEditFormData.address_line_2', placeholder: 'Address line 2', type: 'text'}/
   .form-group
-    %label.col-sm-5.control-label Address line 5
+    %label.col-sm-5.control-label Address line 3
     .col-sm-7
-      %input.form-control{'ng-model' => 'receiverEditFormData.address_line_5', placeholder: 'Address line 5', type: 'text'}/
+      %input.form-control{'ng-model' => 'receiverEditFormData.address_line_3', placeholder: 'Address line 3', type: 'text'}/
   .form-group
-    %label.col-sm-5.control-label birthday
+    %label.col-sm-5.control-label Birthday
     .col-sm-7
       %input.form-control{'ng-model' => 'receiverEditFormData.birthday', type: 'date', id: 'birthpicker', style: 'color: black;', required: ''}
 
   - if current_account.is_admin?
     .form-group
-      %label.col-sm-5.control-label Address line 5
-      .col-sm-7{'data-ng-init' => 'getAllAccount()'}
+      %label.col-sm-5.control-label Owner
+      .col-sm-7
         %select.form-control{'ng-model' => 'receiverEditFormData.account_id'}
           %option{'ng-repeat' => 'account in accounts', value: '{{account.id}}'}
             {{account.email}}

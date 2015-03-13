@@ -1,9 +1,9 @@
 .panel.panel-primary
-  .panel-heading{style: "margin-bottom:20px;"}
+  .panel-heading{style: 'margin-bottom:20px;'}
     %h1.panel-title 
       Accounts
-      = link_to "Add new +", new_account_path, class: "btn btn-success btn-sm", style: "margin-left: 10px;"
-  .panel-body{style: "margin-left: 5px;"}
+      %button.btn.btn-success.btn-sm{'ng-click' => 'accountToggleCreate()', type: 'button', style: 'margin-left: 10px;'} Add new account
+  .panel-body{style: 'margin-left: 5px;'}
     %table.table.table-hover
       %thead
         %tr
@@ -17,24 +17,21 @@
             E-mail
           %th
             Role
+          %th
       %tbody
-        - @accounts.each do |account|
-          %tr
-            %td
-              = account.id
-            %td
-              = account.first_name
-            %td
-              = account.last_name
-            %td
-              = account.email
-            %td
-              - if account.is_admin?
-                %span.label.label-danger Admin
-              - else
-                %span.label.label-primary Simple user
-            %td
-              = link_to "Edit", edit_account_path(account), class: "btn btn-success btn-xs", style: "margin-bottom: 5px;"  
-              %br            
-              = link_to "Delete", account, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-xs"              
-
+        %tr{'ng-repeat' => 'account in accounts' }
+          %td
+            {{account.id}}
+          %td 
+            {{account.first_name}}
+          %td
+            {{account.last_name}}
+          %td
+            {{account.email}}
+          %td{style: 'width: 30%'}
+            %span.label.label-primary{'ng-repeat' => 'role in normalRoles(account.roles) track by $index', style: 'margin-left: 5px'}
+              {{role}}
+          %td
+            %button.btn.btn-success.btn-xs{'ng-click' => 'accountToggleEdit(false, account)', type: 'button', style: 'margin-bottom: 5px;'} Edit
+            %br
+            %button.btn.btn-danger.btn-xs{'ng-click' => 'accountToggleDelete(account)', type: 'button', style: 'margin-bottom: 5px;'} Delete

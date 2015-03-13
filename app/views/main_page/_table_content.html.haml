@@ -1,4 +1,4 @@
-%tr{"current-page" => "currentPage", "dir-paginate" => "receiver in (filteredList = (postcards | filter:searchText)) | itemsPerPage: pageSize | orderBy:orderByField:reverseSort"}
+%tr{'current-page' => 'currentPage', 'dir-paginate' => 'receiver in (filteredList = (postcards | filter:searchText)) | itemsPerPage: pageSize | orderBy:orderByField:reverseSort'}
   %td
     {{receiver.first_name}}
   %td 
@@ -7,7 +7,7 @@
     %td
       {{receiver.email}}
   %td
-    {{receiver.birthday | date:"MM/dd/yyyy"}}
+    {{receiver.birthday | date:'MM/dd/yyyy'}}
   %td
     {{receiver.city}}
   %td
@@ -16,15 +16,15 @@
     {{receiver.zip}}
   - if current_account.is_admin?
     %td
-      %div{"ng-if" => "receiver.is_deleted == true"}
+      %div{'ng-if' => 'receiver.is_deleted == true'}
         %span.label.label-danger 
           {{receiver.is_deleted}}
-      %div{"ng-if" => "receiver.is_deleted == false"}
+      %div{'ng-if' => 'receiver.is_deleted == false'}
         %span.label.label-success 
           {{receiver.is_deleted}}
   %td
-    %button.btn.btn-success.btn-xs{"ng-click" => "toggleEdit(false, receiver)", type: "button", style: "margin-bottom: 5px;"} Edit
+    %button.btn.btn-success.btn-xs{'ng-click' => 'toggleEdit(false, receiver)', type: 'button', style: 'margin-bottom: 5px;'} Edit
     %br
-    %button.btn.btn-danger.btn-xs{"ng-click" => "deleteReceiver(receiver)", type: "button", style: "margin-bottom: 5px;"} Delete
+    %button.btn.btn-danger.btn-xs{'ng-click' => 'deleteReceiver(receiver)', type: 'button', style: 'margin-bottom: 5px;'} Delete
     %br
-    %button.btn.btn-primary.btn-xs{"ng-click" => "addToList(receiver)", type: "button", style: "margin-bottom: 5px;"} Add to list
+    %button.btn.btn-primary.btn-xs{'ng-click' => 'addToList(receiver)', type: 'button', style: 'margin-bottom: 5px;'} Add to list
