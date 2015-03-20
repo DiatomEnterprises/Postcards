@@ -1,4 +1,4 @@
-%form.form-horizontal{'ng-submit' => 'createReceiver()'}
+%form.form-horizontal{'ng-submit' => 'receiverCreate()'}
   .form-group
     %label.col-sm-4.control-label First name
     .col-sm-7
@@ -10,15 +10,15 @@
   .form-group
     %label.col-sm-4.control-label City
     .col-sm-7
-      %input.form-control{'ng-model' => 'receiverCreateFormData.city', placeholder: 'City', type: 'text'}/
+      %input.form-control{'ng-model' => 'receiverCreateFormData.city', placeholder: 'City', type: 'text', required: ''}/
   .form-group
     %label.col-sm-4.control-label Country
     .col-sm-7
-      %input.form-control{'ng-model' => 'receiverCreateFormData.country', placeholder: 'Country', type: 'text'}/
+      %input.form-control{'ng-model' => 'receiverCreateFormData.country', placeholder: 'Country', type: 'text', required: ''}/
   .form-group
     %label.col-sm-4.control-label Zip
     .col-sm-7
-      %input.form-control{'ng-model' => 'receiverCreateFormData.zip', placeholder: 'Zip', type: 'text'}/
+      %input.form-control{'ng-model' => 'receiverCreateFormData.zip', placeholder: 'Zip', type: 'text', required: ''}/
   .form-group
     %label.col-sm-4.control-label Address line 1
     .col-sm-7
@@ -30,7 +30,7 @@
   .form-group
     %label.col-sm-4.control-label Address line 3
     .col-sm-7
-      %input.form-control{'ng-model' => 'receiverCreateFormData.address_line_3', placeholder: 'Address line 4', type: 'text'}/
+      %input.form-control{'ng-model' => 'receiverCreateFormData.address_line_3', placeholder: 'Address line 3', type: 'text'}/
   .form-group
     %label.col-sm-4.control-label Birthday
     .col-sm-7

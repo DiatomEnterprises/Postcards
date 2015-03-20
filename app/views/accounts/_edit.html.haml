@@ -1,34 +1,32 @@
-%form.form-horizontal{'ng-submit' => 'accountUpdate()'}
+%form.form-horizontal{'ng-submit' => 'accountUpdate()', name: 'edit_form'}
   .form-group
-    %label.col-sm-5.control-label Fist name
+    %label.col-sm-4.control-label Fist name
     .col-sm-7
       %input.form-control{'ng-model' => 'accountEditFormData.first_name', placeholder: 'First name', type: 'text', required: ''}/
   .form-group
-    %label.col-sm-5.control-label Last name
+    %label.col-sm-4.control-label Last name
     .col-sm-7
       %input.form-control{'ng-model' => 'accountEditFormData.last_name', placeholder: 'Last name', type: 'text', required: ''}/
   .form-group
-    %label.col-sm-5.control-label Email
+    %label.col-sm-4.control-label Email
     .col-sm-7
       %input.form-control{'ng-model' => 'accountEditFormData.email', placeholder: 'Email', type: 'email', required: ''}/
   .form-group
-    %label.col-sm-5.control-label Password
+    %label.col-sm-4.control-label Password
     .col-sm-7
       %input.form-control{'ng-model' => 'accountEditFormData.password', placeholder: 'Password', type: 'password', minlength: 8}/
-    - if @validatable
-      %em
-        (#{@minimum_password_length} characters minimum)
   .form-group
-    %label.col-sm-5.control-label Password confirmation
+    %label.col-sm-4.control-label Password confirmation
     .col-sm-7
-      %input.form-control{'ng-model' => 'accountEditFormData.password_confirmation', placeholder: 'Password confirmation', type: 'password', minlength: 8}/
+      %input.form-control{'ng-model' => 'accountEditFormData.password_confirmation', placeholder: 'Password confirmation', type: 'password', minlength: 8, 'ui-validate' => "'$value==accountEditFormData.password'", 'ui-validate-watch' => "'accountEditFormData.password'", name: 'password_confirmation'}/
+      %span{'ng-show' => 'edit_form.password_confirmation.$error.validator'} Passwords do not match!
   .form-group
-    %label.col-sm-5.control-label Roles
+    %label.col-sm-4.control-label Roles
     .col-sm-7
-      %tags-input{'ng-model' => 'accountEditFormData.roles', class: 'bootstrap', placeholder: 'Split with comma', type: 'text', required: ''}
+      %tags-input{'ng-model' => 'accountEditFormData.roles', class: 'bootstrap', placeholder: 'Split with comma', type: 'text'}
         %auto-complete{source: 'textRoles()'}/
 
   .form-group
-    .col-sm-offset-5.col-sm-7
-      %button.btn.btn-xs.btn-primary{type: 'submit'} Update
+    .col-sm-offset-4.col-sm-7
+      %button.btn.btn-xs.btn-primary{'ng-disabled' => 'formValidations(edit_form, accountEditFormData)', type: 'submit'} Update
       %a.btn.btn-xs.btn-danger{type: 'button', 'ng-click' => 'accountToggleEdit(true, accountEditFormData)'} Cancel

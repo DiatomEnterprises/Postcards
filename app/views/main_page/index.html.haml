@@ -7,14 +7,14 @@
         .panel-heading
           %h1.panel-title 
             Add new contact
-            %button.btn.btn-danger.btn-xs.pull-right{style: 'margin-left:10px;', 'ng-click' => 'toggleCreate()', type: 'submit'} X
+            %button.btn.btn-danger.btn-xs.pull-right{style: 'margin-left:10px;', 'ng-click' => 'receiverToggleCreate()', type: 'submit'} X
         .panel-body  
           = render partial: 'create'
       .panel.panel-primary{'ng-hide' => 'receiverEditForm'}
         .panel-heading
           %h1.panel-title 
             Edit contact
-            %button.btn.btn-danger.btn-xs.pull-right{style: 'margin-left:10px;', 'ng-click' => 'toggleEdit(true, receiverFormData)', type: 'submit'} X
+            %button.btn.btn-danger.btn-xs.pull-right{style: 'margin-left:10px;', 'ng-click' => 'receiverToggleEdit(true, receiverFormData)', type: 'submit'} X
         .panel-body  
           = render partial: 'edit'
 
@@ -25,6 +25,6 @@
           .panel-heading{'data-ng-init' => 'getAccounts()'}
             %h1.panel-title 
               Edit contact owner
-              %button.btn.btn-danger.btn-xs.pull-right{style: 'margin-left:10px;', 'ng-click' => 'toggleOwnerChange()', type: 'submit'} X
+              %button.btn.btn-danger.btn-xs.pull-right{style: 'margin-left:10px;', 'ng-click' => 'ownerToggleChange()', type: 'submit'} X
           .panel-body  
             = render partial: 'change_owner'

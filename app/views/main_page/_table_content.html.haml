@@ -23,8 +23,8 @@
         %span.label.label-success 
           {{receiver.is_deleted}}
   %td
-    %button.btn.btn-success.btn-xs{'ng-click' => 'toggleEdit(false, receiver)', type: 'button', style: 'margin-bottom: 5px;'} Edit
+    %button.btn.btn-success.btn-xs{'ng-click' => 'receiverToggleEdit(false, receiver)', type: 'button', style: 'margin-bottom: 5px;'} Edit
     %br
-    %button.btn.btn-danger.btn-xs{'ng-click' => 'deleteReceiver(receiver)', type: 'button', style: 'margin-bottom: 5px;'} Delete
+    %button.btn.btn-danger.btn-xs{'ng-click' => 'receiverToggleDelete(receiver)', type: 'button', style: 'margin-bottom: 5px;'} Delete
     %br
     %button.btn.btn-primary.btn-xs{'ng-click' => 'addToList(receiver)', type: 'button', style: 'margin-bottom: 5px;'} Add to list

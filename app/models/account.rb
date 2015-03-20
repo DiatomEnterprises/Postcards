@@ -28,6 +28,7 @@ class Account < ActiveRecord::Base
   end
 
   def has_role?(given_role)
+    self.roles = [] if self.roles == nil
     roles.include?(given_role.to_s)
   end
 

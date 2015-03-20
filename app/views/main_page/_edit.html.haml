@@ -1,49 +1,49 @@
-%form.form-horizontal{'ng-submit' => 'updateReceiver()'}
+%form.form-horizontal{'ng-submit' => 'receiverUpdate()'}
   .form-group
-    %label.col-sm-5.control-label Fist name
+    %label.col-sm-4.control-label Fist name
     .col-sm-7
       %input.form-control{'ng-model' => 'receiverEditFormData.first_name', placeholder: 'First name', type: 'text', required: ''}/
   .form-group
-    %label.col-sm-5.control-label Last name
+    %label.col-sm-4.control-label Last name
     .col-sm-7
       %input.form-control{'ng-model' => 'receiverEditFormData.last_name', placeholder: 'Last name', type: 'text', required: ''}/
   .form-group
-    %label.col-sm-5.control-label City
+    %label.col-sm-4.control-label City
     .col-sm-7
-      %input.form-control{'ng-model' => 'receiverEditFormData.city', placeholder: 'City', type: 'text'}/
+      %input.form-control{'ng-model' => 'receiverEditFormData.city', placeholder: 'City', type: 'text', required: ''}/
   .form-group
-    %label.col-sm-5.control-label Country
+    %label.col-sm-4.control-label Country
     .col-sm-7
-      %input.form-control{'ng-model' => 'receiverEditFormData.country', placeholder: 'Country', type: 'text'}/
+      %input.form-control{'ng-model' => 'receiverEditFormData.country', placeholder: 'Country', type: 'text', required: ''}/
   .form-group
-    %label.col-sm-5.control-label Zip
+    %label.col-sm-4.control-label Zip
     .col-sm-7
-      %input.form-control{'ng-model' => 'receiverEditFormData.zip', placeholder: 'Zip', type: 'text'}/
+      %input.form-control{'ng-model' => 'receiverEditFormData.zip', placeholder: 'Zip', type: 'text', required: ''}/
   .form-group
-    %label.col-sm-5.control-label Address line 1
+    %label.col-sm-4.control-label Address line 1
     .col-sm-7
       %input.form-control{'ng-model' => 'receiverEditFormData.address_line_1', placeholder: 'Address line 1', type: 'text', required: ''}/
   .form-group
-    %label.col-sm-5.control-label Address line 2
+    %label.col-sm-4.control-label Address line 2
     .col-sm-7
       %input.form-control{'ng-model' => 'receiverEditFormData.address_line_2', placeholder: 'Address line 2', type: 'text'}/
   .form-group
-    %label.col-sm-5.control-label Address line 3
+    %label.col-sm-4.control-label Address line 3
     .col-sm-7
       %input.form-control{'ng-model' => 'receiverEditFormData.address_line_3', placeholder: 'Address line 3', type: 'text'}/
   .form-group
-    %label.col-sm-5.control-label Birthday
+    %label.col-sm-4.control-label Birthday
     .col-sm-7
       %input.form-control{'ng-model' => 'receiverEditFormData.birthday', type: 'date', id: 'birthpicker', style: 'color: black;', required: ''}
 
   - if current_account.is_admin?
     .form-group
-      %label.col-sm-5.control-label Owner
+      %label.col-sm-4.control-label Owner
       .col-sm-7
         %select.form-control{'ng-model' => 'receiverEditFormData.account_id'}
           %option{'ng-repeat' => 'account in accounts', value: '{{account.id}}'}
             {{account.email}}
   .form-group
-    .col-sm-offset-5.col-sm-7
+    .col-sm-offset-4.col-sm-7
       %button.btn.btn-xs.btn-primary{type: 'submit'} Update
-      %a.btn.btn-xs.btn-danger{type: 'button', 'ng-click' => 'toggleEdit(true, receiverEditFormData)'} Cancel
+      %a.btn.btn-xs.btn-danger{type: 'button', 'ng-click' => 'receiverToggleEdit(true, receiverEditFormData)'} Cancel

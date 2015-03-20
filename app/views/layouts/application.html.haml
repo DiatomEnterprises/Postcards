@@ -8,4 +8,5 @@
   %body{'ng-app' => 'Postcards'} 
     = render partial: 'shared/header'
     #main_container
+      %toaster-container{'toaster-options' => "{'close-button':true, 'position-class': 'toast-bottom-right'}"}
       = yield

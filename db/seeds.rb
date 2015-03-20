@@ -10,6 +10,7 @@ first_account = Account.create(email: 'test@diatom.lv', password: 'qwerty123', f
 second_account = Account.create(email: 'super_mario@diatom.lv', password: 'qwerty123', first_name: 'Test first_name 2', last_name: 'Test last_name 2')
 third_account = Account.create(email: 'batman@diatom.lv', password: 'qwerty123', first_name: 'Test first_name 3', last_name: 'Test last_name 3')
 admin_account = Account.create(email: 'lauris@diatom.lv', password: 'qwerty123', first_name: 'Test first_name 4', last_name: 'Test last_name 4')
+admin_account.add_role(:admin)
 
 10.times do
   Receiver.create(

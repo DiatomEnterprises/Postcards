@@ -13,6 +13,8 @@ class AccountsController < ApplicationController
     @account = Account.new(updated_account_params)
     if @account.save
       @account
+    else
+      render_failure(@account)
     end
   end
 
@@ -21,6 +23,8 @@ class AccountsController < ApplicationController
     if @account
       if @account.update(updated_account_params)
         @account
+      else
+        render_failure(@account)
       end
     end
   end
@@ -29,6 +33,8 @@ class AccountsController < ApplicationController
     @account = Account.find(params[:id])
     if @account.destroy
       @account
+    else
+      render_failure(@account)
     end
   end
 
@@ -38,6 +44,10 @@ class AccountsController < ApplicationController
   end
 
   private
+
+  def render_failure(model)
+    render json: { errors: model.errors.full_messages }, status: 422
+  end
 
   def validate_access
     authorize current_account
