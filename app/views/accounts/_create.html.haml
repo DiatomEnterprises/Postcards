@@ -18,8 +18,8 @@
   .form-group
     %label.col-sm-4.control-label Password confirmation
     .col-sm-7
-      %input.form-control{'ng-model' => 'accountCreateFormData.password_confirmation', placeholder: 'Password confirmation', type: 'password', required: '', minlength: 8, 'ui-validate' => "'$value==accountCreateFormData.password'", 'ui-validate-watch' => "'accountCreateFormData.password'", name: 'password_confirmation'}/
-      %span{'ng-show' => 'create_form.password_confirmation.$error.validator'} Passwords do not match!
+      %input.form-control{'ng-model' => 'accountCreateFormData.password_confirmation', placeholder: 'Password confirmation', type: 'password', required: '', minlength: 8}/
+      %span{'ng-show' => 'validatePassword(accountCreateFormData)'} Passwords do not match!
   .form-group
     %label.col-sm-4.control-label Roles
     .col-sm-7
@@ -28,5 +28,5 @@
 
   .form-group
     .col-sm-offset-4.col-sm-7
-      %button.btn.btn-xs.btn-primary{'ng-disabled' => 'formValidations(create_form, accountCreateFormData)', type: 'submit'} Save
+      %button.btn.btn-xs.btn-primary{'ng-disabled' => 'validatePassword(accountCreateFormData)', type: 'submit'} Save
       %a.btn.btn-xs.btn-danger{type: 'button', 'ng-click' => 'accountToggleCreate()'} Cancel

@@ -1,5 +1,5 @@
 .filter{'ng-hide' => 'filterForm'}
-  %form.form-horizontal{'ng-submit' => 'getBds()'}
+  %form.form-horizontal{'ng-submit' => 'filterBirthdays()'}
     .form-group
       %label.col-sm-2.control-label
         Search in text: 
@@ -10,8 +10,8 @@
       .col-sm-2 
         %select.form-control{'ng-model' => 'filterBd.month', 'ng-options' => 'currMonth.key as currMonth.value for currMonth in months'}
       .col-sm-2
-        %button.btn.btn-xs.btn-primary{type: 'submit', 'ng-click' => 'clearFilter()'} Filter
-        %button.btn.btn-success.btn-xs{'ng-click' => 'clearBds()', type: 'button'} Clear
+        %button.btn.btn-xs.btn-primary{type: 'submit', 'ng-click' => 'filterClear()'} Filter
+        %button.btn.btn-success.btn-xs{'ng-click' => 'clearBirthdays()', type: 'button'} Clear
   %hr
   %form.form-horizontal{'ng-submit' => 'filterReceivers()'}
     .form-group
@@ -25,7 +25,7 @@
       .col-sm-2  
         %input.form-contro{'ng-model' => 'filterDate.end_date', type: 'date', id: 'birthpicker', style: 'color: black;', class: 'form-control', required: ''}
       .col-sm-2
-        %button.btn.btn-xs.btn-primary{type: 'submit', 'ng-click' => 'clearBds()'} Filter
-        %button.btn.btn-success.btn-xs{'ng-click' => 'clearFilter()', type: 'button'} Clear
+        %button.btn.btn-xs.btn-primary{type: 'submit', 'ng-click' => 'clearBirthdays()'} Filter
+        %button.btn.btn-success.btn-xs{'ng-click' => 'filterClear()', type: 'button'} Clear
 
   %hr

@@ -3,5 +3,12 @@ attribute :id, :first_name, :last_name, :city, :country, :zip, :address_line_1, 
 
 if current_account.is_admin?
   node(:is_deleted) { |receiver| receiver.is_deleted }
-  node(:email) { |receiver| receiver.email }
+
+  node(:email) do |receiver|
+    if receiver.account_id
+      receiver.email
+    else
+      'undefined'
+    end
+  end
 end

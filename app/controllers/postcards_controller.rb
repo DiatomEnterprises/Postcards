@@ -6,25 +6,43 @@ class PostcardsController < ApplicationController
   end
   
   def create
-    @receiver = current_account.receivers.create(postcard_params)
+    @receiver = current_account.receivers.new(postcard_params)
+    if @receiver.save
+      @receiver
+    else
+      render_failure(@receiver.errors.full_messages)
+    end
   end
 
   def update
     @receiver = Receiver.find(params[:id])
     if @receiver
       @receiver.is_deleted = false unless @receiver.account_id == postcard_params['account_id'].to_i
-      @receiver.update(postcard_params)
+      if @receiver.update(postcard_params)
+        @receiver
+      else
+        render_failure(@receiver.errors.full_messages)
+      end
+    end
+  end
+
+  def update_owners
+    if params['current_account_id'] != params['new_account_id']
+      params['current_account_id'] = nil if params['current_account_id'] == ''
+      @receiver = Receiver.where(account_id: params['current_account_id']).update_all(account_id:  params['new_account_id'])
+      
+      render_failure(["No receivers were updated!"]) if @receiver == 0
+    else
+      render_failure(["Can't transfer contacts to the same account!"])
     end
   end
 
   def destroy
     @receiver = Receiver.find(params[:id])
-    if @receiver
-      if current_account.is_admin?
-        @receiver.destroy
-      else
-        @receiver.update_attribute(:is_deleted, true)
-      end
+    if current_account.is_admin?
+      render_failure(@receiver.errors.full_messages) if !@receiver.destroy
+    else
+      render_failure(@receiver.errors.full_messages) if !@receiver.update(is_deleted: true)
     end
   end
 

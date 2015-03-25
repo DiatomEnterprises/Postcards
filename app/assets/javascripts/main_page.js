@@ -1,31 +1,10 @@
-var app = angular.module('Postcards', ['ngResource', 'ngRoute', 'ngTagsInput', 'angularUtils.directives.dirPagination', 'ui.utils', 'toaster']);
-
-app.config(function($routeProvider, $locationProvider) {
-  // $locationProvider.html5Mode(true);
-  $routeProvider
-    .when('/', {
-      templateUrl : 'postcards/index.html',
-      controller  : 'PostcardsCtrl'
-    })
-
-    .when('/postcards', {
-      templateUrl : 'postcards/index.html',
-      controller  : 'PostcardsCtrl'
-    })
-
-    .when('/accounts', {
-      templateUrl : 'accounts/index.html',
-      controller  : 'AccountsCtrl'
-    });
-});
+var app = angular.module('Postcards', ['ngResource', 'ngRoute', 'ngTagsInput', 'angularUtils.directives.dirPagination', 'toaster']);
 
 app.factory('Postcards', [
   '$resource', function($resource) {
     return $resource('/postcards/:id.json', {}, {
-      query: {method:'GET', params:{id:''}, isArray:true},
-      post: {method:'POST'},
       update: {method:'PUT', params: {id: '@id'}},
-      remove: {method:'DELETE', params: {id: '@id'}},
+      update_owners: {method:'PUT', params: {id: 'update_owners'}},
       show: {method:'GET', params: {id: '@id', receivers: '@receivers', birthday: '@birthday'}}
     });
   }
@@ -54,6 +33,11 @@ app.controller('AccountsCtrl', ['$scope', '$http', '$window', 'Accounts', 'toast
 
     $scope.accountEditForm = state;
     $scope.accountEditFormData = account;
+    if($scope.accountEditFormData)
+    {
+      $scope.accountEditFormData.password = '';
+      $scope.accountEditFormData.password_confirmation = '';
+    }
   };
 
   $scope.accountToggleCreate = function() {
@@ -73,6 +57,12 @@ app.controller('AccountsCtrl', ['$scope', '$http', '$window', 'Accounts', 'toast
   };
 
   $scope.accountUpdate = function(){
+    if($scope.accountEditFormData.password == '')
+      delete $scope.accountEditFormData.password;
+
+    if($scope.accountEditFormData.password_confirmation == '')
+      delete $scope.accountEditFormData.password_confirmation;
+
     var account = $scope.accountEditFormData;
     var index = $scope.accounts.indexOf(account);
     account.roles = $scope.normalRoles(account.roles);
@@ -80,12 +70,11 @@ app.controller('AccountsCtrl', ['$scope', '$http', '$window', 'Accounts', 'toast
     Accounts.update(account, function(res) {
       $scope.accounts[index] = res;
       toaster.pop('success', '', 'Account updated successfully', $scope.message_time, 'trustedHtml');
+      $scope.accountToggleEdit(true);
     }, function(error) {
       $scope.accounts = $scope.backup;
       toaster.pop('error', 'Update error', $scope.getAllErrorMessages(error.data.errors), $scope.message_time, 'trustedHtml');
     });
-
-    $scope.accountToggleEdit(true);
   };
 
   $scope.accountCreate = function() {
@@ -113,10 +102,6 @@ app.controller('AccountsCtrl', ['$scope', '$http', '$window', 'Accounts', 'toast
     return array;
   };
 
-  $scope.formValidations = function(form, data) {
-    return form.password_confirmation.$error.validator || !(data && data.roles && data.roles.length > 0);
-  };
-
   $scope.getAllErrorMessages = function(errors) {
     var html = '<ul>'; 
     for(var i = 0; i < errors.length; i++) {
@@ -124,6 +109,12 @@ app.controller('AccountsCtrl', ['$scope', '$http', '$window', 'Accounts', 'toast
     };
     html += '</ul>';
     return html;
+  };
+
+  $scope.validatePassword = function(form_data) {
+    if(form_data)
+      return form_data.password != form_data.password_confirmation;
+    else return false;
   };
 }]);
 
@@ -167,7 +158,7 @@ app.controller('PostcardsCtrl', ['$scope', '$http', '$window', 'Postcards', 'Acc
     }
   };
 
-  $scope.ownerToggleChange = function() {
+  $scope.ownerToggleEdit = function() {
     $scope.ownerEditForm = !$scope.ownerEditForm;
   };
 
@@ -182,12 +173,11 @@ app.controller('PostcardsCtrl', ['$scope', '$http', '$window', 'Postcards', 'Acc
     Postcards.update(receiver, function(res) {
       $scope.postcards[index] = res;
       toaster.pop('success', '', 'Receiver updated successfully', $scope.message_time, 'trustedHtml');
+      $scope.receiverToggleEdit(true);
     }, function(error) {
       $scope.postcards = $scope.backup;
       toaster.pop('error', 'Update error', $scope.getAllErrorMessages(error.data.errors), $scope.message_time, 'trustedHtml');
     });
-
-    $scope.receiverToggleEdit(true);
   };
 
   $scope.receiverCreate = function() {
@@ -202,18 +192,17 @@ app.controller('PostcardsCtrl', ['$scope', '$http', '$window', 'Postcards', 'Acc
     });
   };
 
-  $scope.updateOwner = function(){
-    var ids = $scope.ownerFormData;
-    $http.put("/owners/1", ids); // this id is just for testing different http request!!
-    $scope.ownerEditForm = true;
-    $scope.postcards = Postcards.query();
+  $scope.ownerUpdate = function(){
+    Postcards.update_owners($scope.ownerFormData, function(res) {
+      $scope.postcards = Postcards.query();
+      $scope.ownerToggleEdit;
+      toaster.pop('success', '', res.count + ' receivers updated successfully', $scope.message_time, 'trustedHtml');
+    }, function(error) {
+      toaster.pop('error', 'Update error', $scope.getAllErrorMessages(error.data.errors), $scope.message_time, 'trustedHtml');
+    });
   };
 
-  $scope.getOwnerConacts = function(id){
-    // console.log(id);
-    $http.get("/owners", id);
-  };
-
+// Receiver manipulation
   $scope.addToList = function(receiver){
     $scope.receiverList.push(receiver);
     $scope.postcards.splice( $scope.postcards.indexOf(receiver), 1 );
@@ -258,36 +247,9 @@ app.controller('PostcardsCtrl', ['$scope', '$http', '$window', 'Postcards', 'Acc
     });
   };
 
-  $scope.filterReceivers = function() {
-    var dates = $scope.filterDate;
-    $scope.postcards = Postcards.query(dates);
-  };
-
-  $scope.clearFilter = function() {
-    $scope.filterDate.start_date = '';
-    $scope.filterDate.end_date = '';
-    $scope.postcards = Postcards.query();
-  };
-
+// Filter options
   $scope.currentPage = 1;
   $scope.pageSize = 10;
-
-  $scope.filterList = function() {
-    var index;
-    for (i = $scope.filteredList.length; i >= 0 ; i--) {
-      index = $scope.postcards.indexOf($scope.filteredList[i]);
-      $scope.postcards.splice(index, 1);
-    };
-  };
-
-  $scope.getValidDate = function () {
-    return new Date($scope.receiverEditFormData.birthday);
-  };
-
-  $scope.getAccounts = function () {
-    $scope.accounts = Accounts.query();
-  };
-
   $scope.months = [
     {key: "1", value: "01 - Jan"},
     {key: "2", value: "02 - Feb"},
@@ -303,14 +265,54 @@ app.controller('PostcardsCtrl', ['$scope', '$http', '$window', 'Postcards', 'Acc
     {key: "12", value: "12 - Dec"}
   ];
 
-  $scope.getBds = function() {
+  $scope.filterReceivers = function() {
+    var dates = $scope.filterDate;
+    $scope.postcards = Postcards.query(dates);
+  };
+
+  $scope.filterClear = function() {
+    $scope.filterDate.start_date = '';
+    $scope.filterDate.end_date = '';
+    $scope.postcards = Postcards.query();
+  };
+
+  $scope.filterBirthdays = function() {
     var month = $scope.filterBd;
     $scope.postcards = Postcards.query(month);
   };
 
-  $scope.clearBds = function() {
+  $scope.clearBirthdays = function() {
     $scope.filterBd.month = '';
     $scope.postcards = Postcards.query();
+  };
+
+  $scope.filterList = function() {
+    var index;
+    for (i = $scope.filteredList.length; i >= 0 ; i--) {
+      index = $scope.postcards.indexOf($scope.filteredList[i]);
+      $scope.postcards.splice(index, 1);
+    };
+  };
+
+// Some usefull functions
+  $scope.getValidDate = function () {
+    return new Date($scope.receiverEditFormData.birthday);
+  };
+
+  $scope.getAccounts = function () {
+    Accounts.query(function(res) {
+      $scope.accounts = angular.copy(res);
+      $scope.accounts_full = angular.copy(res);
+      $scope.accounts_full.push({id: null, email: 'undefined'});
+    }, function(error) {
+      toaster.pop('error', 'Getting accounts error', $scope.getAllErrorMessages(error.data.errors), $scope.message_time, 'trustedHtml');
+    });
+  };
+
+  $scope.ownerTooltipInfo = function(email) {
+    if(email == 'undefined')
+      return 'Account has been deleted!';
+    else return email;    
   };
 
   $scope.getAllErrorMessages = function(errors) {

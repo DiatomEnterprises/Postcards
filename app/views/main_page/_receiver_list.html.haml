@@ -2,9 +2,9 @@
   .panel-heading{style: 'margin-bottom:20px;'}
     %h1.panel-title 
       Contacts
-      %button.btn.btn-success.btn-sm{style: 'margin-left: 10px;', 'ng-click' => 'receiverToggleCreate()'} Add new receiver +
+      %button.btn.btn-success.btn-sm{'ng-click' => 'receiverToggleCreate()', type: 'button', style: 'margin-left: 10px;'} Add new receiver
       - if current_account.is_admin?  
-        %button.btn.btn-success.btn-sm{style: 'margin-left: 10px;', 'ng-click' => 'ownerToggleChange()'} Edit contact owner
+        %button.btn.btn-success.btn-sm{'ng-click' => 'ownerToggleEdit()', type: 'button', style: 'margin-left: 10px;'} Edit contact owner
       .col-xs-5.pull-right
         %form.form-inline
           .form-group.pull-right

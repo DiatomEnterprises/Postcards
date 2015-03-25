@@ -5,7 +5,8 @@ Rails.application.routes.draw do
 
   resources :postcards do
     collection do
-      get "create_pdf"
+      get 'create_pdf'
+      put 'update_owners'
     end
   end
 
@@ -14,7 +15,7 @@ Rails.application.routes.draw do
       get 'get_roles'
     end
   end
-  resources :owners
+  
   resources :main_page do
     collection do
       get 'accounts'

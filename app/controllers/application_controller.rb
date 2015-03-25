@@ -9,4 +9,8 @@ class ApplicationController < ActionController::Base
   def pundit_user
     current_account
   end
+
+  def render_failure(message_array)
+    render json: { errors: message_array }, status: 417, success: false
+  end
 end

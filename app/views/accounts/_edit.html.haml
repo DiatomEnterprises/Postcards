@@ -1,4 +1,4 @@
-%form.form-horizontal{'ng-submit' => 'accountUpdate()', name: 'edit_form'}
+%form.form-horizontal{'ng-submit' => 'accountUpdate()'}
   .form-group
     %label.col-sm-4.control-label Fist name
     .col-sm-7
@@ -14,12 +14,12 @@
   .form-group
     %label.col-sm-4.control-label Password
     .col-sm-7
-      %input.form-control{'ng-model' => 'accountEditFormData.password', placeholder: 'Password', type: 'password', minlength: 8}/
+      %input.form-control{'ng-model' => 'accountEditFormData.password', placeholder: 'Password', type: 'password', minlength: 8, default: ''}/
   .form-group
     %label.col-sm-4.control-label Password confirmation
     .col-sm-7
-      %input.form-control{'ng-model' => 'accountEditFormData.password_confirmation', placeholder: 'Password confirmation', type: 'password', minlength: 8, 'ui-validate' => "'$value==accountEditFormData.password'", 'ui-validate-watch' => "'accountEditFormData.password'", name: 'password_confirmation'}/
-      %span{'ng-show' => 'edit_form.password_confirmation.$error.validator'} Passwords do not match!
+      %input.form-control{'ng-model' => 'accountEditFormData.password_confirmation', placeholder: 'Password confirmation', type: 'password', minlength: 8}/
+      %span{'ng-show' => 'validatePassword(accountEditFormData)'} Passwords do not match!
   .form-group
     %label.col-sm-4.control-label Roles
     .col-sm-7
@@ -28,5 +28,5 @@
 
   .form-group
     .col-sm-offset-4.col-sm-7
-      %button.btn.btn-xs.btn-primary{'ng-disabled' => 'formValidations(edit_form, accountEditFormData)', type: 'submit'} Update
-      %a.btn.btn-xs.btn-danger{type: 'button', 'ng-click' => 'accountToggleEdit(true, accountEditFormData)'} Cancel
+      %button.btn.btn-xs.btn-primary{'ng-disabled' => 'validatePassword(accountEditFormData)', type: 'submit'} Update
+      %a.btn.btn-xs.btn-danger{type: 'button', 'ng-click' => 'accountToggleEdit(true)'} Cancel
