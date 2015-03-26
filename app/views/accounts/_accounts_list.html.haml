@@ -29,9 +29,8 @@
           %td
             {{account.email}}
           %td{style: 'width: 30%'}
-            %span.label.label-primary{'ng-repeat' => 'role in normalRoles(account.roles) track by $index', style: 'margin-left: 5px'}
+            %span.label.label-primary{'ng-repeat' => 'role in normalRoles(account.roles)', style: 'margin-left: 5px'}
               {{role}}
           %td
-            %button.btn.btn-success.btn-xs{'ng-click' => 'accountToggleEdit(false, account)', type: 'button', style: 'margin-bottom: 5px;'} Edit
-            %br
+            %button.btn.btn-success.btn-xs{'ng-click' => 'accountToggleEdit("open", account)', type: 'button', style: 'margin-bottom: 5px;'} Edit
             %button.btn.btn-danger.btn-xs{'ng-click' => 'accountToggleDelete(account)', type: 'button', style: 'margin-bottom: 5px;'} Delete

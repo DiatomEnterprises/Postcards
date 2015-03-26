@@ -20,7 +20,7 @@ class AccountsController < ApplicationController
 
   def update
     @account = Account.find(params[:id])
-    if @account && @account.update(updated_account_params)
+    if @account.update(updated_account_params)
       @account
     else
       render_failure(@account.errors.full_messages)
@@ -30,7 +30,7 @@ class AccountsController < ApplicationController
   def destroy
     @account = Account.find(params[:id])
     if @account.destroy
-      Receiver.where(account_id: params[:id]).update_all(account_id: nil)
+      Receiver.where(account_id: params[:id]).update_all(account_id: 0)
       @account
     else
       render_failure(@account.errors.full_messages)

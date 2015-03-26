@@ -14,6 +14,6 @@
         .panel-heading
           %h1.panel-title 
             Edit account
-            %button.btn.btn-danger.btn-xs.pull-right{style: 'margin-left:10px;', 'ng-click' => 'accountToggleEdit(true, accountFormData)', type: 'submit'} X
+            %button.btn.btn-danger.btn-xs.pull-right{style: 'margin-left:10px;', 'ng-click' => 'accountToggleEdit("close", accountFormData)', type: 'submit'} X
         .panel-body  
           = render partial: 'accounts/edit'

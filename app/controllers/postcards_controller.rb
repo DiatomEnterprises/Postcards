@@ -16,13 +16,11 @@ class PostcardsController < ApplicationController
 
   def update
     @receiver = Receiver.find(params[:id])
-    if @receiver
-      @receiver.is_deleted = false unless @receiver.account_id == postcard_params['account_id'].to_i
-      if @receiver.update(postcard_params)
-        @receiver
-      else
-        render_failure(@receiver.errors.full_messages)
-      end
+    @receiver.is_deleted = false unless @receiver.account_id == postcard_params['account_id'].to_i
+    if @receiver.update(postcard_params)
+      @receiver
+    else
+      render_failure(@receiver.errors.full_messages)
     end
   end
 

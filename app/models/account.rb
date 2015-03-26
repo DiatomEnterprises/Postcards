@@ -6,7 +6,10 @@ class Account < ActiveRecord::Base
 
   has_many :receivers
 
-  validates :first_name, :last_name, :password, :email, presence: true
+  validates :first_name, :last_name, :email, presence: true
+  validates :password, presence: true, on: :create
+  validates :email, uniqueness: true
+
   after_create :assign_default_role
 
   def add_role(new_role)

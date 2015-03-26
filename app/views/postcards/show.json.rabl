@@ -5,7 +5,7 @@ if current_account.is_admin?
   node(:is_deleted) { |receiver| receiver.is_deleted }
 
   node(:email) do |receiver|
-    if receiver.account_id
+    if receiver.account_id > 0
       receiver.email
     else
       'undefined'

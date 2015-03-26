@@ -22,7 +22,7 @@ class ReceiversPresenter
   def filter(receivers)
     receivers_list = receivers
     receivers_list = receivers_list.where('extract(month from birthday) = ?', month) if month.present?
-    receivers_list = receivers_list.where(created_at: start_date..end_date) if start_date.present? && end_date.present?
+    receivers_list = receivers_list.where(birthday: Date.strptime(start_date)..Date.strptime(end_date)) if start_date.present? && end_date.present?
     receivers_list
   end
 

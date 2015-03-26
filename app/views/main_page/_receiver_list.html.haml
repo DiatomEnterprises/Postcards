@@ -15,11 +15,9 @@
     %hr
     = render partial: 'filter'
     %table.table.table-hover
-      %thead
-        = render partial: 'table_header'
+      = render partial: 'table_header'
 
       %dir-pagination-controls{'boundary-links' => 'true', 'on-page-change' => 'pageChangeHandler(newPageNumber)', 'template-url' => 'dirPagination.tpl.html'} # pagination
-      %tbody
-        = render partial: 'table_content'
+      = render partial: 'table_content'
 
     %dir-pagination-controls{'boundary-links' => 'true', 'on-page-change' => 'pageChangeHandler(newPageNumber)', 'template-url' => 'dirPagination.tpl.html'} # pagination

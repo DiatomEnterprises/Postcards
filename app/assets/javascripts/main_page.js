@@ -27,11 +27,11 @@ app.controller('AccountsCtrl', ['$scope', '$http', '$window', 'Accounts', 'toast
   $scope.message_time = 3000;
 
   $scope.accountToggleEdit = function(state, account) {
-    if(!state)
+    if(state == 'open')
       $scope.backup = angular.copy($scope.accounts);
-    else $scope.accounts = angular.copy($scope.backup);
+    else if(state == 'close') $scope.accounts = angular.copy($scope.backup);
 
-    $scope.accountEditForm = state;
+    $scope.accountEditForm = state == 'open' ? false : true;
     $scope.accountEditFormData = account;
     if($scope.accountEditFormData)
     {
@@ -49,9 +49,9 @@ app.controller('AccountsCtrl', ['$scope', '$http', '$window', 'Accounts', 'toast
     if (confirm('Are you sure you want to delete this account?')){
       Accounts.remove(account, function(res) {
         $scope.accounts.splice($scope.accounts.indexOf(account), 1);
-        toaster.pop('success', '', 'Account removed successfully', $scope.message_time, 'trustedHtml');
+        $scope.makeNotification('success', '', 'Account removed successfully');
       }, function(error) {
-        toaster.pop('error', 'Removal error', $scope.getAllErrorMessages(error.data.errors), $scope.message_time, 'trustedHtml');
+        $scope.makeNotification('error', 'Removal error', error.data.errors);
       });
     }
   };
@@ -69,11 +69,11 @@ app.controller('AccountsCtrl', ['$scope', '$http', '$window', 'Accounts', 'toast
 
     Accounts.update(account, function(res) {
       $scope.accounts[index] = res;
-      toaster.pop('success', '', 'Account updated successfully', $scope.message_time, 'trustedHtml');
-      $scope.accountToggleEdit(true);
+      $scope.accountToggleEdit('update');
+      $scope.makeNotification('success', '', 'Account updated successfully');
     }, function(error) {
       $scope.accounts = $scope.backup;
-      toaster.pop('error', 'Update error', $scope.getAllErrorMessages(error.data.errors), $scope.message_time, 'trustedHtml');
+      $scope.makeNotification('error', 'Update error', error.data.errors);
     });
   };
 
@@ -84,9 +84,9 @@ app.controller('AccountsCtrl', ['$scope', '$http', '$window', 'Accounts', 'toast
     Accounts.save(account, function(res) {
       $scope.accounts.push(res);
       $scope.accountToggleCreate();
-      toaster.pop('success', '', res.email + ' created successfully', $scope.message_time, 'trustedHtml');
+      $scope.makeNotification('success', '', res.email + ' created successfully');
     }, function(error) {
-      toaster.pop('error', 'Creation error', $scope.getAllErrorMessages(error.data.errors), $scope.message_time, 'trustedHtml');
+      $scope.makeNotification('error', 'Creation error', error.data.errors);
     });
   };
 
@@ -102,13 +102,21 @@ app.controller('AccountsCtrl', ['$scope', '$http', '$window', 'Accounts', 'toast
     return array;
   };
 
+  $scope.makeNotification = function(type, title, messages) {
+    toaster.pop(type, title, $scope.getAllErrorMessages(messages), $scope.message_time, 'trustedHtml');
+  };
+
   $scope.getAllErrorMessages = function(errors) {
-    var html = '<ul>'; 
-    for(var i = 0; i < errors.length; i++) {
-      html = html + '<li>' + errors[i] + '</li>';
-    };
-    html += '</ul>';
-    return html;
+    if(typeof errors !== 'string')
+    {
+      var html = '<ul>'; 
+      for(var i = 0; i < errors.length; i++) {
+        html = html + '<li>' + errors[i] + '</li>';
+      };
+      html += '</ul>';
+      return html;
+    }
+    else return errors;
   };
 
   $scope.validatePassword = function(form_data) {
@@ -132,13 +140,13 @@ app.controller('PostcardsCtrl', ['$scope', '$http', '$window', 'Postcards', 'Acc
   $scope.reverseSort = false;
 
   $scope.receiverToggleEdit = function(state, receiver) {
-    if(!state)
+    if(state == 'open')
       $scope.backup = angular.copy($scope.postcards);
-    else $scope.postcards = angular.copy($scope.backup);
+    else if(state == 'close') $scope.postcards = angular.copy($scope.backup);
 
-    $scope.receiverEditForm = state;
+    $scope.receiverEditForm = state == 'open' ? false : true;
     $scope.receiverEditFormData = receiver;
-    if(!state)
+    if(!$scope.receiverEditForm)
       $scope.receiverEditFormData.birthday = $scope.getValidDate();
   };
 
@@ -147,13 +155,13 @@ app.controller('PostcardsCtrl', ['$scope', '$http', '$window', 'Postcards', 'Acc
     $scope.receiverCreateFormData = {};
   };
 
-  $scope.receiverToggleDelete = function(receiver){
+  $scope.receiverToggleDelete = function(receiver) {
     if (confirm('Are you sure you want to delete this receiver?')){
       Postcards.remove(receiver, function(res) {
         $scope.postcards.splice($scope.postcards.indexOf(receiver), 1);
-        toaster.pop('success', '', 'Receiver removed successfully', $scope.message_time, 'trustedHtml');
+        $scope.makeNotification('success', '', 'Receiver removed successfully');
       }, function(error) {
-        toaster.pop('error', 'Removal error', $scope.getAllErrorMessages(error.data.errors), $scope.message_time, 'trustedHtml');
+        $scope.makeNotification('error', 'Removal error', error.data.errors);
       });
     }
   };
@@ -162,21 +170,21 @@ app.controller('PostcardsCtrl', ['$scope', '$http', '$window', 'Postcards', 'Acc
     $scope.ownerEditForm = !$scope.ownerEditForm;
   };
 
-  $scope.filterToggleForm = function(){
+  $scope.filterToggleForm = function() {
     $scope.filterForm = !$scope.filterForm;
   };
 
-  $scope.receiverUpdate = function(){
+  $scope.receiverUpdate = function() {
     var receiver = $scope.receiverEditFormData;
     var index = $scope.postcards.indexOf(receiver);
 
     Postcards.update(receiver, function(res) {
       $scope.postcards[index] = res;
-      toaster.pop('success', '', 'Receiver updated successfully', $scope.message_time, 'trustedHtml');
-      $scope.receiverToggleEdit(true);
+      $scope.receiverToggleEdit('update');
+      $scope.makeNotification('success', '', 'Receiver updated successfully');
     }, function(error) {
       $scope.postcards = $scope.backup;
-      toaster.pop('error', 'Update error', $scope.getAllErrorMessages(error.data.errors), $scope.message_time, 'trustedHtml');
+      $scope.makeNotification('error', 'Update error', error.data.errors);
     });
   };
 
@@ -186,24 +194,24 @@ app.controller('PostcardsCtrl', ['$scope', '$http', '$window', 'Postcards', 'Acc
     Postcards.save(receiver, function(res) {
       $scope.postcards.push(res);
       $scope.receiverToggleCreate();
-      toaster.pop('success', '', 'Receiver created successfully', $scope.message_time, 'trustedHtml');
+      $scope.makeNotification('success', '', 'Receiver created successfully');
     }, function(error) {
-      toaster.pop('error', 'Creation error', $scope.getAllErrorMessages(error.data.errors), $scope.message_time, 'trustedHtml');
+      $scope.makeNotification('error', 'Creation error', error.data.errors);
     });
   };
 
-  $scope.ownerUpdate = function(){
+  $scope.ownerUpdate = function() {
     Postcards.update_owners($scope.ownerFormData, function(res) {
       $scope.postcards = Postcards.query();
-      $scope.ownerToggleEdit;
-      toaster.pop('success', '', res.count + ' receivers updated successfully', $scope.message_time, 'trustedHtml');
+      $scope.ownerToggleEdit();
+      $scope.makeNotification('success', '', res.count + ' receivers updated successfully');
     }, function(error) {
-      toaster.pop('error', 'Update error', $scope.getAllErrorMessages(error.data.errors), $scope.message_time, 'trustedHtml');
+      $scope.makeNotification('error', 'Update error', error.data.errors);
     });
   };
 
 // Receiver manipulation
-  $scope.addToList = function(receiver){
+  $scope.addToList = function(receiver) {
     $scope.receiverList.push(receiver);
     $scope.postcards.splice( $scope.postcards.indexOf(receiver), 1 );
   };
@@ -251,38 +259,37 @@ app.controller('PostcardsCtrl', ['$scope', '$http', '$window', 'Postcards', 'Acc
   $scope.currentPage = 1;
   $scope.pageSize = 10;
   $scope.months = [
-    {key: "1", value: "01 - Jan"},
-    {key: "2", value: "02 - Feb"},
-    {key: "3", value: "03 - Mar"},
-    {key: "4", value: "04 - Apr"},
-    {key: "5", value: "05 - May"},
-    {key: "6", value: "06 - Jun"},
-    {key: "7", value: "07 - Jul"},
-    {key: "8", value: "08 - Aug"},
-    {key: "9", value: "09 - Sep"},
-    {key: "10", value: "10 - Oct"},
-    {key: "11", value: "11 - Nov"},
-    {key: "12", value: "12 - Dec"}
+    {key: '1', value: '01 - Jan'},
+    {key: '2', value: '02 - Feb'},
+    {key: '3', value: '03 - Mar'},
+    {key: '4', value: '04 - Apr'},
+    {key: '5', value: '05 - May'},
+    {key: '6', value: '06 - Jun'},
+    {key: '7', value: '07 - Jul'},
+    {key: '8', value: '08 - Aug'},
+    {key: '9', value: '09 - Sep'},
+    {key: '10', value: '10 - Oct'},
+    {key: '11', value: '11 - Nov'},
+    {key: '12', value: '12 - Dec'}
   ];
 
-  $scope.filterReceivers = function() {
-    var dates = $scope.filterDate;
-    $scope.postcards = Postcards.query(dates);
+  $scope.filterStartEnd = function() {
+    $scope.postcards = Postcards.query($scope.filterDate);
   };
 
-  $scope.filterClear = function() {
-    $scope.filterDate.start_date = '';
-    $scope.filterDate.end_date = '';
-    $scope.postcards = Postcards.query();
+  $scope.filterMonth = function() {
+    $scope.postcards = Postcards.query($scope.filterDate);
   };
 
-  $scope.filterBirthdays = function() {
-    var month = $scope.filterBd;
-    $scope.postcards = Postcards.query(month);
-  };
+  $scope.filterClear = function(type) {
+    if(type == 'month')
+      delete $scope.filterDate.month;
+    else if(type == 'startend')
+    {
+      delete $scope.filterDate.start_date;
+      delete $scope.filterDate.end_date;
+    };
 
-  $scope.clearBirthdays = function() {
-    $scope.filterBd.month = '';
     $scope.postcards = Postcards.query();
   };
 
@@ -295,6 +302,13 @@ app.controller('PostcardsCtrl', ['$scope', '$http', '$window', 'Postcards', 'Acc
   };
 
 // Some usefull functions
+  $scope.receiverChangeEmail = function () {
+    var result = $scope.accounts_full.filter(function( obj ) {
+      return obj.id == $scope.receiverEditFormData.account_id;
+    });
+    $scope.receiverEditFormData.email = result[0].email;
+  };
+
   $scope.getValidDate = function () {
     return new Date($scope.receiverEditFormData.birthday);
   };
@@ -303,9 +317,9 @@ app.controller('PostcardsCtrl', ['$scope', '$http', '$window', 'Postcards', 'Acc
     Accounts.query(function(res) {
       $scope.accounts = angular.copy(res);
       $scope.accounts_full = angular.copy(res);
-      $scope.accounts_full.push({id: null, email: 'undefined'});
+      $scope.accounts_full.push({id: 0, email: 'undefined'});
     }, function(error) {
-      toaster.pop('error', 'Getting accounts error', $scope.getAllErrorMessages(error.data.errors), $scope.message_time, 'trustedHtml');
+      $scope.makeNotification('error', 'Getting accounts error', error.data.errors);
     });
   };
 
@@ -315,12 +329,20 @@ app.controller('PostcardsCtrl', ['$scope', '$http', '$window', 'Postcards', 'Acc
     else return email;    
   };
 
+  $scope.makeNotification = function(type, title, messages) {
+    toaster.pop(type, title, $scope.getAllErrorMessages(messages), $scope.message_time, 'trustedHtml');
+  };
+
   $scope.getAllErrorMessages = function(errors) {
-    var html = '<ul>'; 
-    for(var i = 0; i < errors.length; i++) {
-      html = html + '<li>' + errors[i] + '</li>';
-    };
-    html += '</ul>';
-    return html;
+    if(typeof errors !== 'string')
+    {
+      var html = '<ul>'; 
+      for(var i = 0; i < errors.length; i++) {
+        html = html + '<li>' + errors[i] + '</li>';
+      };
+      html += '</ul>';
+      return html;
+    }
+    else return errors;
   };
 }]);

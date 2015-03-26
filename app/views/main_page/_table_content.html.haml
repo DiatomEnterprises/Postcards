@@ -1,29 +1,30 @@
-%tr{'current-page' => 'currentPage', 'dir-paginate' => 'receiver in (filteredList = (postcards | filter:searchText)) | itemsPerPage: pageSize | orderBy:orderByField:reverseSort'}
-  %td
-    {{receiver.first_name}}
-  %td 
-    {{receiver.last_name}}
-  - if current_account.is_admin?
+%tbody
+  %tr{'current-page' => 'currentPage', 'dir-paginate' => 'receiver in (filteredList = (postcards | filter:searchText)) | itemsPerPage: pageSize | orderBy:orderByField:reverseSort'}
     %td
-      %i{rel: 'tooltip', 'ng-attr-title' => "{{ ownerTooltipInfo(receiver.email) }}"}
-        {{receiver.email}}
-  %td
-    {{receiver.birthday | date:'MM/dd/yyyy'}}
-  %td
-    {{receiver.city}}
-  %td
-    {{receiver.country}}
-  %td
-    {{receiver.zip}}
-  - if current_account.is_admin?
+      {{receiver.first_name}}
+    %td 
+      {{receiver.last_name}}
+    - if current_account.is_admin?
+      %td
+        %i{rel: 'tooltip', 'ng-attr-title' => '{{ ownerTooltipInfo(receiver.email) }}'}
+          {{receiver.email}}
     %td
-      %div{'ng-if' => 'receiver.is_deleted == true'}
-        %span.label.label-danger 
-          {{receiver.is_deleted}}
-      %div{'ng-if' => 'receiver.is_deleted == false'}
-        %span.label.label-success 
-          {{receiver.is_deleted}}
-  %td
-    %button.btn.btn-success.btn-xs{'ng-click' => 'receiverToggleEdit(false, receiver)'} Edit
-    %button.btn.btn-danger.btn-xs{'ng-click' => 'receiverToggleDelete(receiver)'} Delete
-    %button.btn.btn-primary.btn-xs{'ng-click' => 'addToList(receiver)'} Add to list
+      {{receiver.birthday | date:'MM/dd/yyyy'}}
+    %td
+      {{receiver.city}}
+    %td{style: 'width: 15%;'}
+      {{receiver.country}}
+    %td
+      {{receiver.zip}}
+    - if current_account.is_admin?
+      %td
+        %div{'ng-if' => 'receiver.is_deleted == true'}
+          %span.label.label-danger 
+            {{receiver.is_deleted}}
+        %div{'ng-if' => 'receiver.is_deleted == false'}
+          %span.label.label-success 
+            {{receiver.is_deleted}}
+    %td
+      %button.btn.btn-success.btn-xs{'ng-click' => 'receiverToggleEdit("open", receiver)'} Edit
+      %button.btn.btn-danger.btn-xs{'ng-click' => 'receiverToggleDelete(receiver)'} Delete
+      %button.btn.btn-primary.btn-xs{'ng-click' => 'addToList(receiver)'} Add to list
