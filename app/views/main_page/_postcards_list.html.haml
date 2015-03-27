@@ -1,0 +1,30 @@
+.panel.panel-primary{'ng-show' => 'checkClosingReceiverList()'}
+  .panel.panel-heading
+    %h3.panel-title 
+    Receivers list
+    %button.btn.btn-danger.btn-xs.pull-right{'ng-click' => 'removeAllFromList(receiverListSend)', type: 'button', style: 'margin-left: 10px;'} Remove all
+    %button.btn.btn-success.btn-xs.pull-right{'ng-click' => 'sendNotification(receiverListSend); removeAllFromList(receiverListSend)', type: 'button'} Send
+  .panel.panel-body
+    %p.bg-warning{style: 'padding: 20px;'}
+      By default it sends "Postcards" if you need "Birthday Cards" please select it below
+    %table.table.table-hover
+      %thead
+        %tr
+          %th 
+            Name
+          %th
+            Type
+          %th
+            %label
+              %input{'ng-model' => 'birthdayPostcard', type: 'checkbox'}
+              Send as Birthday Card
+      %tbody{'ng-repeat' => 'receiver in receiverListSend'}
+        %tr
+          %td
+            {{receiver.first_name}} {{receiver.last_name}}
+          %td.col-md-3{'ng-hide' => 'birthdayPostcard'}
+            Postcard
+          %td.col-md-3{'ng-show' => 'birthdayPostcard'}
+            Birthday card
+          %td
+            %button.btn.btn-danger.btn-xs{'ng-click' => 'removeFromList(receiver)', type: 'button'} Remove

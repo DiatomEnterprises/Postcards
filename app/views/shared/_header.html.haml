@@ -21,6 +21,6 @@
             = link_to 'Receivers', '/'
           - if current_account.is_admin?
             %li
-              = link_to 'Accounts', accounts_main_page_index_path
+              = link_to 'Accounts', accounts_path
           %li
             = link_to('Logout', destroy_account_session_path, method: :delete)

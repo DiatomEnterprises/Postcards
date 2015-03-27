@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   devise_for :accounts, :skip => [:registrations]
   root 'main_page#index'
 
-  resources :postcards do
+  resources :receivers do
     collection do
       get 'create_pdf'
       put 'update_owners'
@@ -17,9 +17,7 @@ Rails.application.routes.draw do
   end
   
   resources :main_page do
-    collection do
-      get 'accounts'
-    end
+    get 'accounts'
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

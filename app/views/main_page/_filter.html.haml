@@ -1,32 +1,33 @@
-.filter{'ng-hide' => 'filterForm'}
+.filter{'ng-hide' => 'receiverFilterForm'}
   %form.form-horizontal{'ng-submit' => 'filterMonth()'}
     .form-group
       %label.col-sm-2.control-label
         Search in text: 
       .col-sm-2  
-        %input#search.form-control{'ng-model' => 'searchText', placeholder: 'Search...'}/
+        %input#search.form-control{'ng-model' => 'searchText', 'ng-change' => 'searchingText((receiverList | filter:searchText))', placeholder: 'Search...'}/
       %label.col-sm-2.control-label
         Months:
       .col-sm-2 
-        %select.form-control{'ng-model' => 'filterDate.month', 'ng-options' => 'month.key as month.value for month in months', required: ''}
-          %option
+        %select.form-control{'ng-model' => 'filterDate.month', required: ''}
+          %option{value: '{{id+1}}', 'ng-repeat' => '(id, month) in monthsList'}
+            {{month}}
       .col-sm-2
         %button.btn.btn-xs.btn-primary{type: 'submit'} Filter
         %button.btn.btn-success.btn-xs{'ng-click' => 'filterClear("month")', type: 'button'} Clear
-  %hr
-  %form.form-horizontal{'ng-submit' => 'filterStartEnd()'}
-    .form-group
-      %label.col-sm-2.control-label
-        Start date:
-      .col-sm-2  
-        %input.form-control{'ng-model' => 'filterDate.start_date', type: 'date', id: 'birthpicker', required: ''}
+  / %hr
+  / %form.form-horizontal{'ng-submit' => 'filterStartEnd()'}
+  /   .form-group
+  /     %label.col-sm-2.control-label
+  /       Start date:
+  /     .col-sm-2  
+  /       %input.form-control{'ng-model' => 'filterDate.start_date', type: 'date', id: 'birthpicker', required: ''}
 
-      %label.col-sm-2.control-label
-        End date:
-      .col-sm-2  
-        %input.form-control{'ng-model' => 'filterDate.end_date', type: 'date', id: 'birthpicker', required: ''}
-      .col-sm-2
-        %button.btn.btn-xs.btn-primary{type: 'submit'} Filter
-        %button.btn.btn-success.btn-xs{'ng-click' => 'filterClear("startend")', type: 'button'} Clear
+  /     %label.col-sm-2.control-label
+  /       End date:
+  /     .col-sm-2  
+  /       %input.form-control{'ng-model' => 'filterDate.end_date', type: 'date', id: 'birthpicker', required: ''}
+  /     .col-sm-2
+  /       %button.btn.btn-xs.btn-primary{type: 'submit'} Filter
+  /       %button.btn.btn-success.btn-xs{'ng-click' => 'filterClear("startend")', type: 'button'} Clear
 
   %hr

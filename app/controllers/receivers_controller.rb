@@ -1,4 +1,4 @@
-class PostcardsController < ApplicationController
+class ReceiversController < ApplicationController
   respond_to :json, except: [:show, :create_pdf]
 
   def index
@@ -6,7 +6,7 @@ class PostcardsController < ApplicationController
   end
   
   def create
-    @receiver = current_account.receivers.new(postcard_params)
+    @receiver = current_account.receivers.new(receiver_params)
     if @receiver.save
       @receiver
     else
@@ -16,8 +16,8 @@ class PostcardsController < ApplicationController
 
   def update
     @receiver = Receiver.find(params[:id])
-    @receiver.is_deleted = false unless @receiver.account_id == postcard_params['account_id'].to_i
-    if @receiver.update(postcard_params)
+    @receiver.is_deleted = false unless @receiver.account_id == receiver_params['account_id'].to_i
+    if @receiver.update(receiver_params)
       @receiver
     else
       render_failure(@receiver.errors.full_messages)
@@ -48,7 +48,7 @@ class PostcardsController < ApplicationController
     json_receivers = JSON.parse(params[:receivers])
     receiver_ids = json_receivers.values
 
-    render json: {link: create_pdf_postcards_path(receiver_ids: receiver_ids, birthday: params['birthday'])}
+    render json: {link: create_pdf_receivers_path(receiver_ids: receiver_ids, birthday: params['birthday'])}
   end
 
   def create_pdf
@@ -59,7 +59,7 @@ class PostcardsController < ApplicationController
     page_height = mm_in_inch*5.5
     page_width = mm_in_inch*8.5
     render  pdf: "postcard_#{params[:id]}",
-      template: 'postcards/show.html.haml',
+      template: 'receivers/show.html.haml',
       layout: 'pdf',
       page_width: page_width,
       page_height: page_height, 
@@ -73,8 +73,8 @@ class PostcardsController < ApplicationController
 
   private
 
-  def postcard_params
-    params.require(:postcard).permit(:first_name, :last_name, :zip, :city, :country, :address_line_1, :address_line_2, :address_line_3, :account_id, :birthday)
+  def receiver_params
+    params.require(:receiver).permit(:first_name, :last_name, :zip, :city, :country, :address_line_1, :address_line_2, :address_line_3, :account_id, :birthday)
   end
 
 end

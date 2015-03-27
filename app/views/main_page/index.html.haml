@@ -1,7 +1,7 @@
 .container-fluid
-  .row{'ng-controller' => 'PostcardsCtrl'}
+  .row{'ng-controller' => 'ReceiversCtrl'}
     .col-xs-8
-      = render partial: 'receiver_list'
+      = render partial: 'receivers_list'
     .col-xs-4
       .panel.panel-primary{'ng-hide' => 'receiverCreateForm'}
         .panel-heading
@@ -18,7 +18,7 @@
         .panel-body  
           = render partial: 'edit'
 
-      = render partial: 'notify_list'
+      = render partial: 'postcards_list'
 
       -if current_account.is_admin?
         .panel.panel-primary{'ng-hide' => 'ownerEditForm'}
