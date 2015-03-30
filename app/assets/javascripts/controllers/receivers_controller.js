@@ -8,7 +8,6 @@ app.controller('ReceiversCtrl', ['$timeout', '$filter', '$scope', '$http', '$win
   $scope.receiverList = [];
   $scope.receiverListFake = [];
   $scope.receiverListSend = [];
-  $scope.receiverListPage = [];
   $scope.receiverListFilter = {};
   $scope.receiverListFilter.itemsPerPage = 10;
 
@@ -97,7 +96,7 @@ app.controller('ReceiversCtrl', ['$timeout', '$filter', '$scope', '$http', '$win
 
 // Receiver manipulation
   $scope.addToList = function(receiver) {
-    $scope.receiverListSend.push(receiver);
+    $scope.receiverListSend.push.apply($scope.receiverListSend, [receiver]);
     $scope.receiverListFake.splice( $scope.receiverListFake.indexOf(receiver), 1 );
   };
 
@@ -107,8 +106,10 @@ app.controller('ReceiversCtrl', ['$timeout', '$filter', '$scope', '$http', '$win
   };
 
   $scope.addPageToList = function() {
-    $scope.receiverListSend.push.apply($scope.receiverListSend, $scope.receiverListPage);
-    $scope.filterList($scope.receiverListPage);
+    //unfinished.
+    var page = $scope.getCurrentPage();
+    $scope.receiverListSend.push.apply($scope.receiverListSend, page);
+    $scope.filterList(page);
   };
 
   $scope.removeFromList = function(receiver) {
@@ -242,15 +243,14 @@ app.controller('ReceiversCtrl', ['$timeout', '$filter', '$scope', '$http', '$win
     else return errors;
   };
 
-}]);
-
-app.directive('atCurrentPage', function($timeout) {
-  return function(scope, elem) {
-    $timeout(function() {
-      for(var cs = scope.$$childHead; cs; cs = cs.$$nextSibling) {
-        if(cs.sortedAndPaginatedList)
-          scope.receiverListPage.push.apply(scope.receiverListPage, cs.sortedAndPaginatedList);
-      }
-    }, 1000);
+  $scope.getCurrentPage = function() {
+    var list = $scope.receiverListFake;
+    var val = $scope.receiverListFilter;
+    var fromPage = val.itemsPerPage * val.currentPage - list.length;
+    list = $filter('orderBy')(list, 'first_name');
+    list = $filter('limitTo')(list, fromPage);
+    list = $filter('limitTo')(list, val.itemsPerPage);
+    console.log(list);
+    return list;
   };
-});
+}]);
