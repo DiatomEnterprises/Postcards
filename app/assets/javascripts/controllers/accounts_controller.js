@@ -1,9 +1,9 @@
-app.controller('AccountsCtrl', ['$scope', '$http', '$window', 'Accounts', 'toaster', function($scope, $http, $window, Accounts, toaster) {
+app.controller('AccountsCtrl', ['$scope', 'Accounts', 'toaster', function($scope, Accounts, toaster) {
   $scope.accountEditForm = true;
   $scope.accountCreateForm = true;
   $scope.accounts = Accounts.query();
   $scope.roles = Accounts.get_roles();
-  $scope.message_time = 3000;
+  $scope.notificationTime = 3000;
 
   $scope.accountToggleEdit = function(state, account) {
     if(state == 'open')
@@ -76,17 +76,17 @@ app.controller('AccountsCtrl', ['$scope', '$http', '$window', 'Accounts', 'toast
   };
 
   $scope.textRoles = function() {
-    array = [], text = {};
+    var array = [], text = {};
     $scope.roles.roles.map(function(role) { array.push(text['text'] = role) });
     return array;
   };
 
   $scope.makeNotification = function(type, title, messages) {
-    toaster.pop(type, title, $scope.getAllErrorMessages(messages), $scope.message_time, 'trustedHtml');
+    toaster.pop(type, title, $scope.getAllErrorMessages(messages), $scope.notificationTime, 'trustedHtml');
   };
 
   $scope.getAllErrorMessages = function(errors) {
-    if(typeof errors !== 'string')
+    if(errors && typeof errors !== 'string')
     {
       var html = '<ul>'; 
       for(var i = 0; i < errors.length; i++) {

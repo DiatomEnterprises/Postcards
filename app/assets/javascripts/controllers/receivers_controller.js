@@ -1,9 +1,10 @@
-app.controller('ReceiversCtrl', ['$timeout', '$filter', '$scope', '$http', '$window', 'Receivers', 'Accounts', 'toaster', function($timeout, $filter, $scope, $http, $window, Receivers, Accounts, toaster) {
+app.controller('ReceiversCtrl', ['$filter', '$scope', '$window', 'Receivers', 'Accounts', 'toaster', function($filter, $scope, $window, Receivers, Accounts, toaster) {
+
   $scope.receiverCreateForm = true;
   $scope.receiverEditForm = true;
   $scope.receiverFilterForm = true;
   $scope.ownerEditForm = true;
-  $scope.message_time = 3000;
+  $scope.notificationTime = 3000;
 
   $scope.receiverList = [];
   $scope.receiverListFake = [];
@@ -15,10 +16,10 @@ app.controller('ReceiversCtrl', ['$timeout', '$filter', '$scope', '$http', '$win
     $scope.receiverList = angular.copy(res);
     $scope.receiverListFake = angular.copy(res);
     $scope.filterMonthsList();
+    $scope.currentPageWatcher();
   }, function(error) {
     $scope.makeNotification('error', 'Loading data error', error.data.errors);
   });
-
 
   $scope.receiverToggleEdit = function(state, receiver) {
     if(state == 'open')
@@ -106,10 +107,11 @@ app.controller('ReceiversCtrl', ['$timeout', '$filter', '$scope', '$http', '$win
   };
 
   $scope.addPageToList = function() {
-    //unfinished.
-    var page = $scope.getCurrentPage();
+    var page = $scope.receiverListPage;
+
     $scope.receiverListSend.push.apply($scope.receiverListSend, page);
     $scope.filterList(page);
+    $scope.receiverListPage = [];
   };
 
   $scope.removeFromList = function(receiver) {
@@ -148,6 +150,8 @@ app.controller('ReceiversCtrl', ['$timeout', '$filter', '$scope', '$http', '$win
 
   $scope.searchingText = function(filtered_list) {
     $scope.receiverListFake = angular.copy(filtered_list);
+    if($scope.receiverListSend.length)
+      $scope.filterList($scope.receiverListSend);
   };
 
   $scope.loadReceivers = function(params) {
@@ -163,6 +167,7 @@ app.controller('ReceiversCtrl', ['$timeout', '$filter', '$scope', '$http', '$win
   $scope.filterMonthsList = function() {
     var months = [], string = '';
     var year = new Date().getFullYear();
+
     for(i = 0; i < 12 ; i++) {
       string = ("0" + (i+1)).slice(-2) + " - ";
       months.push(string + $filter('date')(new Date(year, i), 'MMMM'));
@@ -192,7 +197,7 @@ app.controller('ReceiversCtrl', ['$timeout', '$filter', '$scope', '$http', '$win
 
   $scope.filterList = function(list) {
     var index;
-    for(i = list.length; i >= 0 ; i--) {
+    for(i = list.length-1; i >= 0 ; i--) {
       index = $scope.receiverListFake.indexOf(list[i]);
       $scope.receiverListFake.splice(index, 1);
     };
@@ -203,6 +208,7 @@ app.controller('ReceiversCtrl', ['$timeout', '$filter', '$scope', '$http', '$win
     var result = $scope.accounts_full.filter(function( obj ) {
       return obj.id == $scope.receiverEditFormData.account_id;
     });
+
     $scope.receiverEditFormData.email = result[0].email;
   };
 
@@ -220,14 +226,22 @@ app.controller('ReceiversCtrl', ['$timeout', '$filter', '$scope', '$http', '$win
     });
   };
 
-  $scope.ownerTooltipInfo = function(email) {
-    if(email == 'undefined')
-      return 'Account has been deleted!';
-    else return email;    
+  $scope.ownerTooltipInfo = function(receiver) {
+    if(receiver.email == 'undefined')
+      $scope.ownerTooltip = 'Account has been deleted!';
+    else
+    {
+      if($scope.accounts)
+      {
+        account = $filter('filter')($scope.accounts, receiver.account_id)[0];
+        $scope.ownerTooltip = account.first_name + ' ' + account.last_name; 
+      }
+      else $scope.ownerTooltip = receiver.email;    
+    }
   };
 
   $scope.makeNotification = function(type, title, messages) {
-    toaster.pop(type, title, $scope.getAllErrorMessages(messages), $scope.message_time, 'trustedHtml');
+    toaster.pop(type, title, $scope.getAllErrorMessages(messages), $scope.notificationTime, 'trustedHtml');
   };
 
   $scope.getAllErrorMessages = function(errors) {
@@ -243,14 +257,13 @@ app.controller('ReceiversCtrl', ['$timeout', '$filter', '$scope', '$http', '$win
     else return errors;
   };
 
-  $scope.getCurrentPage = function() {
-    var list = $scope.receiverListFake;
-    var val = $scope.receiverListFilter;
-    var fromPage = val.itemsPerPage * val.currentPage - list.length;
-    list = $filter('orderBy')(list, 'first_name');
-    list = $filter('limitTo')(list, fromPage);
-    list = $filter('limitTo')(list, val.itemsPerPage);
-    console.log(list);
-    return list;
+  $scope.currentPageWatcher = function() {
+    for(var cs = $scope.$$childHead; cs; cs = cs.$$nextSibling) {
+      if(cs.sortedAndPaginatedList) {
+        cs.$watch('sortedAndPaginatedList', function(value) {
+          $scope.receiverListPage = value;
+        }, true);
+      };
+    };
   };
 }]);

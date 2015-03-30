@@ -22,7 +22,7 @@
 
       -if current_account.is_admin?
         .panel.panel-primary{'ng-hide' => 'ownerEditForm'}
-          .panel-heading{'data-ng-init' => 'getAccounts()'}
+          .panel-heading{'ng-init' => 'getAccounts()'}
             %h1.panel-title 
               Edit contact owner
               %button.btn.btn-danger.btn-xs.pull-right{style: 'margin-left:10px;', 'ng-click' => 'ownerToggleEdit()', type: 'submit'} X
