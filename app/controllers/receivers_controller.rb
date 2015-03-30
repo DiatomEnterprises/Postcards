@@ -29,7 +29,7 @@ class ReceiversController < ApplicationController
       params['current_account_id'] = nil if params['current_account_id'] == ''
       @receiver = Receiver.where(account_id: params['current_account_id']).update_all(account_id:  params['new_account_id'])
       
-      render_failure(["No receivers were updated!"]) if @receiver == 0
+      render_failure(['No receivers were updated!']) if @receiver == 0
     else
       render_failure(["Can't transfer contacts to the same account!"])
     end
