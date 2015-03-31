@@ -1,6 +1,6 @@
 - @receivers.each_with_index do |receiver, index|
   %div{style: "text-align:right; width:100%; #{receiver == @receivers.last ? '' : 'page-break-after:always;'}"}
-    #birthday{style: 'padding-top:60px; padding-right: 30px;'}
+    #birthday{style: 'padding-top:60px;'}
       = receiver.birthday.strftime('%m/%d/%Y') if @birthday == 'true'
     %div{style: 'height:4.0in; line-height:4.0in;'}
       %span{style: 'display:inline-block; vertical-align:middle; line-height:20px;'}

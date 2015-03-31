@@ -21,13 +21,13 @@
   /   .form-group
   /     %label.col-sm-2.control-label
   /       Start date:
-  /     .col-sm-2  
-  /       %input.form-control{'ng-model' => 'filterDate.start_date', type: 'date', id: 'birthpicker', required: ''}
+  /     %datepicker.col-sm-2{'date-format' => '{{dateFormat}}'}
+  /       %input.form-control{'ng-model' => 'filterDate.start_date', type: 'text', required: ''}
 
   /     %label.col-sm-2.control-label
   /       End date:
-  /     .col-sm-2  
-  /       %input.form-control{'ng-model' => 'filterDate.end_date', type: 'date', id: 'birthpicker', required: ''}
+  /     %datepicker.col-sm-2{'date-format' => '{{dateFormat}}'}
+  /       %input.form-control{'ng-model' => 'filterDate.end_date', type: 'text', required: ''}
   /     .col-sm-2
   /       %button.btn.btn-xs.btn-primary{type: 'submit'} Filter
   /       %button.btn.btn-success.btn-xs{'ng-click' => 'filterClear("startend")', type: 'button'} Clear

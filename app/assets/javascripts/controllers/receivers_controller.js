@@ -4,7 +4,9 @@ app.controller('ReceiversCtrl', ['$filter', '$scope', '$window', 'Receivers', 'A
   $scope.receiverEditForm = true;
   $scope.receiverFilterForm = true;
   $scope.ownerEditForm = true;
+  $scope.dataLoaded = true;
   $scope.notificationTime = 3000;
+  $scope.dateFormat = 'MM/dd/yyyy';
 
   $scope.receiverList = [];
   $scope.receiverListFake = [];
@@ -29,7 +31,7 @@ app.controller('ReceiversCtrl', ['$filter', '$scope', '$window', 'Receivers', 'A
     $scope.receiverEditForm = state == 'open' ? false : true;
     $scope.receiverEditFormData = receiver;
     if(!$scope.receiverEditForm)
-      $scope.receiverEditFormData.birthday = $scope.getValidDate();
+      $scope.receiverEditFormData.birthday = $scope.getValidDate($scope.receiverEditFormData.birthday);
   };
 
   $scope.receiverToggleCreate = function() {
@@ -212,8 +214,8 @@ app.controller('ReceiversCtrl', ['$filter', '$scope', '$window', 'Receivers', 'A
     $scope.receiverEditFormData.email = result[0].email;
   };
 
-  $scope.getValidDate = function () {
-    return new Date($scope.receiverEditFormData.birthday);
+  $scope.getValidDate = function (date) {
+    return $filter('date')(new Date(date), $scope.dateFormat);
   };
 
   $scope.getAccounts = function () {
@@ -257,11 +259,16 @@ app.controller('ReceiversCtrl', ['$filter', '$scope', '$window', 'Receivers', 'A
     else return errors;
   };
 
+  $scope.hasContentLoaded = function() {
+    return $scope.dataLoaded == true && $scope.receiverListFake.length > 0;
+  };
+
   $scope.currentPageWatcher = function() {
     for(var cs = $scope.$$childHead; cs; cs = cs.$$nextSibling) {
       if(cs.sortedAndPaginatedList) {
         cs.$watch('sortedAndPaginatedList', function(value) {
           $scope.receiverListPage = value;
+          $scope.dataLoaded = value.length > 0;
         }, true);
       };
     };

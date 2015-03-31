@@ -10,52 +10,11 @@
           .form-group.pull-right
             %label Receivers per page
             %input.form-control{ min: '10', max: '100', 'ng-model' => 'receiverListFilter.itemsPerPage', type: 'number'}/
-  .panel-body{style: 'margin-left: 5px;'}
+  .panel-body{style: 'margin-left: 5px;', 'ng-show' => 'hasContentLoaded()'}
     %button.btn.btn-primary.btn-ms{'ng-click' => 'filterToggleForm()'} Filter
     %hr
     = render partial: 'filter'
-
-    %at-pagination{'at-config' => 'receiverListFilter', 'at-list' => 'receiverListFake'}
-
-    %table.table.table-hover{'at-table' => '', 'at-list' => 'receiverListFake', 'at-config' => 'receiverListFilter', 'at-paginated' => ''}
-      %thead
-        %th
-          %button.btn.btn-success.btn-xs{'ng-click' => 'addPageToList()', type: 'button', 'ng-disabled' => 'receiverListPage.length <= 0'} Add page
-          %button.btn.btn-success.btn-xs{'ng-click' => 'addAllToList()', type: 'button', 'ng-disabled' => 'receiverListFake.length <= 0'} Add all
-      %tbody
-        %tr
-          %td{'at-title' => 'Name', 'at-attribute' => 'first_name', 'at-sortable' => '', 'at-initial-sorting' => 'asc'}
-            {{item.first_name}}
-
-          %td{'at-title' => 'Surname', 'at-attribute' => 'last_name', 'at-sortable' => ''}
-            {{item.last_name}}
-
-          - if current_account.is_admin?
-            %td{'at-title' => 'Owner', 'at-attribute' => 'email', 'at-sortable' => ''}
-              %i{rel: 'tooltip', 'ng-attr-title' => '{{ ownerTooltip }}', 'ng-mouseover' => 'ownerTooltipInfo(item)'}
-                {{item.email}}
-
-          %td{'at-title' => 'Birth', 'at-attribute' => 'birthday', 'at-sortable' => ''}
-            {{item.birthday | date:'MM/dd/yyyy'}}
-
-          %td{'at-title' => 'City', 'at-attribute' => 'city', 'at-sortable' => ''}
-            {{item.city}}
-
-          %td{'at-title' => 'Country', 'at-attribute' => 'country', 'at-sortable' => ''}
-            {{item.country}}
-
-          - if current_account.is_admin?
-            %td{'at-title' => 'Deleted', 'at-attribute' => 'is_deleted', 'at-sortable' => ''}
-              %div{'ng-if' => 'item.is_deleted == true'}
-                %span.label.label-danger 
-                  {{item.is_deleted}}
-              %div{'ng-if' => 'item.is_deleted == false'}
-                %span.label.label-success 
-                  {{item.is_deleted}}
-
-          %td
-            %button.btn.btn-success.btn-xs{'ng-click' => 'receiverToggleEdit("open", item)'} Edit
-            %button.btn.btn-danger.btn-xs{'ng-click' => 'receiverToggleDelete(item)'} Delete
-            %button.btn.btn-primary.btn-xs{'ng-click' => 'addToList(item)'} Add to list
-
-    %at-pagination{'at-config' => 'receiverListFilter', 'at-list' => 'receiverListFake'}
+    = render partial: 'receivers_table'
+  .panel-body{style: 'margin-left: 5px;', 'ng-show' => '!hasContentLoaded() && dataLoaded == false'}
+    %p.bg-warning{style: 'padding: 20px;'}
+      Sorry, but there is no data!

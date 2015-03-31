@@ -2,20 +2,23 @@
   .row
     .col-md-3
       .panel.panel-info
-        .panel.panel-heading
+        .panel.panel-heading{style: 'margin-bottom: 0px; border-radius: 0px;'}
           %h2.panel-title Log in
-        .panel.panel-body
+        - if flash[:alert]
+          .alert.alert-danger{style: 'border-radius: 0px;'}
+            = flash[:alert]
+        .panel.panel-body{style: 'margin-bottom: 0px;'}
           = form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
             .form-group
               = f.label :email
-              = f.email_field :email, autofocus: true, class: "form-control"
+              = f.email_field :email, autofocus: true, class: 'form-control'
             .form-group
               = f.label :password
-              = f.password_field :password, autocomplete: "off", class: "form-control"
+              = f.password_field :password, autocomplete: 'off', class: 'form-control'
             .form-group
               - if devise_mapping.rememberable?
                 = f.check_box :remember_me
                 = f.label :remember_me
             .form-group
-              = f.submit "Log in", class: "btn btn-default"
+              = f.submit 'Log in', class: 'btn btn-default'
 /   = render "devise/shared/links"
