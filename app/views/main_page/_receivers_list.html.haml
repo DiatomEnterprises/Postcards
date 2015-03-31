@@ -9,7 +9,7 @@
         %form.form-inline
           .form-group.pull-right
             %label Receivers per page
-            %input.form-control{ min: '1', max: '100', 'ng-model' => 'receiverListFilter.itemsPerPage', type: 'number'}/
+            %input.form-control{ min: '10', max: '100', 'ng-model' => 'receiverListFilter.itemsPerPage', type: 'number'}/
   .panel-body{style: 'margin-left: 5px;'}
     %button.btn.btn-primary.btn-ms{'ng-click' => 'filterToggleForm()'} Filter
     %hr

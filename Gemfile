@@ -44,6 +44,14 @@ gem 'oj'
 gem 'faker'
 
 gem 'pundit'
+gem 'puma'
+# ----------------------Deploy-------------------------------
+gem 'capistrano'
+gem 'capistrano-rvm'
+gem 'capistrano-rails'
+gem 'capistrano-bundler'
+gem 'capistrano3-puma'
+# -----------------------------------------------------------
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

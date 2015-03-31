@@ -37,6 +37,22 @@ GEM
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
     builder (3.2.2)
+    capistrano (3.4.0)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (~> 1.3)
+    capistrano-bundler (1.1.3)
+      capistrano (~> 3.1)
+      sshkit (~> 1.2)
+    capistrano-rails (1.1.2)
+      capistrano (~> 3.1)
+      capistrano-bundler (~> 1.1)
+    capistrano-rvm (0.1.2)
+      capistrano (~> 3.0)
+      sshkit (~> 1.2)
+    capistrano3-puma (0.9.0)
+      capistrano (~> 3.0)
+      puma (>= 2.6)
     coderay (1.1.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
@@ -45,6 +61,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.0)
+    colorize (0.7.5)
     devise (3.4.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -87,6 +104,9 @@ GEM
     mime-types (2.4.3)
     minitest (5.5.1)
     multi_json (1.10.1)
+    net-scp (1.2.1)
+      net-ssh (>= 2.6.5)
+    net-ssh (2.9.2)
     oj (2.11.1)
     orm_adapter (0.5.0)
     pg (0.18.1)
@@ -94,6 +114,8 @@ GEM
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
+    puma (2.9.2)
+      rack (>= 1.1, < 2.0)
     pundit (0.3.0)
       activesupport (>= 3.0.0)
     rabl (0.11.6)
@@ -165,6 +187,10 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (>= 2.8, < 4.0)
+    sshkit (1.7.1)
+      colorize (>= 0.7.0)
+      net-scp (>= 1.1.2)
+      net-ssh (>= 2.8.0)
     therubyracer (0.12.1)
       libv8 (~> 3.16.14.0)
       ref
@@ -189,6 +215,11 @@ DEPENDENCIES
   angularjs-rails (~> 1.3.8)
   autoprefixer-rails
   bootstrap-sass (~> 3.3.1)
+  capistrano
+  capistrano-bundler
+  capistrano-rails
+  capistrano-rvm
+  capistrano3-puma
   coffee-rails (~> 4.0.0)
   devise (~> 3.4.1)
   faker
@@ -199,6 +230,7 @@ DEPENDENCIES
   oj
   pg
   pry
+  puma
   pundit
   rabl
   rails (= 4.1.8)
