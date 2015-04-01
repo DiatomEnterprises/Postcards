@@ -19,7 +19,8 @@
             {{item.email}}
 
       %td{'at-title' => 'Birth', 'at-attribute' => 'birthday', 'at-sortable' => ''}
-        {{getValidDate(item.birthday)}}
+        %i{rel: 'tooltip', 'ng-attr-title' => '{{ item.birthday | date:"longDate" }}'}
+          {{getValidDate(item.birthday)}}
 
       %td{'at-title' => 'City', 'at-attribute' => 'city', 'at-sortable' => ''}
         {{item.city}}

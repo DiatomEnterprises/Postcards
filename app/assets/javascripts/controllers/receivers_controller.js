@@ -59,8 +59,9 @@ app.controller('ReceiversCtrl', ['$filter', '$scope', '$window', 'Receivers', 'A
   };
 
   $scope.receiverUpdate = function() {
-    var receiver = $scope.receiverEditFormData;
+    var receiver = angular.copy($scope.receiverEditFormData);
     var index = $scope.receiverList.indexOf(receiver);
+    receiver.birthday = new Date(receiver.birthday);
 
     Receivers.update(receiver, function(res) {
       $scope.receiverList[index] = res;
@@ -75,7 +76,8 @@ app.controller('ReceiversCtrl', ['$filter', '$scope', '$window', 'Receivers', 'A
   };
 
   $scope.receiverCreate = function() {
-    var receiver = $scope.receiverCreateFormData;
+    var receiver = angular.copy($scope.receiverCreateFormData);
+    receiver.birthday = new Date(receiver.birthday);
 
     Receivers.save(receiver, function(res) {
       $scope.receiverList.push(res);
