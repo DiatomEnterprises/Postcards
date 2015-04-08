@@ -2,14 +2,14 @@
   .panel-heading{style: 'margin-bottom:20px;'}
     %h1.panel-title 
       Contacts
-      %button.btn.btn-success.btn-sm{'ng-click' => 'receiverToggleCreate()', type: 'button', style: 'margin-left: 10px;'} Add new receiver
+      %button.btn.btn-success.btn-sm{'ng-click' => 'receiverToggleCreate()', type: 'button', style: 'margin-left: 10px;'} Add new contact
       - if current_account.is_admin?  
         %button.btn.btn-success.btn-sm{'ng-click' => 'ownerToggleEdit()', type: 'button', style: 'margin-left: 10px;'} Edit contact owner
       .col-xs-5.pull-right
         %form.form-inline
           .form-group.pull-right
-            %label Receivers per page
-            %input.form-control{ min: '10', max: '100', 'ng-model' => 'receiverListFilter.itemsPerPage', type: 'number'}/
+            %label Contacts per page
+            %input.form-control{ min: '5', max: '100', 'ng-model' => 'receiverListFilter.itemsPerPage', type: 'number'}/
   .panel-body{style: 'margin-left: 5px;'}
     %button.btn.btn-primary.btn-ms{'ng-click' => 'filterToggleForm()'} Filter
     %hr

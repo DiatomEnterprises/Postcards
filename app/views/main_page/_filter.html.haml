@@ -1,21 +1,23 @@
 .filter{'ng-hide' => 'receiverFilterForm'}
-  %form.form-horizontal{'ng-submit' => 'filterMonth()'}
+  %form.form-horizontal
     .form-group
       %label.col-sm-2.control-label
-        Search in text: 
+        Search in list: 
       .col-sm-2
         %input#search.form-control{'ng-model' => 'searchText', 'ng-change' => 'searchingText((receiverList | filter:searchText))', placeholder: 'Search...'}/
-      .col-sm-2
-        %button.btn.btn-success.btn-xs{'ng-click' => 'searchingText((receiverList | filter:searchText = ""))', type: 'button'} Clear
+      .col-sm-1
+        %button.btn.btn-success.btn-xs{'ng-click' => 'searchingText((receiverList | filter:searchText = ""))', type: 'button'} Clear filter
+  %form.form-horizontal{'ng-submit' => 'filterMonth()'}
+    .form-group  
       %label.col-sm-2.control-label
-        Months:
+        Birthday in:
       .col-sm-2
         %select.form-control{'ng-model' => 'filterDate.month', required: ''}
           %option{value: '{{id+1}}', 'ng-repeat' => '(id, month) in monthsList'}
             {{month}}
-      .col-sm-2
+      .col-sm-3
         %button.btn.btn-xs.btn-primary{type: 'submit'} Filter
-        %button.btn.btn-success.btn-xs{'ng-click' => 'filterClear("month")', type: 'button'} Clear
+        %button.btn.btn-success.btn-xs{'ng-click' => 'filterClear("month")', type: 'button'} Clear filter
   / %hr
   / %form.form-horizontal{'ng-submit' => 'filterStartEnd()'}
   /   .form-group
