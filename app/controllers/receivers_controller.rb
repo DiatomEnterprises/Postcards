@@ -1,6 +1,5 @@
 class ReceiversController < ApplicationController
   respond_to :json, except: [:show, :pdf_create, :pdf_templates]
-  PDF_TEMPLATES = [:usa, :world]
 
   def index
     @receivers = ReceiversPresenter.new(params, current_account).list
@@ -55,8 +54,8 @@ class ReceiversController < ApplicationController
   def pdf_create
     receiver_data = params[:receiver_data].map {|data| {data['id'] => data['info'] }}.reduce(:merge)
 
-    @receivers = Receiver.find(receiver_data.keys)
-    @receivers.map! {|receiver| receiver.additional_info = receiver_data[receiver.id.to_s]; receiver}
+    @receivers = ReceiverDecorator.find(receiver_data.keys)
+    @receivers.map! {|receiver| receiver.additional_info = receiver_data[receiver.id.to_s]; receiver.decorate}
     @birthday = params[:birthday]
 
     mm_in_inch = 25.4
@@ -66,9 +65,9 @@ class ReceiversController < ApplicationController
       template: "main_page/pdf_templates/#{params[:template]}.html.haml",
       layout: 'pdf',
       page_width: page_width,
-      page_height: page_height, 
+      page_height: page_height,
       show_as_html: params[:debug],
-      margin: {  top:     0,                     # default 10 (mm)
+      margin: {  top:     0,
                  bottom:  0,
                  left:    0,
                  right:   "10mm"}
@@ -76,7 +75,8 @@ class ReceiversController < ApplicationController
   end
 
   def pdf_templates
-    render json: PDF_TEMPLATES
+    array = Dir.glob("#{Rails.root}/app/views/main_page/pdf_templates/*")
+    render json: array.map {|path| File.basename(path, '.html.haml')}
   end
 
   private
