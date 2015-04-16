@@ -52,11 +52,10 @@ class ReceiversController < ApplicationController
   end
 
   def create_pdf
-    receiver_ids = params[:receiver_data].map {|x| x['id'].to_i}
-    receiver_info = params[:receiver_data].map {|x| {x['id'] => x['info'] }}.reduce(:merge)
+    receiver_data = params[:receiver_data].map {|x| {x['id'] => x['info'] }}.reduce(:merge)
 
-    @receivers = Receiver.find(receiver_ids)
-    @receivers.map! {|x| x.additional_info = receiver_info[x.id.to_s]; x}
+    @receivers = Receiver.find(receiver_data.keys)
+    @receivers.map! {|x| x.additional_info = receiver_data[x.id.to_s]; x}
     @birthday = params[:birthday]
 
     mm_in_inch = 25.4
