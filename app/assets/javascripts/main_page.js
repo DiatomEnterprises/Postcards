@@ -1,4 +1,4 @@
-var app = angular.module('Postcards', ['ngResource', 'ngRoute', 'ngTagsInput', 'toaster', 'angular-table', '720kb.datepicker']);
+var app = angular.module('Postcards', ['ngResource', 'ngRoute', 'ngTagsInput', 'toaster', 'angular-table', '720kb.datepicker', 'monospaced.elastic']);
 
 app.factory('Receivers', [
   '$resource', function($resource) {

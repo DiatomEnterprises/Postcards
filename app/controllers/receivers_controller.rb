@@ -46,13 +46,17 @@ class ReceiversController < ApplicationController
 
   def show
     json_receivers = JSON.parse(params[:receivers])
-    receiver_ids = json_receivers.values
+    receiver_data = json_receivers.values
 
-    render json: {link: create_pdf_receivers_path(receiver_ids: receiver_ids, birthday: params['birthday'])}
+    render json: {link: create_pdf_receivers_path(receiver_data: receiver_data, birthday: params['birthday'])}
   end
 
   def create_pdf
-    @receivers = Receiver.find(params[:receiver_ids])
+    receiver_ids = params[:receiver_data].map {|x| x['id'].to_i}
+    receiver_info = params[:receiver_data].map {|x| {x['id'] => x['info'] }}.reduce(:merge)
+
+    @receivers = Receiver.find(receiver_ids)
+    @receivers.map! {|x| x.additional_info = receiver_info[x.id.to_s]; x}
     @birthday = params[:birthday]
 
     mm_in_inch = 25.4
@@ -74,7 +78,7 @@ class ReceiversController < ApplicationController
   private
 
   def receiver_params
-    params.require(:receiver).permit(:first_name, :last_name, :zip, :city, :country, :address_line_1, :address_line_2, :address_line_3, :account_id, :birthday)
+    params.require(:receiver).permit(:first_name, :last_name, :zip, :state, :country, :address_line_1, :address_line_2, :city, :account_id, :birthday)
   end
 
 end
