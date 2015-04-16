@@ -11,8 +11,6 @@
         #address_line_2
           = receiver.address_line_2
         #full_location
-          = receiver.full_location
-        #zip
-          = receiver.zip
+          = receiver.full_location(country: false)
         #additional_info{style: 'padding-right:260px;'}
           = receiver.additional_info

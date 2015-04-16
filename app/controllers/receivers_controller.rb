@@ -1,5 +1,6 @@
 class ReceiversController < ApplicationController
-  respond_to :json, except: [:show, :create_pdf]
+  respond_to :json, except: [:show, :pdf_create, :pdf_templates]
+  PDF_TEMPLATES = [:usa, :world]
 
   def index
     @receivers = ReceiversPresenter.new(params, current_account).list
@@ -48,21 +49,21 @@ class ReceiversController < ApplicationController
     json_receivers = JSON.parse(params[:receivers])
     receiver_data = json_receivers.values
 
-    render json: {link: create_pdf_receivers_path(receiver_data: receiver_data, birthday: params['birthday'])}
+    render json: {link: pdf_create_receivers_path(receiver_data: receiver_data, birthday: params['birthday'], template: params['template'])}
   end
 
-  def create_pdf
-    receiver_data = params[:receiver_data].map {|x| {x['id'] => x['info'] }}.reduce(:merge)
+  def pdf_create
+    receiver_data = params[:receiver_data].map {|data| {data['id'] => data['info'] }}.reduce(:merge)
 
     @receivers = Receiver.find(receiver_data.keys)
-    @receivers.map! {|x| x.additional_info = receiver_data[x.id.to_s]; x}
+    @receivers.map! {|receiver| receiver.additional_info = receiver_data[receiver.id.to_s]; receiver}
     @birthday = params[:birthday]
 
     mm_in_inch = 25.4
     page_height = mm_in_inch*5.5
     page_width = mm_in_inch*8.5
     render  pdf: "postcard_#{params[:id]}",
-      template: 'receivers/show.html.haml',
+      template: "main_page/pdf_templates/#{params[:template]}.html.haml",
       layout: 'pdf',
       page_width: page_width,
       page_height: page_height, 
@@ -72,6 +73,10 @@ class ReceiversController < ApplicationController
                  left:    0,
                  right:   "10mm"}
 
+  end
+
+  def pdf_templates
+    render json: PDF_TEMPLATES
   end
 
   private

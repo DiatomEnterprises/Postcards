@@ -9,11 +9,12 @@ class Receiver < ActiveRecord::Base
     "#{first_name} #{last_name}"
   end
 
-  def full_location
-    location = ''
-    location = "#{self.city}, " if self.city
-    location = location + "#{self.state}, " if self.state
-    location = location + "#{self.country}" if self.country
-    location
+  def full_location(city: true, state: true, country: true, zip: true)
+    location = []
+    location << self.city if !self.city.empty? && city
+    location << self.state if !self.state.empty? && state
+    location << self.country if !self.country.empty? && country
+    location << self.zip if !self.zip.empty? && zip
+    location.join(', ')
   end
 end

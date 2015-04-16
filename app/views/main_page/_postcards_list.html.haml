@@ -17,8 +17,11 @@
           %th
             %label
               %input{'ng-model' => 'birthdayPostcard', type: 'checkbox'}
-              Send as Birthday Card
+              Birthday Cards
           %th
+            %select.form-control{'ng-model' => 'templatePostcard'}
+              %option{'ng-repeat' => 'template in templateList', value: '{{template}}'}
+                {{ template }}
       %tbody{'ng-repeat' => 'receiver in receiverListSend'}
         %tr
           %td
