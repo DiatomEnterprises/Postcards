@@ -1,0 +1,16 @@
+- @receivers.each_with_index do |receiver, index|
+  %div{style: "text-align:right; width:100%; #{receiver == @receivers.last ? '' : 'page-break-after:always;'}"}
+    #birthday{style: 'padding-top:60px;'}
+      = receiver.birthday.strftime('%m/%d/%Y') if @birthday == 'true'
+    %div{style: 'height:4.0in; line-height:4.0in;'}
+      %span{style: 'display:inline-block; vertical-align:middle; line-height:20px;'}
+        #full_name
+          = receiver.full_name
+        #address_line_1
+          = receiver.address_line_1
+        #address_line_2
+          = receiver.address_line_2
+        #full_location
+          = receiver.full_location
+        #additional_info{style: 'padding-right:260px;'}
+          = receiver.additional_info

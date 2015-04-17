@@ -17,7 +17,11 @@
           %th
             %label
               %input{'ng-model' => 'birthdayPostcard', type: 'checkbox'}
-              Send as Birthday Card
+              Birthday Cards
+          %th
+            %select.form-control{'ng-model' => 'templatePostcard'}
+              %option{'ng-repeat' => 'template in templateList', value: '{{template}}'}
+                {{ template }}
       %tbody{'ng-repeat' => 'receiver in receiverListSend'}
         %tr
           %td
@@ -27,4 +31,9 @@
           %td.col-md-3{'ng-show' => 'birthdayPostcard'}
             Birthday card
           %td
+            %button.btn.btn-primary.btn-xs{'ng-click' => 'switchAdditionalInfo(receiver)', type: 'button'} Additional info
+          %td
             %button.btn.btn-danger.btn-xs{'ng-click' => 'removeFromList(receiver)', type: 'button'} Remove
+        %tr
+          %td{colspan: 10, 'ng-show' => 'additionalInfo(receiver)'}
+            %textarea.form-control{'ng-model' => 'receiver.additional_info', 'msd-elastic' => '\n', placeholder: 'Additional info', type: 'text', maxlength: 200, style: 'resize: none;'}/

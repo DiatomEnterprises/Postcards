@@ -8,10 +8,10 @@
         %button.btn.btn-success.btn-xs{'ng-click' => 'addAllToList()', type: 'button', 'ng-disabled' => 'receiverListFake.length <= 0'} Add all
     %tbody
       %tr
-        %td{'at-title' => 'Name', 'at-attribute' => 'first_name', 'at-sortable' => '', 'at-initial-sorting' => 'asc'}
+        %td{'at-title' => 'Name', 'at-attribute' => 'first_name', 'at-sortable' => ''}
           {{item.first_name}}
 
-        %td{'at-title' => 'Surname', 'at-attribute' => 'last_name', 'at-sortable' => ''}
+        %td{'at-title' => 'Surname', 'at-attribute' => 'last_name', 'at-sortable' => '', 'at-initial-sorting' => 'asc'}
           {{item.last_name}}
 
         - if current_account.is_admin?
@@ -23,8 +23,8 @@
           %i{rel: 'tooltip', 'ng-attr-title' => '{{ item.birthday | date:"longDate" }}'}
             {{getValidDate(item.birthday)}}
 
-        %td{'at-title' => 'City', 'at-attribute' => 'city', 'at-sortable' => ''}
-          {{item.city}}
+        %td{'at-title' => 'State', 'at-attribute' => 'state', 'at-sortable' => ''}
+          {{item.state}}
 
         %td{'at-title' => 'Country', 'at-attribute' => 'country', 'at-sortable' => ''}
           {{item.country}}

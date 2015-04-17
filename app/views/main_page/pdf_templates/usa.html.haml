@@ -4,15 +4,13 @@
       = receiver.birthday.strftime('%m/%d/%Y') if @birthday == 'true'
     %div{style: 'height:4.0in; line-height:4.0in;'}
       %span{style: 'display:inline-block; vertical-align:middle; line-height:20px;'}
-        #fullname
-          = receiver.fullname
-        #address
+        #full_name
+          = receiver.full_name
+        #address_line_1
           = receiver.address_line_1
-        #address2
+        #address_line_2
           = receiver.address_line_2
-        #address3
-          = receiver.address_line_3
-        #city
-          = "#{receiver.city}, #{receiver.country}"
-        #zip
-          = "#{receiver.zip}"
+        #full_location
+          = receiver.full_location(country: false)
+        #additional_info{style: 'padding-right:260px;'}
+          = receiver.additional_info

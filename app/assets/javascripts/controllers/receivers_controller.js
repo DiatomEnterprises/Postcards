@@ -11,6 +11,7 @@ app.controller('ReceiversCtrl', ['$filter', '$scope', '$window', 'Receivers', 'A
   $scope.receiverList = [];
   $scope.receiverListFake = [];
   $scope.receiverListSend = [];
+  $scope.templateList = [];
   $scope.receiverListFilter = {};
   $scope.receiverListFilter.itemsPerPage = 10;
 
@@ -19,6 +20,7 @@ app.controller('ReceiversCtrl', ['$filter', '$scope', '$window', 'Receivers', 'A
     $scope.receiverListFake = angular.copy(res);
     $scope.filterMonthsList();
     $scope.currentPageWatcher();
+    $scope.getTemplates();
   }, function(error) {
     $scope.makeNotification('error', 'Loading data error', error.data.errors);
   });
@@ -119,13 +121,35 @@ app.controller('ReceiversCtrl', ['$filter', '$scope', '$window', 'Receivers', 'A
   };
 
   $scope.removeFromList = function(receiver) {
+    receiver.additional_info = '';
+    receiver.additional_show = false;
+
     $scope.receiverListSend.splice( $scope.receiverListSend.indexOf(receiver), 1 );
     $scope.receiverListFake.push(receiver);
   };
 
   $scope.removeAllFromList = function() {
+    for(var i = 0; i < $scope.receiverListSend.length; i++)
+    {
+      $scope.receiverListSend[i].additional_show = false;
+      $scope.receiverListSend[i].additional_info = '';
+    }
+
     $scope.receiverListFake.push.apply($scope.receiverListFake, $scope.receiverListSend);
     $scope.receiverListSend.splice($scope.receiverListSend);
+  };
+
+  $scope.switchAdditionalInfo = function(receiver) {
+    receiver.additional_show = !receiver.additional_show;
+    for(var i = 0; i < $scope.receiverListSend.length; i++)
+    {
+      if($scope.receiverListSend[i] != receiver)
+        $scope.receiverListSend[i].additional_show = false;
+    }
+  };
+
+  $scope.additionalInfo = function(receiver) {
+    return receiver ? receiver.additional_show : false;
   };
 
   $scope.checkClosingReceiverList = function() {
@@ -141,12 +165,15 @@ app.controller('ReceiversCtrl', ['$filter', '$scope', '$window', 'Receivers', 'A
   };
 
   $scope.sendNotification = function(list) {
-    var receiver_ids = {};
-    for (i = 0; i < list.length; i++) {
-      receiver_ids['receiver_' + i] = list[i].id;
+    var receiver_data = {};
+    for(i = 0; i < list.length; i++) {
+      receiver_data['receiver_' + i] = {};
+      receiver_data['receiver_' + i]['id'] = list[i].id;
+      receiver_data['receiver_' + i]['info'] = list[i].additional_info;
     };
 
-    pdf = Receivers.show({ id: 1, receivers: receiver_ids, birthday: $scope.birthdayPostcard});
+    $scope.templatePostcard = $scope.templateList[0];
+    pdf = Receivers.show({ id: 1, receivers: receiver_data, birthday: $scope.birthdayPostcard, template: $scope.templatePostcard});
     pdf.$promise.then(function(data) {
       $window.open( $window.location.protocol+"//"+$window.location.host+data.link );
     });
@@ -263,6 +290,15 @@ app.controller('ReceiversCtrl', ['$filter', '$scope', '$window', 'Receivers', 'A
 
   $scope.hasContentLoaded = function() {
     return $scope.dataLoaded == true && $scope.receiverListFake.length > 0;
+  };
+
+  $scope.getTemplates = function() {
+    Receivers.pdf_templates(function(res) {
+      $scope.templateList = angular.copy(res);
+      $scope.templatePostcard = $scope.templateList[0];
+    }, function(error) {
+      $scope.makeNotification('error', 'Loading data error', error.data.errors);
+    });
   };
 
   $scope.currentPageWatcher = function() {
