@@ -3,15 +3,15 @@ class ReceiverDecorator < Draper::Decorator
   decorates_finders
 
   def full_name
-    "#{first_name} #{last_name}"
+    "#{receiver.first_name} #{receiver.last_name}"
   end
 
   def full_location(city: true, state: true, country: true, zip: true)
     location = []
-    location << self.city if !self.city.empty? && city
-    location << self.state if !self.state.empty? && state
-    location << self.country if !self.country.empty? && country
-    location << self.zip if !self.zip.empty? && zip
+    location << receiver.city if !receiver.city.empty? && city
+    location << receiver.state if !receiver.state.empty? && state
+    location << receiver.country if !receiver.country.empty? && country
+    location << receiver.zip if !receiver.zip.empty? && zip
     location.join(', ')
   end
 end
