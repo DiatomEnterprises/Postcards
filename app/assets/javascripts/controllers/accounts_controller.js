@@ -29,6 +29,9 @@ app.controller('AccountsCtrl', ['$scope', 'Accounts', 'toaster', function($scope
       Accounts.remove(account, function(res) {
         $scope.accounts.splice($scope.accounts.indexOf(account), 1);
         $scope.makeNotification('success', '', 'Account removed successfully');
+
+        if(account == $scope.accountEditFormData)
+          $scope.accountToggleEdit('delete');
       }, function(error) {
         $scope.makeNotification('error', 'Removal error', error.data.errors);
       });

@@ -46,6 +46,9 @@ app.controller('ReceiversCtrl', ['$filter', '$scope', '$window', 'Receivers', 'A
       Receivers.remove(receiver, function(res) {
         $scope.receiverListFake.splice($scope.receiverListFake.indexOf(receiver), 1);
         $scope.makeNotification('success', '', 'Receiver removed successfully');
+
+        if(receiver == $scope.receiverEditFormData)
+          $scope.receiverToggleEdit('delete');
       }, function(error) {
         $scope.makeNotification('error', 'Removal error', error.data.errors);
       });
