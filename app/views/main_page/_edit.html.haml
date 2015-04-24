@@ -34,7 +34,7 @@
   .form-group
     %label.col-sm-4.control-label Birthday
     %datepicker.col-sm-7{'date-format' => '{{dateFormat}}', 'date-set' => '{{receiverEditFormData.birthday}}'}
-      %input.form-control{'ng-model' => 'receiverEditFormData.birthday', type: 'text', required: ''}
+      %input.form-control{'ng-model' => 'receiverEditFormData.birthday'}
 
   - if current_account.is_admin?
     .form-group

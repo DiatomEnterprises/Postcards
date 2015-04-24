@@ -6,7 +6,7 @@ set :repo_url, 'git@github.com:DiatomEnterprises/Postcards.git'
 set :log_level, :debug
 
 set :puma_init_active_record, true
-set :puma_workers, 4
+set :puma_workers, 2
 set :puma_threads, [4, 32]
 
 set :linked_files, %w{ config/database.yml config/secrets.yml }

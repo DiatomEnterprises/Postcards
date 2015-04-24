@@ -244,7 +244,9 @@ app.controller('ReceiversCtrl', ['$filter', '$scope', '$window', 'Receivers', 'A
   };
 
   $scope.getValidDate = function (date) {
-    return $filter('date')(new Date(date), $scope.dateFormat);
+    if(date)
+      return $filter('date')(new Date(date), $scope.dateFormat);
+    else return '';
   };
 
   $scope.getAccounts = function () {
